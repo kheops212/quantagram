@@ -1,0 +1,140 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+import { terms } from '../data/glossary';
+
+// Group by first letter
+const grouped = terms.reduce<Record<string, typeof terms>>((acc, term) => {
+	const letter = term.term[0].toUpperCase();
+	(acc[letter] ??= []).push(term);
+	return acc;
+}, {});
+const letters = Object.keys(grouped).sort();
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`Glossary — ${SITE_TITLE}`} description="Definitions of key terms in quantum computing and artificial intelligence." ogImage="/og/glossary.png" />
+		<style>
+			.page-head {
+				padding: 2rem 0 1.25rem;
+				border-bottom: 3px solid var(--text);
+				margin-bottom: 2rem;
+			}
+			.page-head h1 { font-size: 2.4em; margin: 0 0 0.2em; }
+			.page-head p { font-size: 0.9em; color: var(--text-muted); margin: 0; }
+
+			/* Letter nav */
+			.letter-nav {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.2rem;
+				margin-bottom: 2.5rem;
+				padding-bottom: 1rem;
+				border-bottom: 1px solid var(--border);
+			}
+			.letter-nav a {
+				font-size: 0.82em;
+				font-weight: 700;
+				letter-spacing: 0.05em;
+				color: var(--text-muted);
+				text-decoration: none;
+				padding: 0.25em 0.5em;
+				border: 1px solid var(--border);
+				transition: color 0.15s, border-color 0.15s, background 0.15s;
+				line-height: 1;
+			}
+			.letter-nav a:hover,
+			.letter-nav a.has-terms {
+				color: var(--accent);
+				border-color: var(--accent);
+				text-decoration: none;
+			}
+
+			/* Glossary sections */
+			.glossary-section { margin-bottom: 2.5rem; }
+			.section-letter {
+				font-size: 1.8em;
+				font-weight: 800;
+				letter-spacing: -0.02em;
+				color: var(--text);
+				border-top: 3px solid var(--text);
+				padding-top: 0.4rem;
+				margin: 0 0 1.25rem;
+			}
+			dl { margin: 0; }
+			.term-entry {
+				padding: 0.9rem 0;
+				border-bottom: 1px solid var(--border);
+			}
+			.term-entry:last-child { border-bottom: none; }
+			dt {
+				font-size: 1em;
+				font-weight: 700;
+				color: var(--text);
+				margin-bottom: 0.25rem;
+			}
+			dd {
+				margin: 0;
+				font-size: 0.9em;
+				color: var(--text-muted);
+				line-height: 1.65;
+			}
+			.related-terms {
+				margin-top: 0.4rem;
+				font-size: 0.78em;
+				color: var(--text-muted);
+			}
+			.related-terms strong {
+				font-weight: 600;
+				color: var(--text);
+			}
+			.related-terms span { color: var(--accent); }
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<div class="page-head">
+				<h1>Glossary</h1>
+				<p>Key terms in quantum computing and artificial intelligence, from qubits to transformers.</p>
+			</div>
+
+			<!-- Letter navigation -->
+			<nav class="letter-nav" aria-label="Jump to letter">
+				{'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map((l) => (
+					grouped[l]
+						? <a href={`#letter-${l}`} class="has-terms">{l}</a>
+						: <span style="font-size:0.82em;font-weight:700;letter-spacing:0.05em;color:var(--border);padding:0.25em 0.5em;border:1px solid var(--border);line-height:1">{l}</span>
+				))}
+			</nav>
+
+			<!-- Term sections -->
+			{letters.map((letter) => (
+				<section class="glossary-section" id={`letter-${letter}`}>
+					<h2 class="section-letter">{letter}</h2>
+					<dl>
+						{grouped[letter].map((entry) => (
+							<div class="term-entry">
+								<dt>{entry.term}</dt>
+								<dd>
+									{entry.definition}
+									{entry.related && entry.related.length > 0 && (
+										<p class="related-terms">
+											<strong>See also:</strong>{' '}
+											<span>{entry.related.join(', ')}</span>
+										</p>
+									)}
+								</dd>
+							</div>
+						))}
+					</dl>
+				</section>
+			))}
+		</main>
+		<Footer />
+	</body>
+</html>

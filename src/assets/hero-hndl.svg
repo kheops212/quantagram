@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 394" width="900" height="394">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#050c1a"/><stop offset="100%" stop-color="#1a0808"/></linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="55%"><stop offset="0%" stop-color="#dc2626" stop-opacity="0.22"/><stop offset="100%" stop-color="#dc2626" stop-opacity="0"/></radialGradient>
+    <filter id="gbl"><feGaussianBlur stdDeviation="13"/></filter>
+  </defs>
+  <rect width="900" height="394" fill="url(#bg)"/>
+  <ellipse cx="450" cy="197" rx="430" ry="180" fill="url(#glow)" filter="url(#gbl)"/>
+  <!-- Timeline: harvest now → store → decrypt later -->
+  <line x1="70" y1="200" x2="830" y2="200" stroke="#475569" stroke-width="2.5"/>
+  <!-- Phase 1: Harvest (2025) -->
+  <text x="150" y="245" text-anchor="middle" font-family="monospace" font-size="10" fill="#f87171">2025</text>
+  <text x="150" y="262" text-anchor="middle" font-family="monospace" font-size="8.5" fill="#fca5a5">harvest now</text>
+  <!-- Lock (encrypted, intercepted) -->
+  <rect x="120" y="130" width="60" height="46" rx="6" fill="#7f1d1d" stroke="#dc2626" stroke-width="2"/>
+  <path d="M 133,130 V 118 A 17 17 0 0 1 167,118 V 130" fill="none" stroke="#dc2626" stroke-width="3"/>
+  <circle cx="150" cy="150" r="6" fill="#fca5a5"/>
+  <line x1="150" y1="150" x2="150" y2="164" stroke="#fca5a5" stroke-width="3"/>
+  <circle cx="150" cy="200" r="7" fill="#dc2626"/>
+  <!-- Phase 2: Store (data centre) -->
+  <text x="450" y="245" text-anchor="middle" font-family="monospace" font-size="10" fill="#fbbf24">~2030</text>
+  <text x="450" y="262" text-anchor="middle" font-family="monospace" font-size="8.5" fill="#fcd34d">stored ciphertext</text>
+  <!-- Database cylinders -->
+  <g fill="#78350f" stroke="#d97706" stroke-width="1.5" opacity="0.8">
+    <ellipse cx="430" cy="120" rx="26" ry="8"/>
+    <path d="M 404,120 V 165 A 26 8 0 0 0 456,165 V 120" fill="#78350f"/>
+    <ellipse cx="430" cy="142" rx="26" ry="8" fill="none"/>
+    <ellipse cx="470" cy="135" rx="26" ry="8"/>
+    <path d="M 444,135 V 180 A 26 8 0 0 0 496,180 V 135" fill="#78350f"/>
+    <ellipse cx="470" cy="157" rx="26" ry="8" fill="none"/>
+  </g>
+  <circle cx="450" cy="200" r="7" fill="#f59e0b"/>
+  <!-- Phase 3: Decrypt (CRQC arrives) -->
+  <text x="750" y="245" text-anchor="middle" font-family="monospace" font-size="10" fill="#f87171">2035+</text>
+  <text x="750" y="262" text-anchor="middle" font-family="monospace" font-size="8.5" fill="#fca5a5">decrypt later</text>
+  <!-- Open lock (broken) -->
+  <rect x="720" y="130" width="60" height="46" rx="6" fill="#450a0a" stroke="#dc2626" stroke-width="2"/>
+  <path d="M 733,130 V 118 A 17 17 0 0 1 767,118" fill="none" stroke="#dc2626" stroke-width="3"/>
+  <line x1="767" y1="118" x2="781" y2="105" stroke="#dc2626" stroke-width="3"/>
+  <text x="750" y="160" text-anchor="middle" font-family="monospace" font-size="16" fill="#f87171">✓</text>
+  <circle cx="750" cy="200" r="7" fill="#dc2626"/>
+  <!-- Flow arrows -->
+  <line x1="185" y1="200" x2="395" y2="200" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.6" marker-end="url(#ar)"/>
+  <line x1="505" y1="200" x2="710" y2="200" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.6" marker-end="url(#ar)"/>
+  <defs><marker id="ar" markerWidth="7" markerHeight="7" refX="4" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7Z" fill="#dc2626"/></marker></defs>
+  <!-- Warning caption -->
+  <rect x="250" y="80" width="400" height="34" rx="4" fill="#0f172a" stroke="#7f1d1d" stroke-width="1.5"/>
+  <text x="450" y="101" text-anchor="middle" font-family="monospace" font-size="10" fill="#fca5a5">data encrypted today, sensitive for 10+ yrs = at risk now</text>
+  <text x="450" y="378" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" fill="#fca5a5" opacity="0.5" letter-spacing="0.12em">HARVEST NOW, DECRYPT LATER</text>
+</svg>

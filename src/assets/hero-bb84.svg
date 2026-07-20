@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 394" width="900" height="394">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#050c1a"/><stop offset="100%" stop-color="#071510"/></linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="55%"><stop offset="0%" stop-color="#059669" stop-opacity="0.28"/><stop offset="100%" stop-color="#059669" stop-opacity="0"/></radialGradient>
+    <filter id="gbl"><feGaussianBlur stdDeviation="14"/></filter>
+  </defs>
+  <rect width="900" height="394" fill="url(#bg)"/>
+  <ellipse cx="450" cy="197" rx="420" ry="175" fill="url(#glow)" filter="url(#gbl)"/>
+  <!-- Alice box -->
+  <rect x="50" y="130" width="150" height="134" rx="6" fill="#0f172a" stroke="#059669" stroke-width="2"/>
+  <text x="125" y="158" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" fill="#059669" font-weight="700">ALICE</text>
+  <text x="125" y="178" text-anchor="middle" font-family="monospace" font-size="9" fill="#6ee7b7">bases:</text>
+  <text x="125" y="194" text-anchor="middle" font-family="monospace" font-size="9" fill="#6ee7b7">⊕ ⊗ ⊕ ⊗</text>
+  <text x="125" y="212" text-anchor="middle" font-family="monospace" font-size="9" fill="#6ee7b7">bits:</text>
+  <text x="125" y="228" text-anchor="middle" font-family="monospace" font-size="9" fill="#6ee7b7">0 1 1 0</text>
+  <text x="125" y="248" text-anchor="middle" font-family="monospace" font-size="9" fill="#059669">↕ ↗ ↔ ↗</text>
+  <!-- Bob box -->
+  <rect x="700" y="130" width="150" height="134" rx="6" fill="#0f172a" stroke="#059669" stroke-width="2"/>
+  <text x="775" y="158" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" fill="#059669" font-weight="700">BOB</text>
+  <text x="775" y="178" text-anchor="middle" font-family="monospace" font-size="9" fill="#6ee7b7">bases:</text>
+  <text x="775" y="194" text-anchor="middle" font-family="monospace" font-size="9" fill="#6ee7b7">⊗ ⊗ ⊕ ⊕</text>
+  <text x="775" y="212" text-anchor="middle" font-family="monospace" font-size="9" fill="#6ee7b7">results:</text>
+  <text x="775" y="228" text-anchor="middle" font-family="monospace" font-size="9" fill="#6ee7b7">? 1 1 ?</text>
+  <text x="775" y="248" text-anchor="middle" font-family="monospace" font-size="9" fill="#059669">✓ key bits ✓</text>
+  <!-- Transmission channel -->
+  <line x1="200" y1="197" x2="700" y2="197" stroke="#334155" stroke-width="2" stroke-dasharray="5,4"/>
+  <!-- Photons on the channel -->
+  <!-- Photon 1: vertical polarisation ↕ -->
+  <circle cx="290" cy="197" r="10" fill="#059669" opacity="0.8"/>
+  <line x1="290" y1="183" x2="290" y2="211" stroke="#fff" stroke-width="2"/>
+  <!-- Photon 2: diagonal ↗ -->
+  <circle cx="380" cy="197" r="10" fill="#059669" opacity="0.8"/>
+  <line x1="373" y1="204" x2="387" y2="190" stroke="#fff" stroke-width="2"/>
+  <!-- Photon 3: horizontal ↔ -->
+  <circle cx="470" cy="197" r="10" fill="#059669" opacity="0.8"/>
+  <line x1="456" y1="197" x2="484" y2="197" stroke="#fff" stroke-width="2"/>
+  <!-- Photon 4: diagonal ↗ -->
+  <circle cx="560" cy="197" r="10" fill="#059669" opacity="0.8"/>
+  <line x1="553" y1="204" x2="567" y2="190" stroke="#fff" stroke-width="2"/>
+  <!-- Eve (eavesdropper) - with X through -->
+  <rect x="390" y="60" width="120" height="50" rx="4" fill="#7f1d1d" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="450" y="82" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="#dc2626" font-weight="700">EVE</text>
+  <text x="450" y="100" text-anchor="middle" font-family="monospace" font-size="8.5" fill="#fca5a5">disturbs → detected</text>
+  <!-- Eve's arrow pointing down to channel -->
+  <line x1="450" y1="110" x2="450" y2="185" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.6"/>
+  <!-- QBER annotation -->
+  <rect x="280" y="280" width="340" height="50" rx="4" fill="#0f172a" stroke="#059669" stroke-width="1"/>
+  <text x="450" y="300" text-anchor="middle" font-family="monospace" font-size="9.5" fill="#6ee7b7">QBER: 0% → secure | 25% → Eve detected</text>
+  <text x="450" y="320" text-anchor="middle" font-family="monospace" font-size="9" fill="#059669">security guaranteed by quantum mechanics</text>
+  <text x="450" y="370" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" fill="#6ee7b7" opacity="0.45" letter-spacing="0.15em">BB84 PROTOCOL</text>
+</svg>

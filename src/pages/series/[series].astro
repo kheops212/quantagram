@@ -1,0 +1,120 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import { SITE_TITLE } from '../../consts';
+import { Image } from 'astro:assets';
+import defaultHeroImage from '../../assets/blog-placeholder-1.jpg';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	const seriesSet = new Set(posts.map((p) => p.data.series).filter(Boolean) as string[]);
+
+	return [...seriesSet].map((series) => ({
+		params: { series: series.toLowerCase().replace(/\s+/g, '-') },
+		props: { seriesName: series },
+	}));
+}
+
+const { seriesName } = Astro.props;
+const posts = (await getCollection('blog'))
+	.filter((p) => p.data.series === seriesName)
+	.sort((a, b) => (a.data.seriesOrder ?? 999) - (b.data.seriesOrder ?? 999));
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`${seriesName} — Series — ${SITE_TITLE}`} description={`All articles in the "${seriesName}" series.`} ogImage={`/og/series-${Astro.params.series}.png`} />
+		<style>
+			.page-head {
+				padding: 2rem 0 1.25rem;
+				border-bottom: 3px solid var(--text);
+				margin-bottom: 0;
+			}
+			.page-head .label {
+				font-size: 0.7em;
+				font-weight: 700;
+				letter-spacing: 0.1em;
+				text-transform: uppercase;
+				color: var(--text-muted);
+				margin: 0 0 0.3em;
+			}
+			.page-head h1 { font-size: 2.4em; margin: 0; }
+			.count { font-size: 0.85em; color: var(--text-muted); margin: 0.35em 0 0; }
+
+			.series-list { list-style: none; margin: 0; padding: 0; }
+			.series-item {
+				display: grid;
+				grid-template-columns: auto 1fr 140px;
+				gap: 1.5rem;
+				align-items: start;
+				padding: 1.25rem 0;
+				border-bottom: 1px solid var(--border);
+			}
+			.part-number {
+				font-size: 2em;
+				font-weight: 800;
+				color: var(--border);
+				line-height: 1;
+				min-width: 2rem;
+				text-align: right;
+				padding-top: 0.1em;
+			}
+			.article-headline {
+				font-size: 1.1em;
+				font-weight: 700;
+				line-height: 1.25;
+				color: var(--text);
+				text-decoration: none;
+				display: block;
+				margin: 0 0 0.4em;
+				transition: color 0.15s;
+			}
+			.article-headline:hover { color: var(--accent); text-decoration: none; }
+			.article-img { width: 140px; height: 88px; object-fit: cover; border-radius: 2px; display: block; }
+			.byline { font-size: 0.78em; color: var(--text-muted); display: flex; gap: 0.4em; flex-wrap: wrap; }
+			.byline a { color: var(--text-muted); font-weight: 600; }
+			.byline a:hover { color: var(--accent); text-decoration: underline; }
+			.byline .sep { color: var(--border); }
+			.desc { font-size: 0.87em; color: var(--text-muted); line-height: 1.5; margin: 0.3em 0 0; }
+
+			@media (max-width: 600px) {
+				.series-item { grid-template-columns: auto 1fr; }
+				.article-img { display: none; }
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<div class="page-head">
+				<p class="label">Series</p>
+				<h1>{seriesName}</h1>
+				<p class="count">{posts.length} part{posts.length !== 1 ? 's' : ''}</p>
+			</div>
+			<ul class="series-list">
+				{posts.map((post, i) => (
+					<li class="series-item">
+						<span class="part-number">{post.data.seriesOrder ?? i + 1}</span>
+						<div>
+							<a class="article-headline" href={`/articles/${post.id}/`}>{post.data.title}</a>
+							<p class="byline">
+								<a href={`/author/${post.data.author.toLowerCase().replace(/\s+/g, '-')}/`}>{post.data.author}</a>
+								<span class="sep">·</span>
+								<FormattedDate date={post.data.pubDate} />
+							</p>
+							<p class="desc">{post.data.description}</p>
+						</div>
+						<a href={`/articles/${post.id}/`}>
+							<Image class="article-img" width={180} height={113} src={post.data.heroImage || defaultHeroImage} alt={post.data.title} />
+						</a>
+					</li>
+				))}
+			</ul>
+		</main>
+		<Footer />
+	</body>
+</html>

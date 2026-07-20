@@ -1,0 +1,663 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import AdSlot from '../components/AdSlot.astro';
+import NewsletterCTA from '../components/NewsletterCTA.astro';
+import KeepReading from '../components/KeepReading.astro';
+import Comments from '../components/Comments.astro';
+import defaultHeroImage from '../assets/blog-placeholder-1.jpg';
+import { terms as glossaryTerms } from '../data/glossary';
+
+type Heading = { depth: number; slug: string; text: string };
+type Props = CollectionEntry<'blog'>['data'] & {
+	id: string;
+	headings?: Heading[];
+	readingTime?: number;
+};
+
+const { title, description, pubDate, updatedDate, heroImage, pillar, author, id, featured, tags, series, seriesOrder, headings = [], readingTime } = Astro.props;
+
+// Table of contents — top-level (h2) and sub-section (h3) headings
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+const showToc = toc.length >= 3;
+
+// Glossary tooltip data — strip parenthetical qualifiers to get a plain match phrase
+const genericSkip = new Set(['algorithm']);
+const glossary = glossaryTerms
+	.map((t) => ({
+		match: t.term.replace(/\s*\([^)]*\)\s*$/, '').trim(),
+		term: t.term,
+		definition: t.definition,
+	}))
+	.filter((g) => g.match.length >= 3 && !genericSkip.has(g.match.toLowerCase()))
+	.sort((a, b) => b.match.length - a.match.length);
+
+const pillarColors: Record<string, string> = {
+	'Quantum Algorithms':   '#7c3aed',
+	'Quantum Hardware':     '#0284c7',
+	'Quantum Cryptography': '#059669',
+	'AI Integrations':      '#d97706',
+	'Future Tech':          '#dc2626',
+};
+const pillarColor = pillar ? (pillarColors[pillar] ?? 'var(--accent)') : 'var(--accent)';
+
+const allPosts = await getCollection('blog');
+const relatedPosts = allPosts
+	.filter((post) => post.data.pillar === pillar && post.id !== id)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 3);
+
+// Series context: other parts of the same series
+const seriesParts = series
+	? allPosts
+		.filter((p) => p.data.series === series)
+		.sort((a, b) => (a.data.seriesOrder ?? 999) - (b.data.seriesOrder ?? 999))
+	: [];
+
+// "Keep reading" — pick the single best next article, in priority order:
+//   1. the next part of the same series
+//   2. the most recent other article in the same pillar
+//   3. the most recent other article overall
+let nextPost = null as (typeof allPosts)[number] | null;
+let nextReason = 'Keep reading';
+if (series) {
+	const idx = seriesParts.findIndex((p) => p.id === id);
+	if (idx >= 0 && idx < seriesParts.length - 1) {
+		nextPost = seriesParts[idx + 1];
+		nextReason = `Next in ${series}`;
+	}
+}
+if (!nextPost && relatedPosts.length > 0) {
+	nextPost = relatedPosts[0];
+	nextReason = pillar ? `More in ${pillar}` : 'Keep reading';
+}
+if (!nextPost) {
+	nextPost = allPosts
+		.filter((p) => p.id !== id)
+		.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())[0] ?? null;
+	nextReason = 'Keep reading';
+}
+---
+
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} ogImage={`/og/${id}.png`} />
+		<style>
+			/* Article header */
+			.article-header {
+				max-width: 720px;
+				margin: 2.5rem auto 0;
+				padding: 0 1em;
+				text-align: center;
+			}
+			.article-header h1 {
+				font-size: 2.8em;
+				line-height: 1.1;
+				margin: 0.3em 0 0.6em;
+				color: var(--text);
+			}
+			.article-desc {
+				font-size: 1.1em;
+				color: var(--text-muted);
+				line-height: 1.6;
+				margin: 0 0 1.25em;
+			}
+			.byline {
+				font-size: 0.82em;
+				color: var(--text-muted);
+				display: flex;
+				justify-content: center;
+				gap: 0.5em;
+				align-items: center;
+				flex-wrap: wrap;
+				margin-bottom: 2rem;
+			}
+			.byline a { color: var(--text); font-weight: 700; text-decoration: none; }
+			.byline a:hover { color: var(--accent); text-decoration: underline; }
+			.byline .sep { color: var(--border); }
+			.updated {
+				font-size: 0.78em;
+				color: var(--text-muted);
+				font-style: italic;
+				margin-top: 0.25em;
+				text-align: center;
+			}
+
+			/* Hero */
+			.hero-image {
+				width: 100%;
+				max-width: 900px;
+				margin: 0 auto 0;
+				display: block;
+			}
+			.hero-image img {
+				width: 100%;
+				aspect-ratio: 16/7;
+				object-fit: cover;
+				border-radius: 2px;
+				display: block;
+			}
+
+			/* Prose */
+			.prose {
+				max-width: 680px;
+				margin: 2.5em auto 0;
+				padding: 0 1em 4em;
+				color: var(--text);
+				font-size: 1.05em;
+				line-height: 1.8;
+			}
+			.prose :global(h2),
+			.prose :global(h3),
+			.prose :global(h4) { margin-top: 1.8em; }
+			.prose :global(img) { margin: 1.5em 0; border-radius: 2px; }
+			.prose :global(a) { color: var(--accent); text-decoration: underline; }
+			.prose :global(a:hover) { color: var(--accent-dark); }
+
+			/* Series callout */
+			.series-callout {
+				border: 1px solid var(--border);
+				border-left: 3px solid var(--accent);
+				padding: 0.9rem 1.25rem;
+				margin-bottom: 2rem;
+				background: var(--bg-alt);
+			}
+			.series-callout .series-label {
+				font-size: 0.68em;
+				font-weight: 700;
+				letter-spacing: 0.1em;
+				text-transform: uppercase;
+				color: var(--accent);
+				display: block;
+				margin-bottom: 0.25em;
+			}
+			.series-callout .series-title {
+				font-size: 0.88em;
+				font-weight: 700;
+				color: var(--text);
+				text-decoration: none;
+			}
+			.series-callout .series-title:hover { text-decoration: underline; }
+			.series-callout .series-parts {
+				display: flex;
+				gap: 0.5em;
+				flex-wrap: wrap;
+				margin-top: 0.5rem;
+				list-style: none;
+				padding: 0;
+			}
+			.series-callout .series-parts li a {
+				font-size: 0.78em;
+				color: var(--text-muted);
+				text-decoration: none;
+			}
+			.series-callout .series-parts li a:hover { color: var(--accent); text-decoration: underline; }
+			.series-callout .series-parts li.current a {
+				font-weight: 700;
+				color: var(--text);
+			}
+
+			/* Tags */
+			.tags {
+				display: flex;
+				gap: 0.4em;
+				flex-wrap: wrap;
+				margin-top: 2.5rem;
+				padding-top: 1.5rem;
+				border-top: 1px solid var(--border);
+			}
+			.tags-label {
+				font-size: 0.68em;
+				font-weight: 700;
+				letter-spacing: 0.1em;
+				text-transform: uppercase;
+				color: var(--text-muted);
+				align-self: center;
+				margin-right: 0.25em;
+			}
+			.tag-link {
+				font-size: 0.78em;
+				color: var(--text-muted);
+				text-decoration: none;
+				border: 1px solid var(--border);
+				padding: 0.15em 0.6em;
+				border-radius: 2px;
+				transition: color 0.15s, border-color 0.15s;
+			}
+			.tag-link:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
+
+			/* Related */
+			.related {
+				border-top: 3px solid var(--text);
+				padding-top: 1.5rem;
+				margin-top: 3rem;
+			}
+			.related-label {
+				font-size: 0.7em;
+				font-weight: 700;
+				letter-spacing: 0.1em;
+				text-transform: uppercase;
+				color: var(--text);
+				margin-bottom: 1rem;
+				display: block;
+			}
+			.related-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+				gap: 1.5rem;
+				list-style: none;
+				padding: 0;
+				margin: 0;
+			}
+			.related-grid li { border-top: 1px solid var(--border); padding-top: 0.75rem; }
+			.related-grid a {
+				font-size: 0.9em;
+				font-weight: 700;
+				line-height: 1.3;
+				color: var(--text);
+				text-decoration: none;
+				display: block;
+			}
+			.related-grid a:hover { color: var(--accent); text-decoration: none; }
+			.related-date { font-size: 0.72em; color: var(--text-muted); margin-top: 0.25em; }
+
+			/* Share */
+			.share {
+				border-top: 1px solid var(--border);
+				padding-top: 1.5rem;
+				margin-top: 2.5rem;
+				display: flex;
+				align-items: center;
+				gap: 0.75rem;
+				flex-wrap: wrap;
+			}
+			.share-label {
+				font-size: 0.72em;
+				font-weight: 700;
+				letter-spacing: 0.08em;
+				text-transform: uppercase;
+				color: var(--text-muted);
+			}
+			.share-btn {
+				font-size: 0.78em;
+				font-weight: 600;
+				padding: 0.35em 0.9em;
+				border-radius: 3px;
+				text-decoration: none;
+				border: 1px solid var(--border);
+				color: var(--text);
+				background: var(--bg);
+				cursor: pointer;
+				font-family: inherit;
+				transition: background 0.15s, color 0.15s, border-color 0.15s;
+			}
+			.share-btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); text-decoration: none; }
+
+			/* Back */
+			.back { margin-top: 2rem; font-size: 0.85em; }
+			.back a { color: var(--text-muted); text-decoration: none; font-weight: 600; }
+			.back a:hover { color: var(--accent); text-decoration: underline; }
+
+			/* Reading progress bar */
+			.reading-progress {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 3px;
+				background: transparent;
+				z-index: 1000;
+				pointer-events: none;
+			}
+			.reading-progress .bar {
+				height: 100%;
+				width: 0;
+				background: var(--pillar, var(--accent));
+				transition: width 0.1s linear;
+			}
+
+			/* Article body: TOC rail + prose */
+			.article-body {
+				display: grid;
+				grid-template-columns: minmax(0, 680px);
+				justify-content: center;
+				gap: 0 3rem;
+				margin: 2.5em auto 0;
+				padding: 0 1em;
+				align-items: start;
+			}
+			.article-body.has-toc {
+				grid-template-columns: 220px minmax(0, 680px);
+			}
+			.article-body .prose {
+				margin: 0;
+				padding: 0 0 4em;
+				min-width: 0;
+			}
+			.prose :global(h2),
+			.prose :global(h3),
+			.prose :global(h4) { scroll-margin-top: 80px; }
+
+			/* Table of contents */
+			.toc {
+				position: sticky;
+				top: 90px;
+				font-size: 0.82em;
+				max-height: calc(100vh - 120px);
+				overflow-y: auto;
+			}
+			.toc-label {
+				font-size: 0.82em;
+				font-weight: 700;
+				letter-spacing: 0.1em;
+				text-transform: uppercase;
+				color: var(--text-muted);
+				margin-bottom: 0.9rem;
+				padding-bottom: 0.5rem;
+				border-bottom: 1px solid var(--border);
+			}
+			.toc ol { list-style: none; margin: 0; padding: 0; }
+			.toc li { margin: 0; }
+			.toc li.depth-3 { padding-left: 0.9rem; }
+			.toc a {
+				display: block;
+				padding: 0.3rem 0 0.3rem 0.75rem;
+				border-left: 2px solid var(--border);
+				color: var(--text-muted);
+				text-decoration: none;
+				line-height: 1.4;
+				transition: color 0.15s, border-color 0.15s;
+			}
+			.toc a:hover { color: var(--text); }
+			.toc a.active {
+				color: var(--pillar, var(--accent));
+				border-left-color: var(--pillar, var(--accent));
+				font-weight: 700;
+			}
+
+			@media (max-width: 1080px) {
+				.article-body.has-toc { grid-template-columns: minmax(0, 680px); }
+				.toc {
+					position: static;
+					max-height: none;
+					max-width: 680px;
+					margin: 0 auto 2.5rem;
+					border: 1px solid var(--border);
+					border-radius: 4px;
+					padding: 1rem 1.25rem;
+					background: var(--bg-alt);
+				}
+			}
+
+			/* Glossary tooltips */
+			.prose :global(.gloss) {
+				border-bottom: 1px dotted var(--text-muted);
+				cursor: help;
+				position: relative;
+			}
+			.prose :global(.gloss:focus) { outline: none; }
+			.prose :global(.gloss-pop) {
+				position: absolute;
+				left: 0;
+				bottom: calc(100% + 8px);
+				width: 280px;
+				max-width: 78vw;
+				background: var(--bg);
+				border: 1px solid var(--border);
+				border-top: 2px solid var(--accent);
+				box-shadow: var(--box-shadow);
+				border-radius: 4px;
+				padding: 0.7rem 0.85rem;
+				font-size: 0.8rem;
+				font-weight: 400;
+				line-height: 1.5;
+				letter-spacing: normal;
+				text-transform: none;
+				color: var(--text-muted);
+				opacity: 0;
+				visibility: hidden;
+				transform: translateY(4px);
+				transition: opacity 0.15s, transform 0.15s, visibility 0.15s;
+				z-index: 50;
+				pointer-events: none;
+			}
+			.prose :global(.gloss-pop strong) {
+				display: block;
+				color: var(--text);
+				font-weight: 700;
+				margin-bottom: 0.25rem;
+			}
+			.prose :global(.gloss:hover .gloss-pop),
+			.prose :global(.gloss:focus .gloss-pop),
+			.prose :global(.gloss:focus-within .gloss-pop) {
+				opacity: 1;
+				visibility: visible;
+				transform: translateY(0);
+			}
+		</style>
+	</head>
+
+	<body style={`--pillar:${pillarColor}`}>
+		<div class="reading-progress"><div class="bar" id="rp-bar"></div></div>
+		<script type="application/json" id="glossary-data" is:inline set:html={JSON.stringify(glossary)}></script>
+		<Header />
+
+		<div class="article-header">
+			{pillar && (
+				<p class="pillar">
+					<a href={`/pillar/${pillar.toLowerCase().replace(/\s+/g, '-')}/`} style={`color:${pillarColor}`}>{pillar}</a>
+				</p>
+			)}
+			<h1>{title}</h1>
+			<p class="article-desc">{description}</p>
+			<div class="byline">
+				<a href={`/author/${author.toLowerCase().replace(/\s+/g, '-')}/`}>{author}</a>
+				<span class="sep">·</span>
+				<FormattedDate date={pubDate} />
+				{readingTime && <><span class="sep">·</span><span>{readingTime} min read</span></>}
+				{featured && <><span class="sep">·</span><span style="color:#d97706;font-weight:700">Featured</span></>}
+			</div>
+			{updatedDate && <p class="updated">Updated <FormattedDate date={updatedDate} /></p>}
+		</div>
+
+		<hr style="max-width:900px;margin:0 auto 1.5rem" />
+
+		<div class="hero-image">
+			<Image width={900} height={394} src={heroImage || defaultHeroImage} alt={title} />
+		</div>
+
+		<div class={`article-body ${showToc ? 'has-toc' : ''}`}>
+			{showToc && (
+				<nav class="toc" aria-label="Table of contents">
+					<div class="toc-label">On this page</div>
+					<ol>
+						{toc.map((h) => (
+							<li class={`depth-${h.depth}`}>
+								<a href={`#${h.slug}`} data-toc={h.slug}>{h.text}</a>
+							</li>
+						))}
+					</ol>
+				</nav>
+			)}
+			<div class="prose">
+			{series && seriesParts.length > 1 && (
+				<div class="series-callout">
+					<span class="series-label">Part {seriesOrder} of {seriesParts.length} — Series</span>
+					<a class="series-title" href={`/series/${series.toLowerCase().replace(/\s+/g, '-')}/`}>{series}</a>
+					<ul class="series-parts">
+						{seriesParts.map((part) => (
+							<li class={part.id === id ? 'current' : ''}>
+								<a href={`/articles/${part.id}/`}>
+									Part {part.data.seriesOrder}: {part.data.title}
+								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+			)}
+
+			<slot />
+
+			{/* End-of-article ad. Dormant until ADSENSE_CLIENT + ADSENSE_ENABLED are set
+			    in consts.ts and a real ad-unit `slot` id is supplied below. */}
+			<AdSlot slot="" />
+
+			{nextPost && (
+				<KeepReading
+					id={nextPost.id}
+					title={nextPost.data.title}
+					description={nextPost.data.description}
+					pillar={nextPost.data.pillar}
+					heroImage={nextPost.data.heroImage}
+					fallback={defaultHeroImage}
+					reason={nextReason}
+					accent={pillarColor}
+				/>
+			)}
+
+			<NewsletterCTA />
+
+			{relatedPosts.length > 0 && (
+				<div class="related">
+					<span class="related-label">More in {pillar ?? 'this section'}</span>
+					<ul class="related-grid">
+						{relatedPosts.map((post) => (
+							<li>
+								<a href={`/articles/${post.id}/`}>{post.data.title}</a>
+								<p class="related-date"><FormattedDate date={post.data.pubDate} /></p>
+							</li>
+						))}
+					</ul>
+				</div>
+			)}
+
+			{tags && tags.length > 0 && (
+				<div class="tags">
+					<span class="tags-label">Tags</span>
+					{tags.map((tag) => (
+						<a class="tag-link" href={`/tag/${tag.toLowerCase().replace(/\s+/g, '-')}/`}>#{tag}</a>
+					))}
+				</div>
+			)}
+
+			<div class="share">
+				<span class="share-label">Share</span>
+				<a class="share-btn" href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(Astro.url.href)}&text=${encodeURIComponent(title)}`} target="_blank" rel="noopener">Twitter</a>
+				<a class="share-btn" href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(Astro.url.href)}&title=${encodeURIComponent(title)}`} target="_blank" rel="noopener">LinkedIn</a>
+				<button class="share-btn" id="copy-link-button">Copy link</button>
+			</div>
+
+			<Comments />
+
+			<p class="back"><a href="/articles">← All articles</a></p>
+
+			<script>
+				const btn = document.getElementById('copy-link-button');
+				btn?.addEventListener('click', () => {
+					navigator.clipboard.writeText(window.location.href).then(() => {
+						const orig = btn.textContent;
+						btn.textContent = 'Copied!';
+						setTimeout(() => { btn.textContent = orig; }, 2000);
+					});
+				});
+
+				// Reading progress bar + TOC scroll-spy
+				const rp = document.getElementById('rp-bar');
+				const tocLinks = new Map();
+				document.querySelectorAll('.toc a[data-toc]').forEach((a) => tocLinks.set(a.getAttribute('data-toc'), a));
+				const heads = Array.from(document.querySelectorAll('.prose h2[id], .prose h3[id]'));
+
+				function onScroll() {
+					const doc = document.documentElement;
+					const max = doc.scrollHeight - doc.clientHeight;
+					const pct = max > 0 ? (doc.scrollTop / max) * 100 : 0;
+					if (rp) rp.style.width = pct + '%';
+					if (tocLinks.size && heads.length) {
+						let current = null;
+						for (const h of heads) {
+							if (h.getBoundingClientRect().top <= 120) current = h;
+							else break;
+						}
+						if (!current) current = heads[0];
+						tocLinks.forEach((a) => a.classList.remove('active'));
+						const active = tocLinks.get(current.id);
+						if (active) active.classList.add('active');
+					}
+				}
+				document.addEventListener('scroll', onScroll, { passive: true });
+				window.addEventListener('resize', onScroll, { passive: true });
+				onScroll();
+
+				// Glossary tooltips — wrap the first occurrence of each term inside the prose
+				(function () {
+					const dataEl = document.getElementById('glossary-data');
+					const prose = document.querySelector('.prose');
+					if (!dataEl || !prose) return;
+
+					let entries = [];
+					try { entries = JSON.parse(dataEl.textContent || '[]'); } catch (e) { return; }
+					if (!entries.length) return;
+
+					const SKIP = new Set(['A', 'CODE', 'PRE', 'H1', 'H2', 'H3', 'H4', 'FIGURE', 'SVG', 'BUTTON', 'SUP', 'SUB']);
+					const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+					function makeRegex(match) {
+						// tolerate any whitespace and either apostrophe style
+						const pattern = esc(match).replace(/ /g, '\\s+').replace(/'/g, "['\\u2019]");
+						return new RegExp('(?<![\\w-])(' + pattern + ')(?![\\w-])', 'i');
+					}
+
+					function textNodes() {
+						const walker = document.createTreeWalker(prose, NodeFilter.SHOW_TEXT, {
+							acceptNode(node) {
+								if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+								let el = node.parentElement;
+								while (el && el !== prose) {
+									if (SKIP.has(el.tagName) || el.classList.contains('gloss')) return NodeFilter.FILTER_REJECT;
+									el = el.parentElement;
+								}
+								return NodeFilter.FILTER_ACCEPT;
+							},
+						});
+						const nodes = [];
+						let n;
+						while ((n = walker.nextNode())) nodes.push(n);
+						return nodes;
+					}
+
+					for (const entry of entries) {
+						const re = makeRegex(entry.match);
+						const nodes = textNodes();
+						for (const node of nodes) {
+							const m = re.exec(node.nodeValue);
+							if (!m) continue;
+							const span = document.createElement('span');
+							span.className = 'gloss';
+							span.setAttribute('tabindex', '0');
+							span.textContent = m[0];
+							const pop = document.createElement('span');
+							pop.className = 'gloss-pop';
+							const strong = document.createElement('strong');
+							strong.textContent = entry.term;
+							pop.appendChild(strong);
+							pop.appendChild(document.createTextNode(entry.definition));
+							span.appendChild(pop);
+
+							const after = node.splitText(m.index);
+							after.nodeValue = after.nodeValue.slice(m[0].length);
+							node.parentNode.insertBefore(span, after);
+							break; // only first occurrence per term
+						}
+					}
+				})();
+			</script>
+			</div>
+		</div>
+
+		<Footer />
+	</body>
+</html>

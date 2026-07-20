@@ -1,0 +1,87 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`404 — Page Not Found — ${SITE_TITLE}`} description="This page could not be found." />
+		<style>
+			.error-page {
+				padding: 4rem 0 6rem;
+				max-width: 560px;
+			}
+			.error-code {
+				font-size: 7em;
+				font-weight: 800;
+				letter-spacing: -0.04em;
+				line-height: 1;
+				color: var(--text);
+				margin: 0 0 0.1em;
+			}
+			.error-rule {
+				width: 3rem;
+				border: none;
+				border-top: 3px solid var(--accent);
+				margin: 1rem 0 1.5rem 0;
+			}
+			.error-title {
+				font-size: 1.6em;
+				margin: 0 0 0.5em;
+			}
+			.error-desc {
+				color: var(--text-muted);
+				line-height: 1.7;
+				margin: 0 0 2rem;
+			}
+			.error-links {
+				display: flex;
+				flex-direction: column;
+				gap: 0.35rem;
+				border-top: 1px solid var(--border);
+				padding-top: 1.5rem;
+			}
+			.error-links-label {
+				font-size: 0.68em;
+				font-weight: 700;
+				letter-spacing: 0.1em;
+				text-transform: uppercase;
+				color: var(--text-muted);
+				margin-bottom: 0.4rem;
+			}
+			.error-links a {
+				font-size: 0.9em;
+				font-weight: 600;
+				color: var(--text);
+				text-decoration: none;
+				transition: color 0.15s;
+			}
+			.error-links a:hover { color: var(--accent); text-decoration: underline; }
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<div class="error-page">
+				<p class="error-code">404</p>
+				<hr class="error-rule" />
+				<h1 class="error-title">Page not found</h1>
+				<p class="error-desc">
+					The article or page you're looking for doesn't exist, may have been moved,
+					or the URL was mistyped.
+				</p>
+				<div class="error-links">
+					<span class="error-links-label">Try one of these</span>
+					<a href="/">← Return to the homepage</a>
+					<a href="/articles">Browse all articles</a>
+					<a href="/pillars">Browse by section</a>
+					<a href="/search">Search the publication</a>
+				</div>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>

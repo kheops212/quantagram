@@ -1,0 +1,85 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`Search — ${SITE_TITLE}`} description="Search all articles on this publication." />
+		<link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
+		<script src="/pagefind/pagefind-ui.js" is:inline></script>
+		<style>
+			/* Override Pagefind defaults to match editorial theme */
+			:root {
+				--pagefind-ui-scale: 1;
+				--pagefind-ui-primary: var(--accent);
+				--pagefind-ui-text: var(--text);
+				--pagefind-ui-background: var(--bg);
+				--pagefind-ui-border: var(--border);
+				--pagefind-ui-tag: var(--bg-alt);
+				--pagefind-ui-border-width: 1px;
+				--pagefind-ui-border-radius: 2px;
+				--pagefind-ui-font: inherit;
+			}
+
+			.page-head {
+				padding: 2rem 0 1.25rem;
+				border-bottom: 3px solid var(--text);
+				margin-bottom: 2rem;
+			}
+			.page-head h1 { font-size: 2.4em; margin: 0 0 0.2em; }
+			.page-head p { font-size: 0.9em; color: var(--text-muted); margin: 0; }
+
+			#search-page { margin-bottom: 4rem; }
+
+			/* Widen the results slightly */
+			#search-page :global(.pagefind-ui__form) { max-width: 100%; }
+			#search-page :global(.pagefind-ui__search-input) {
+				font-size: 1.1em;
+				padding: 0.65em 0.85em;
+			}
+			#search-page :global(.pagefind-ui__result) {
+				border-top: 1px solid var(--border);
+				padding: 1.25rem 0;
+			}
+			#search-page :global(.pagefind-ui__result-title) {
+				font-size: 1.05em;
+				font-weight: 700;
+			}
+			#search-page :global(.pagefind-ui__result-excerpt) {
+				font-size: 0.88em;
+				color: var(--text-muted);
+				line-height: 1.6;
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<div class="page-head">
+				<h1>Search</h1>
+				<p>Search all articles in this publication.</p>
+			</div>
+			<div id="search-page"></div>
+		</main>
+		<Footer />
+
+		<script>
+			window.addEventListener('DOMContentLoaded', () => {
+				new PagefindUI({
+					element: '#search-page',
+					showSubResults: true,
+					showImages: true,
+					excerptLength: 25,
+					translations: {
+						placeholder: 'Search articles…',
+						zero_results: 'No results for [SEARCH_TERM]',
+					},
+				});
+			});
+		</script>
+	</body>
+</html>

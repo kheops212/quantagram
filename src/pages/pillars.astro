@@ -1,0 +1,126 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+
+const pillars = [
+	{
+		name: 'Quantum Algorithms',
+		slug: 'quantum-algorithms',
+		color: '#7c3aed',
+		description: 'Exploring the algorithms that power quantum computers and their potential to solve complex problems.',
+	},
+	{
+		name: 'Quantum Hardware',
+		slug: 'quantum-hardware',
+		color: '#0284c7',
+		description: 'A look into the physical systems and engineering challenges behind building quantum machines.',
+	},
+	{
+		name: 'Quantum Cryptography',
+		slug: 'quantum-cryptography',
+		color: '#059669',
+		description: 'Understanding how quantum mechanics is revolutionizing secure communication and data protection.',
+	},
+	{
+		name: 'AI Integrations',
+		slug: 'ai-integrations',
+		color: '#d97706',
+		description: 'Investigating the synergy between quantum computing and artificial intelligence.',
+	},
+	{
+		name: 'Future Tech',
+		slug: 'future-tech',
+		color: '#dc2626',
+		description: 'A forward-looking perspective on emerging technologies and their potential impact.',
+	},
+];
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`Sections — ${SITE_TITLE}`} description="Browse all content sections of this publication." />
+		<style>
+			.page-head {
+				padding: 2rem 0 1.25rem;
+				border-bottom: 3px solid var(--text);
+				margin-bottom: 2rem;
+			}
+			.page-head h1 { font-size: 2.4em; margin: 0; }
+
+			.pillar-grid {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+				gap: 0;
+			}
+			.pillar-item {
+				border-top: 1px solid var(--border);
+				padding: 1.5rem 0 1.5rem;
+			}
+			.pillar-item:nth-child(odd) { padding-right: 2rem; }
+			.pillar-item:nth-child(even) { padding-left: 2rem; border-left: 1px solid var(--border); }
+
+			.pillar-link {
+				text-decoration: none;
+				display: block;
+			}
+			.pillar-link:hover .pillar-name { text-decoration: underline; }
+			.pillar-link:hover .pillar-name { text-decoration: underline; }
+
+			.pillar-name {
+				font-size: 1.4em;
+				font-weight: 800;
+				margin: 0 0 0.5rem;
+				line-height: 1.15;
+				letter-spacing: -0.02em;
+			}
+			.pillar-desc {
+				font-size: 0.88em;
+				color: var(--text-muted);
+				line-height: 1.55;
+				margin: 0;
+			}
+			.read-more {
+				display: inline-block;
+				margin-top: 0.75rem;
+				font-size: 0.78em;
+				font-weight: 700;
+				letter-spacing: 0.06em;
+				text-transform: uppercase;
+				text-decoration: none;
+				padding-bottom: 1px;
+				border-bottom: 2px solid currentColor;
+			}
+
+			@media (max-width: 640px) {
+				.pillar-item:nth-child(even) { border-left: none; padding-left: 0; }
+				.pillar-item:nth-child(odd) { padding-right: 0; }
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<div class="page-head">
+				<h1>Sections</h1>
+			</div>
+			<ul class="pillar-grid">
+				{pillars.map((pillar) => (
+					<li class="pillar-item">
+						<a class="pillar-link" href={`/pillar/${pillar.slug}`} style={`color:${pillar.color}`}>
+							<h2 class="pillar-name">{pillar.name}</h2>
+							<p class="pillar-desc">{pillar.desc ?? pillar.description}</p>
+							<span class="read-more">Read articles →</span>
+						</a>
+					</li>
+				))}
+			</ul>
+		</main>
+		<Footer />
+	</body>
+</html>

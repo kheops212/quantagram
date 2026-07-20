@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 394" width="900" height="394">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#050c1a"/><stop offset="100%" stop-color="#120a2a"/></linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="45%"><stop offset="0%" stop-color="#7c3aed" stop-opacity="0.3"/><stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/></radialGradient>
+    <filter id="gbl"><feGaussianBlur stdDeviation="12"/></filter>
+  </defs>
+  <rect width="900" height="394" fill="url(#bg)"/>
+  <ellipse cx="450" cy="200" rx="400" ry="180" fill="url(#glow)" filter="url(#gbl)"/>
+  <!-- Axes -->
+  <line x1="80" y1="300" x2="820" y2="300" stroke="#475569" stroke-width="1.5"/>
+  <line x1="80" y1="300" x2="80"  y2="50"  stroke="#475569" stroke-width="1.5"/>
+  <text x="450" y="338" text-anchor="middle" font-family="monospace" font-size="11" fill="#94a3b8">item index</text>
+  <text x="42"  y="175" text-anchor="middle" font-family="monospace" font-size="10" fill="#94a3b8" transform="rotate(-90 42 175)">amplitude</text>
+  <!-- Mean line (initial) -->
+  <line x1="80" y1="230" x2="820" y2="230" stroke="#d97706" stroke-width="1.5" stroke-dasharray="6,3" opacity="0.6"/>
+  <text x="830" y="234" font-family="monospace" font-size="9" fill="#d97706">μ</text>
+  <!-- 8 bars representing amplitudes -->
+  <!-- bars 0-2: small (non-target after amplification) -->
+  <rect x="100" y="220" width="55" height="80" fill="#4c1d95" rx="2" opacity="0.7"/>
+  <rect x="185" y="220" width="55" height="80" fill="#4c1d95" rx="2" opacity="0.7"/>
+  <rect x="270" y="220" width="55" height="80" fill="#4c1d95" rx="2" opacity="0.7"/>
+  <!-- bar 3: TARGET — very tall, glowing -->
+  <rect x="355" y="65"  width="55" height="235" fill="#7c3aed" rx="2" opacity="0.95"/>
+  <!-- Glow on target -->
+  <rect x="350" y="60"  width="65" height="245" fill="none" stroke="#a78bfa" stroke-width="2" rx="3" opacity="0.7"/>
+  <text x="382" y="55" text-anchor="middle" font-family="monospace" font-size="9" fill="#c4b5fd" font-weight="700">TARGET</text>
+  <!-- bars 4-7: small -->
+  <rect x="440" y="220" width="55" height="80" fill="#4c1d95" rx="2" opacity="0.7"/>
+  <rect x="525" y="220" width="55" height="80" fill="#4c1d95" rx="2" opacity="0.7"/>
+  <rect x="610" y="220" width="55" height="80" fill="#4c1d95" rx="2" opacity="0.7"/>
+  <rect x="695" y="220" width="55" height="80" fill="#4c1d95" rx="2" opacity="0.7"/>
+  <!-- Dashed lines showing original uniform amplitude -->
+  <line x1="100" y1="230" x2="155" y2="230" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <line x1="355" y1="230" x2="410" y2="230" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <!-- Labels -->
+  <text x="127" y="316" text-anchor="middle" font-family="monospace" font-size="9" fill="#a78bfa">0</text>
+  <text x="212" y="316" text-anchor="middle" font-family="monospace" font-size="9" fill="#a78bfa">1</text>
+  <text x="297" y="316" text-anchor="middle" font-family="monospace" font-size="9" fill="#a78bfa">2</text>
+  <text x="382" y="316" text-anchor="middle" font-family="monospace" font-size="9" fill="#c4b5fd" font-weight="700">3★</text>
+  <text x="467" y="316" text-anchor="middle" font-family="monospace" font-size="9" fill="#a78bfa">4</text>
+  <text x="552" y="316" text-anchor="middle" font-family="monospace" font-size="9" fill="#a78bfa">5</text>
+  <text x="637" y="316" text-anchor="middle" font-family="monospace" font-size="9" fill="#a78bfa">6</text>
+  <text x="722" y="316" text-anchor="middle" font-family="monospace" font-size="9" fill="#a78bfa">7</text>
+  <!-- Formula -->
+  <text x="600" y="120" text-anchor="middle" font-family="monospace" font-size="13" fill="#c4b5fd" font-weight="700">O(√N) queries</text>
+  <text x="600" y="140" text-anchor="middle" font-family="monospace" font-size="10" fill="#94a3b8">vs O(N) classically</text>
+  <text x="450" y="372" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" fill="#c4b5fd" opacity="0.45" letter-spacing="0.15em">GROVER'S ALGORITHM</text>
+</svg>

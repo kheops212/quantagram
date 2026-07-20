@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 394" width="900" height="394">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#050c1a"/><stop offset="100%" stop-color="#0c1a2e"/></linearGradient>
+    <radialGradient id="glow" cx="50%" cy="48%" r="40%"><stop offset="0%" stop-color="#7c3aed" stop-opacity="0.35"/><stop offset="100%" stop-color="#0284c7" stop-opacity="0"/></radialGradient>
+    <radialGradient id="ion" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#bae6fd"/><stop offset="60%" stop-color="#0284c7"/><stop offset="100%" stop-color="#0284c7" stop-opacity="0"/></radialGradient>
+    <filter id="gbl"><feGaussianBlur stdDeviation="6"/></filter>
+  </defs>
+  <rect width="900" height="394" fill="url(#bg)"/>
+  <ellipse cx="450" cy="190" rx="380" ry="160" fill="url(#glow)" filter="url(#gbl)"/>
+  <!-- Paul trap electrodes top and bottom -->
+  <rect x="100" y="130" width="700" height="30" rx="4" fill="#1e3a5f" stroke="#1d4ed8" stroke-width="1.5" opacity="0.8"/>
+  <rect x="100" y="234" width="700" height="30" rx="4" fill="#1e3a5f" stroke="#1d4ed8" stroke-width="1.5" opacity="0.8"/>
+  <text x="812" y="150" font-family="monospace" font-size="10" fill="#60a5fa">∼RF</text>
+  <text x="812" y="254" font-family="monospace" font-size="10" fill="#60a5fa">∼RF</text>
+  <!-- DC end caps -->
+  <rect x="100" y="130" width="50" height="134" rx="4" fill="#1e40af" stroke="#3b82f6" stroke-width="1.5" opacity="0.7"/>
+  <rect x="750" y="130" width="50" height="134" rx="4" fill="#1e40af" stroke="#3b82f6" stroke-width="1.5" opacity="0.7"/>
+  <text x="125" y="204" text-anchor="middle" font-family="monospace" font-size="9" fill="#93c5fd">DC</text>
+  <text x="775" y="204" text-anchor="middle" font-family="monospace" font-size="9" fill="#93c5fd">DC</text>
+  <!-- Ion chain (9 ions) -->
+  <circle cx="220" cy="197" r="11" fill="url(#ion)"/>
+  <circle cx="270" cy="197" r="11" fill="url(#ion)"/>
+  <circle cx="320" cy="197" r="11" fill="url(#ion)"/>
+  <circle cx="370" cy="197" r="11" fill="url(#ion)"/>
+  <circle cx="420" cy="197" r="14" fill="#bae6fd" opacity="0.9"/><!-- addressed -->
+  <circle cx="470" cy="197" r="11" fill="url(#ion)"/>
+  <circle cx="520" cy="197" r="11" fill="url(#ion)"/>
+  <circle cx="570" cy="197" r="11" fill="url(#ion)"/>
+  <circle cx="620" cy="197" r="11" fill="url(#ion)"/>
+  <!-- Laser beams -->
+  <line x1="420" y1="60" x2="420" y2="183" stroke="#22c55e" stroke-width="2" stroke-dasharray="6,3" opacity="0.8"/>
+  <polygon points="414,183 420,197 426,183" fill="#22c55e" opacity="0.8"/>
+  <line x1="300" y1="60" x2="220" y2="186" stroke="#a855f7" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.7"/>
+  <!-- Glow on addressed ion -->
+  <circle cx="420" cy="197" r="22" fill="none" stroke="#bae6fd" stroke-width="2" opacity="0.5"/>
+  <text x="450" y="355" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" fill="#93c5fd" opacity="0.5" letter-spacing="0.15em">TRAPPED ION QUBITS</text>
+</svg>

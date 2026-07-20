@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 394" width="900" height="394">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#050c1a"/><stop offset="100%" stop-color="#120a2a"/></linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="55%"><stop offset="0%" stop-color="#7c3aed" stop-opacity="0.28"/><stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/></radialGradient>
+    <filter id="gbl"><feGaussianBlur stdDeviation="13"/></filter>
+  </defs>
+  <rect width="900" height="394" fill="url(#bg)"/>
+  <ellipse cx="450" cy="197" rx="420" ry="175" fill="url(#glow)" filter="url(#gbl)"/>
+  <!-- Two-qubit circuit: H on q0, then CNOT → Bell state -->
+  <!-- Qubit wires -->
+  <line x1="90" y1="150" x2="700" y2="150" stroke="#475569" stroke-width="2"/>
+  <line x1="90" y1="244" x2="700" y2="244" stroke="#475569" stroke-width="2"/>
+  <text x="70" y="155" text-anchor="end" font-family="monospace" font-size="12" fill="#a78bfa">|0⟩</text>
+  <text x="70" y="249" text-anchor="end" font-family="monospace" font-size="12" fill="#a78bfa">|0⟩</text>
+  <!-- Hadamard gate -->
+  <rect x="150" y="125" width="50" height="50" rx="4" fill="#312e81" stroke="#818cf8" stroke-width="2"/>
+  <text x="175" y="158" text-anchor="middle" font-family="monospace" font-size="20" fill="#c4b5fd" font-weight="700">H</text>
+  <!-- CNOT gate -->
+  <circle cx="330" cy="150" r="9" fill="#a78bfa"/>
+  <line x1="330" y1="150" x2="330" y2="244" stroke="#a78bfa" stroke-width="2.5"/>
+  <circle cx="330" cy="244" r="18" fill="none" stroke="#a78bfa" stroke-width="2.5"/>
+  <line x1="312" y1="244" x2="348" y2="244" stroke="#a78bfa" stroke-width="2.5"/>
+  <line x1="330" y1="226" x2="330" y2="262" stroke="#a78bfa" stroke-width="2.5"/>
+  <!-- Pauli-X gate example -->
+  <rect x="430" y="219" width="50" height="50" rx="4" fill="#4c1d95" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="455" y="252" text-anchor="middle" font-family="monospace" font-size="20" fill="#c4b5fd" font-weight="700">X</text>
+  <!-- Measurement -->
+  <rect x="560" y="125" width="50" height="50" rx="4" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+  <path d="M 570,162 A 15 15 0 0 1 600,162" fill="none" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="585" y1="162" x2="597" y2="145" stroke="#94a3b8" stroke-width="2"/>
+  <rect x="560" y="219" width="50" height="50" rx="4" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+  <path d="M 570,256 A 15 15 0 0 1 600,256" fill="none" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="585" y1="256" x2="597" y2="239" stroke="#94a3b8" stroke-width="2"/>
+  <!-- Bell state output -->
+  <text x="730" y="200" text-anchor="middle" font-family="monospace" font-size="13" fill="#a78bfa" font-weight="700">Φ⁺</text>
+  <text x="720" y="80" text-anchor="middle" font-family="monospace" font-size="12" fill="#c4b5fd">(|00⟩+|11⟩)/√2</text>
+  <text x="720" y="98" text-anchor="middle" font-family="monospace" font-size="9" fill="#7c3aed">entangled Bell state</text>
+  <!-- Section labels -->
+  <text x="175" y="110" text-anchor="middle" font-family="monospace" font-size="8.5" fill="#94a3b8">superposition</text>
+  <text x="330" y="300" text-anchor="middle" font-family="monospace" font-size="8.5" fill="#94a3b8">entangle</text>
+  <text x="585" y="300" text-anchor="middle" font-family="monospace" font-size="8.5" fill="#94a3b8">measure</text>
+  <text x="450" y="372" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" fill="#c4b5fd" opacity="0.45" letter-spacing="0.15em">QUANTUM GATES</text>
+</svg>

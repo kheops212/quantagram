@@ -1,0 +1,188 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`Newsletter — ${SITE_TITLE}`} description="Subscribe for weekly coverage of quantum computing and AI breakthroughs." ogImage="/og/newsletter.png" />
+		<style>
+			.page-head {
+				padding: 2rem 0 1.25rem;
+				border-bottom: 3px solid var(--text);
+				margin-bottom: 2.5rem;
+			}
+			.page-head h1 { font-size: 2.4em; margin: 0; }
+
+			.newsletter-body {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 4rem;
+				align-items: start;
+			}
+
+			.pitch h2 {
+				font-size: 1.6em;
+				margin: 0 0 0.75rem;
+				line-height: 1.2;
+			}
+			.pitch p {
+				color: var(--text-muted);
+				line-height: 1.7;
+				margin-bottom: 1em;
+				font-size: 0.95em;
+			}
+			.what-you-get {
+				list-style: none;
+				padding: 0;
+				margin: 1.5rem 0 0;
+				border-top: 1px solid var(--border);
+				padding-top: 1.25rem;
+			}
+			.what-you-get li {
+				font-size: 0.88em;
+				color: var(--text-muted);
+				padding: 0.5rem 0;
+				border-bottom: 1px solid var(--border);
+				display: flex;
+				gap: 0.75rem;
+				align-items: baseline;
+			}
+			.what-you-get li::before {
+				content: '→';
+				color: var(--accent);
+				font-weight: 700;
+				flex-shrink: 0;
+			}
+
+			.signup-box {
+				background: var(--bg-alt);
+				border: 1px solid var(--border);
+				border-top: 3px solid var(--text);
+				padding: 2rem;
+			}
+			.signup-box h3 {
+				font-size: 1.1em;
+				margin: 0 0 1.25rem;
+			}
+			.form-group { margin-bottom: 1rem; }
+			.form-group label {
+				display: block;
+				font-size: 0.75em;
+				font-weight: 700;
+				letter-spacing: 0.08em;
+				text-transform: uppercase;
+				color: var(--text-muted);
+				margin-bottom: 0.4em;
+			}
+			.form-group input {
+				width: 100%;
+				padding: 0.6em 0.75em;
+				border: 1px solid var(--border);
+				border-radius: 2px;
+				font-size: 0.95em;
+				font-family: inherit;
+				background: var(--bg);
+				color: var(--text);
+				transition: border-color 0.15s;
+			}
+			.form-group input:focus {
+				outline: none;
+				border-color: var(--accent);
+			}
+			.subscribe-btn {
+				width: 100%;
+				padding: 0.7em 1em;
+				background: var(--text);
+				color: var(--bg);
+				border: none;
+				font-size: 0.88em;
+				font-weight: 700;
+				letter-spacing: 0.06em;
+				text-transform: uppercase;
+				cursor: pointer;
+				font-family: inherit;
+				transition: background 0.15s;
+				border-radius: 2px;
+			}
+			.subscribe-btn:hover { background: var(--accent); }
+			.form-note {
+				font-size: 0.75em;
+				color: var(--text-muted);
+				margin: 0.75rem 0 0;
+				line-height: 1.5;
+			}
+			.rss-link {
+				margin-top: 1.5rem;
+				padding-top: 1.25rem;
+				border-top: 1px solid var(--border);
+				font-size: 0.82em;
+				color: var(--text-muted);
+			}
+			.rss-link a { color: var(--accent); font-weight: 600; }
+
+			@media (max-width: 700px) {
+				.newsletter-body { grid-template-columns: 1fr; gap: 2rem; }
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<div class="page-head">
+				<h1>Newsletter</h1>
+			</div>
+			<div class="newsletter-body">
+				<div class="pitch">
+					<h2>Stay ahead of quantum and AI breakthroughs</h2>
+					<p>
+						A weekly dispatch covering the latest developments in quantum computing,
+						artificial intelligence, and the growing convergence between them.
+						Written for researchers, engineers, and curious minds alike.
+					</p>
+					<p>
+						No spam. No hype. Just clear, well-sourced coverage of the ideas
+						and experiments that matter.
+					</p>
+					<ul class="what-you-get">
+						<li>Weekly roundup of the most important papers and announcements</li>
+						<li>Deep-dives into quantum algorithms, hardware, and AI integration</li>
+						<li>New articles from all five sections of the publication</li>
+						<li>Occasional interviews with researchers and practitioners</li>
+					</ul>
+				</div>
+
+				<div class="signup-box">
+					<h3>Subscribe — it's free</h3>
+					{/*
+						Connect this form to your email service provider
+						(e.g. Mailchimp, Substack, ConvertKit, Buttondown).
+						Replace action="#" with your form endpoint.
+					*/}
+					<form action="#" method="POST">
+						<div class="form-group">
+							<label for="first-name">First name</label>
+							<input type="text" id="first-name" name="first_name" placeholder="Ada" autocomplete="given-name" />
+						</div>
+						<div class="form-group">
+							<label for="email">Email address <span style="color:var(--accent)">*</span></label>
+							<input type="email" id="email" name="email" placeholder="ada@example.com" required autocomplete="email" />
+						</div>
+						<button class="subscribe-btn" type="submit">Subscribe →</button>
+						<p class="form-note">
+							By subscribing you agree to receive occasional emails from this publication.
+							Unsubscribe at any time.
+						</p>
+					</form>
+					<p class="rss-link">
+						Prefer RSS? <a href="/rss.xml">Subscribe via RSS feed</a> instead.
+					</p>
+				</div>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>

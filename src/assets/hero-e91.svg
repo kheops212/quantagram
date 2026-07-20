@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 394" width="900" height="394">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#050c1a"/><stop offset="100%" stop-color="#071510"/></linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#059669" stop-opacity="0.28"/><stop offset="100%" stop-color="#059669" stop-opacity="0"/></radialGradient>
+    <radialGradient id="src" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fde68a"/><stop offset="100%" stop-color="#d97706" stop-opacity="0"/></radialGradient>
+    <filter id="gbl"><feGaussianBlur stdDeviation="12"/></filter>
+  </defs>
+  <rect width="900" height="394" fill="url(#bg)"/>
+  <ellipse cx="450" cy="197" rx="420" ry="175" fill="url(#glow)" filter="url(#gbl)"/>
+  <!-- Central EPR source -->
+  <circle cx="450" cy="197" r="34" fill="url(#src)"/>
+  <circle cx="450" cy="197" r="22" fill="#0f172a" stroke="#d97706" stroke-width="2"/>
+  <text x="450" y="193" text-anchor="middle" font-family="monospace" font-size="9" fill="#fde68a" font-weight="700">EPR</text>
+  <text x="450" y="205" text-anchor="middle" font-family="monospace" font-size="7" fill="#fbbf24">source</text>
+  <!-- Entangled photons flying apart -->
+  <!-- To Alice (left) -->
+  <line x1="416" y1="197" x2="200" y2="197" stroke="#059669" stroke-width="2.5" stroke-dasharray="6,4" opacity="0.7"/>
+  <circle cx="310" cy="197" r="11" fill="#059669" opacity="0.85"/>
+  <text x="310" y="180" text-anchor="middle" font-family="monospace" font-size="10" fill="#6ee7b7">γ₁</text>
+  <!-- To Bob (right) -->
+  <line x1="484" y1="197" x2="700" y2="197" stroke="#059669" stroke-width="2.5" stroke-dasharray="6,4" opacity="0.7"/>
+  <circle cx="590" cy="197" r="11" fill="#059669" opacity="0.85"/>
+  <text x="590" y="180" text-anchor="middle" font-family="monospace" font-size="10" fill="#6ee7b7">γ₂</text>
+  <!-- Alice measurement -->
+  <rect x="60" y="150" width="140" height="94" rx="6" fill="#0f172a" stroke="#059669" stroke-width="2"/>
+  <text x="130" y="176" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" fill="#059669" font-weight="700">ALICE</text>
+  <text x="130" y="197" text-anchor="middle" font-family="monospace" font-size="8.5" fill="#6ee7b7">angles: 0° 45° 90°</text>
+  <text x="130" y="216" text-anchor="middle" font-family="monospace" font-size="9" fill="#34d399">↑ ↗ →</text>
+  <text x="130" y="234" text-anchor="middle" font-family="monospace" font-size="8" fill="#6ee7b7">outcome ±1</text>
+  <!-- Bob measurement -->
+  <rect x="700" y="150" width="140" height="94" rx="6" fill="#0f172a" stroke="#059669" stroke-width="2"/>
+  <text x="770" y="176" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" fill="#059669" font-weight="700">BOB</text>
+  <text x="770" y="197" text-anchor="middle" font-family="monospace" font-size="8.5" fill="#6ee7b7">angles: 45° 90° 135°</text>
+  <text x="770" y="216" text-anchor="middle" font-family="monospace" font-size="9" fill="#34d399">↗ → ↖</text>
+  <text x="770" y="234" text-anchor="middle" font-family="monospace" font-size="8" fill="#6ee7b7">outcome ±1</text>
+  <!-- Entanglement / correlation arc -->
+  <path d="M 130,250 Q 450,315 770,250" fill="none" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="6,3" opacity="0.6"/>
+  <!-- CHSH result box -->
+  <rect x="300" y="70" width="300" height="46" rx="4" fill="#0f172a" stroke="#059669" stroke-width="1.5"/>
+  <text x="450" y="90" text-anchor="middle" font-family="monospace" font-size="11" fill="#6ee7b7">Bell test: |S| = 2√2 ≈ 2.828 &gt; 2</text>
+  <text x="450" y="107" text-anchor="middle" font-family="monospace" font-size="9" fill="#34d399">quantum correlation → no eavesdropper</text>
+  <text x="450" y="300" text-anchor="middle" font-family="monospace" font-size="9" fill="#22c55e" opacity="0.7">perfect anticorrelation when bases match</text>
+  <text x="450" y="372" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" fill="#6ee7b7" opacity="0.45" letter-spacing="0.15em">E91 PROTOCOL</text>
+</svg>

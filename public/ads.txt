@@ -1,0 +1,4 @@
+# Authorized Digital Sellers (IAB ads.txt)
+# Replace pub-0000000000000000 with your AdSense publisher ID once approved.
+# Format: <domain>, <publisher account ID>, <relationship>, <certification authority ID>
+google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0

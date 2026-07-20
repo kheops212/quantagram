@@ -1,0 +1,30 @@
+---
+import { type CollectionEntry, getCollection, render } from 'astro:content';
+import BlogPost from '../../layouts/BlogPost.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	return posts.map((post) => ({
+		params: { slug: post.id },
+		props: post,
+	}));
+}
+type Props = CollectionEntry<'blog'>;
+
+const post = Astro.props;
+const { Content, headings } = await render(post);
+
+// Reading time — strip inline SVG diagrams and HTML tags so they don't inflate the count
+const plainText = post.body
+	? post.body
+			.replace(/<svg[\s\S]*?<\/svg>/gi, ' ')
+			.replace(/<[^>]+>/g, ' ')
+			.replace(/[#*_`>|-]/g, ' ')
+	: '';
+const wordCount = plainText.split(/\s+/).filter(Boolean).length;
+const readingTime = Math.max(1, Math.round(wordCount / 200));
+---
+
+<BlogPost {...post.data} id={post.id} headings={headings} readingTime={readingTime}>
+	<Content />
+</BlogPost>

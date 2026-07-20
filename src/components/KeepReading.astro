@@ -1,0 +1,101 @@
+---
+/**
+ * Prominent "keep reading" card pointing to the single best next article.
+ * The parent (BlogPost) decides which post and why, and passes it in.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+	id: string;
+	title: string;
+	description: string;
+	pillar?: string;
+	heroImage?: ImageMetadata;
+	fallback: ImageMetadata;
+	reason: string;
+	accent: string;
+}
+
+const { id, title, description, pillar, heroImage, fallback, reason, accent } = Astro.props;
+---
+
+<aside class="keep-reading" data-pagefind-ignore>
+	<span class="kr-label" style={`color:${accent}`}>{reason}</span>
+	<a class="kr-card" href={`/articles/${id}/`}>
+		<div class="kr-text">
+			{pillar && <span class="kr-pillar" style={`color:${accent}`}>{pillar}</span>}
+			<h3 class="kr-headline">{title}</h3>
+			<p class="kr-desc">{description}</p>
+			<span class="kr-cta">Keep reading →</span>
+		</div>
+		<Image class="kr-img" width={280} height={158} src={heroImage || fallback} alt={title} />
+	</a>
+</aside>
+
+<style>
+	.keep-reading {
+		max-width: 680px;
+		margin: 3rem auto 0;
+	}
+	.kr-label {
+		display: block;
+		font-size: 0.7em;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		margin-bottom: 0.75rem;
+	}
+	.kr-card {
+		display: grid;
+		grid-template-columns: 1fr 220px;
+		gap: 1.5rem;
+		align-items: center;
+		border: 1px solid var(--border);
+		border-radius: 4px;
+		padding: 1.25rem;
+		text-decoration: none !important;
+		background: var(--bg);
+		transition: background 0.15s, border-color 0.15s;
+	}
+	.kr-card:hover { background: var(--bg-alt); border-color: var(--accent); }
+	.kr-pillar {
+		font-size: 0.72em;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+	.kr-headline {
+		font-size: 1.3em;
+		line-height: 1.25;
+		margin: 0.35rem 0 0.4rem;
+		color: var(--text);
+	}
+	.kr-desc {
+		font-size: 0.9em;
+		color: var(--text-muted);
+		line-height: 1.55;
+		margin: 0 0 0.75rem;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+	.kr-cta {
+		font-size: 0.85em;
+		font-weight: 700;
+		color: var(--accent);
+	}
+	.kr-img {
+		width: 220px;
+		height: 124px;
+		object-fit: cover;
+		border-radius: 3px;
+		display: block;
+	}
+
+	@media (max-width: 600px) {
+		.kr-card { grid-template-columns: 1fr; }
+		.kr-img { width: 100%; height: auto; order: -1; }
+	}
+</style>

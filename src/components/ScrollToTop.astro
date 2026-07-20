@@ -1,0 +1,53 @@
+---
+// This component contains the button and the client-side script to handle its behavior.
+---
+
+<button id="scroll-to-top" title="Go to top">
+	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+		<path d="M12 19V5"></path>
+		<polyline points="5 12 12 5 19 12"></polyline>
+	</svg>
+</button>
+
+<style>
+	#scroll-to-top {
+		position: fixed;
+		bottom: 2rem;
+		right: 2rem;
+		background-color: var(--accent);
+		color: white;
+		border: none;
+		border-radius: 50%;
+		width: 50px;
+		height: 50px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		opacity: 0;
+		visibility: hidden;
+		transition: opacity 0.3s, visibility 0.3s, background-color 0.3s;
+		z-index: 1000;
+	}
+	#scroll-to-top.visible {
+		opacity: 1;
+		visibility: visible;
+	}
+	#scroll-to-top:hover {
+		background-color: var(--accent-dark);
+	}
+</style>
+
+<script>
+	const button = document.getElementById('scroll-to-top');
+	window.addEventListener('scroll', () => {
+		if (window.scrollY > 300) {
+			button?.classList.add('visible');
+		} else {
+			button?.classList.remove('visible');
+		}
+	});
+	button?.addEventListener('click', () => {
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	});
+</script>

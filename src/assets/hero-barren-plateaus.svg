@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 394" width="900" height="394">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#050c1a"/><stop offset="100%" stop-color="#0f0a1e"/></linearGradient>
+    <radialGradient id="glow" cx="50%" cy="45%" r="55%"><stop offset="0%" stop-color="#d97706" stop-opacity="0.2"/><stop offset="100%" stop-color="#d97706" stop-opacity="0"/></radialGradient>
+    <filter id="gbl"><feGaussianBlur stdDeviation="14"/></filter>
+  </defs>
+  <rect width="900" height="394" fill="url(#bg)"/>
+  <ellipse cx="450" cy="185" rx="420" ry="165" fill="url(#glow)" filter="url(#gbl)"/>
+  <!-- Flat loss landscape (3D perspective) -->
+  <!-- Grid lines horizontal -->
+  <g opacity="0.2" stroke="#d97706" stroke-width="1">
+    <line x1="80"  y1="320" x2="500" y2="180"/>
+    <line x1="160" y1="320" x2="580" y2="180"/>
+    <line x1="240" y1="320" x2="660" y2="180"/>
+    <line x1="320" y1="320" x2="740" y2="180"/>
+    <line x1="400" y1="320" x2="820" y2="180"/>
+    <line x1="80"  y1="320" x2="400" y2="320"/>
+    <line x1="140" y1="295" x2="460" y2="295"/>
+    <line x1="200" y1="270" x2="520" y2="270"/>
+    <line x1="260" y1="245" x2="580" y2="245"/>
+    <line x1="320" y1="220" x2="640" y2="220"/>
+    <line x1="380" y1="200" x2="700" y2="200"/>
+    <line x1="500" y1="180" x2="820" y2="180"/>
+  </g>
+  <!-- The flat surface with tiny bumps -->
+  <polygon points="80,320 500,180 820,180 400,320" fill="#78350f" opacity="0.15"/>
+  <!-- Tiny ripples (barely visible) -->
+  <ellipse cx="250" cy="280" rx="30" ry="8" fill="#d97706" opacity="0.1"/>
+  <ellipse cx="380" cy="252" rx="20" ry="5" fill="#d97706" opacity="0.1"/>
+  <ellipse cx="520" cy="225" rx="25" ry="6" fill="#d97706" opacity="0.08"/>
+  <!-- Gradient arrows (all pointing in random directions — no clear gradient) -->
+  <line x1="200" y1="295" x2="210" y2="290" stroke="#f59e0b" stroke-width="1.5" opacity="0.5" marker-end="url(#arr)"/>
+  <line x1="300" y1="270" x2="295" y2="263" stroke="#f59e0b" stroke-width="1.5" opacity="0.5" marker-end="url(#arr)"/>
+  <line x1="420" y1="255" x2="428" y2="250" stroke="#f59e0b" stroke-width="1.5" opacity="0.5" marker-end="url(#arr)"/>
+  <line x1="550" y1="230" x2="544" y2="225" stroke="#f59e0b" stroke-width="1.5" opacity="0.5" marker-end="url(#arr)"/>
+  <!-- Lost optimizer path wandering aimlessly -->
+  <path d="M 200,300 L 260,278 L 230,265 L 310,260 L 280,250 L 360,248 L 340,235" fill="none" stroke="#f59e0b" stroke-width="2" opacity="0.6" stroke-dasharray="6,4"/>
+  <!-- Gradient magnitude plot (right inset) -->
+  <rect x="620" y="80" width="230" height="180" rx="5" fill="#0f172a" stroke="#78350f" stroke-width="1.5"/>
+  <text x="735" y="105" text-anchor="middle" font-family="monospace" font-size="10" fill="#fde68a" font-weight="700">|∂L/∂θ| ≈ 2⁻ⁿ</text>
+  <!-- Exponential decay -->
+  <line x1="640" y1="240" x2="840" y2="240" stroke="#475569" stroke-width="1"/>
+  <line x1="640" y1="120" x2="640" y2="240" stroke="#475569" stroke-width="1"/>
+  <path d="M 645,130 Q 680,135 720,160 Q 760,185 800,235" fill="none" stroke="#f59e0b" stroke-width="2.5" opacity="0.8"/>
+  <text x="735" y="258" text-anchor="middle" font-family="monospace" font-size="8.5" fill="#94a3b8">qubits →</text>
+  <text x="635" y="185" font-family="monospace" font-size="7.5" fill="#94a3b8" transform="rotate(-90 635 185)">gradient</text>
+  <defs><marker id="arr" markerWidth="5" markerHeight="5" refX="3" refY="3" orient="auto"><path d="M0,0 L5,3 L0,6Z" fill="#f59e0b"/></marker></defs>
+  <text x="450" y="368" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" fill="#fde68a" opacity="0.45" letter-spacing="0.15em">BARREN PLATEAUS</text>
+</svg>

@@ -1,0 +1,117 @@
+---
+/**
+ * Compact inline newsletter call-to-action for the end of articles.
+ * If NEWSLETTER_ACTION is set, renders a working inline form that POSTs there.
+ * Otherwise, shows a button linking to the /newsletter page.
+ */
+import { NEWSLETTER_ACTION } from '../consts';
+const wired = Boolean(NEWSLETTER_ACTION);
+---
+
+<aside class="nl-cta" data-pagefind-ignore>
+	<p class="nl-eyebrow">The Quantagram Newsletter</p>
+	<h3 class="nl-title">Get the next deep dive in your inbox</h3>
+	<p class="nl-sub">
+		Clear, well-sourced coverage of quantum computing and AI — no hype, no spam. Unsubscribe anytime.
+	</p>
+
+	{wired ? (
+		<form class="nl-form" action={NEWSLETTER_ACTION} method="post" target="_blank" rel="noopener">
+			<input
+				type="email"
+				name="email"
+				required
+				placeholder="you@example.com"
+				aria-label="Email address"
+				autocomplete="email"
+			/>
+			<button type="submit">Subscribe</button>
+		</form>
+	) : (
+		<a class="nl-button" href="/newsletter">Subscribe — it’s free →</a>
+	)}
+</aside>
+
+<style>
+	.nl-cta {
+		max-width: 680px;
+		margin: 3rem auto;
+		padding: 1.75rem;
+		background: var(--bg-alt);
+		border: 1px solid var(--border);
+		border-top: 3px solid var(--accent);
+		border-radius: 4px;
+		text-align: center;
+	}
+	.nl-eyebrow {
+		font-size: 0.68em;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--accent);
+		margin: 0 0 0.5rem;
+	}
+	.nl-title {
+		font-size: 1.35em;
+		margin: 0 0 0.5rem;
+		line-height: 1.2;
+	}
+	.nl-sub {
+		font-size: 0.92em;
+		color: var(--text-muted);
+		line-height: 1.6;
+		margin: 0 auto 1.25rem;
+		max-width: 440px;
+	}
+	.nl-form {
+		display: flex;
+		gap: 0.5rem;
+		max-width: 420px;
+		margin: 0 auto;
+	}
+	.nl-form input {
+		flex: 1;
+		min-width: 0;
+		padding: 0.65em 0.85em;
+		border: 1px solid var(--border);
+		border-radius: 3px;
+		background: var(--bg);
+		color: var(--text);
+		font-size: 0.95em;
+		font-family: inherit;
+		transition: border-color 0.15s;
+	}
+	.nl-form input:focus { outline: none; border-color: var(--accent); }
+	.nl-form button {
+		flex-shrink: 0;
+		padding: 0.65em 1.25em;
+		background: var(--text);
+		color: var(--bg);
+		border: none;
+		border-radius: 3px;
+		font-size: 0.85em;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		cursor: pointer;
+		font-family: inherit;
+		transition: background 0.15s, opacity 0.15s;
+	}
+	.nl-form button:hover { background: var(--accent); color: #fff; }
+	.nl-button {
+		display: inline-block;
+		padding: 0.7em 1.5em;
+		background: var(--text);
+		color: var(--bg);
+		border-radius: 3px;
+		font-size: 0.88em;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		text-decoration: none;
+		transition: background 0.15s, color 0.15s;
+	}
+	.nl-button:hover { background: var(--accent); color: #fff; text-decoration: none; }
+
+	@media (max-width: 520px) {
+		.nl-form { flex-direction: column; }
+	}
+</style>

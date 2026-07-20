@@ -1,0 +1,593 @@
+---
+// Change this password before deploying
+const ADMIN_PASSWORD = 'quantum2024';
+
+import { getCollection } from 'astro:content';
+import { SITE_TITLE } from '../consts';
+
+const posts   = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const authors = await getCollection('authors');
+
+// ── Derived stats ──────────────────────────────────────────────────────────
+const totalPosts   = posts.length;
+const totalAuthors = [...new Set(posts.map(p => p.data.author))].length;
+
+const seriesMap = new Map<string, number>();
+posts.forEach(p => { if (p.data.series) seriesMap.set(p.data.series, (seriesMap.get(p.data.series) ?? 0) + 1); });
+
+const tagMap = new Map<string, number>();
+posts.forEach(p => p.data.tags?.forEach(t => tagMap.set(t, (tagMap.get(t) ?? 0) + 1)));
+
+const pillarMap = new Map<string, number>();
+posts.forEach(p => { if (p.data.pillar) pillarMap.set(p.data.pillar, (pillarMap.get(p.data.pillar) ?? 0) + 1); });
+
+const authorPostMap = new Map<string, number>();
+posts.forEach(p => authorPostMap.set(p.data.author, (authorPostMap.get(p.data.author) ?? 0) + 1));
+
+const maxPillarCount = Math.max(...pillarMap.values(), 1);
+const maxAuthorCount = Math.max(...authorPostMap.values(), 1);
+
+// ── Alerts ─────────────────────────────────────────────────────────────────
+const missingPillar = posts.filter(p => !p.data.pillar);
+const missingTags   = posts.filter(p => !p.data.tags?.length);
+const missingHero   = posts.filter(p => !p.data.heroImage);
+
+// ── Helpers ────────────────────────────────────────────────────────────────
+const pillarColors: Record<string, string> = {
+	'Quantum Algorithms':   '#7c3aed',
+	'Quantum Hardware':     '#0284c7',
+	'Quantum Cryptography': '#059669',
+	'AI Integrations':      '#d97706',
+	'Future Tech':          '#dc2626',
+};
+const buildDate = new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
+---
+
+<!doctype html>
+<html lang="en" data-pagefind-ignore>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<meta name="robots" content="noindex,nofollow" />
+	<title>Admin — {SITE_TITLE}</title>
+	<style>
+		*, *::before, *::after { box-sizing: border-box; }
+
+		:root {
+			--bg:       #0f1117;
+			--surface:  #1a1d27;
+			--surface2: #22263a;
+			--border:   #2d3148;
+			--text:     #e2e4f0;
+			--muted:    #7c84a6;
+			--accent:   #6366f1;
+			--green:    #22c55e;
+			--yellow:   #f59e0b;
+			--red:      #ef4444;
+		}
+
+		body {
+			margin: 0;
+			font-family: system-ui, -apple-system, sans-serif;
+			background: var(--bg);
+			color: var(--text);
+			font-size: 14px;
+			line-height: 1.5;
+			-webkit-font-smoothing: antialiased;
+		}
+
+		/* ── Password gate ── */
+		#gate {
+			position: fixed;
+			inset: 0;
+			background: var(--bg);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			z-index: 1000;
+		}
+		.gate-box {
+			background: var(--surface);
+			border: 1px solid var(--border);
+			border-top: 3px solid var(--accent);
+			padding: 2.5rem 2rem;
+			width: 320px;
+		}
+		.gate-box h1 { font-size: 1.1em; margin: 0 0 0.25em; color: var(--text); }
+		.gate-box p  { font-size: 0.82em; color: var(--muted); margin: 0 0 1.5em; }
+		.gate-box input {
+			width: 100%;
+			padding: 0.55em 0.75em;
+			background: var(--bg);
+			border: 1px solid var(--border);
+			color: var(--text);
+			font-size: 0.95em;
+			font-family: inherit;
+			margin-bottom: 0.75rem;
+			border-radius: 3px;
+		}
+		.gate-box input:focus { outline: none; border-color: var(--accent); }
+		.gate-box button {
+			width: 100%;
+			padding: 0.6em;
+			background: var(--accent);
+			color: #fff;
+			border: none;
+			font-size: 0.88em;
+			font-weight: 600;
+			cursor: pointer;
+			font-family: inherit;
+			border-radius: 3px;
+		}
+		.gate-box button:hover { opacity: 0.9; }
+		#gate-error { color: var(--red); font-size: 0.8em; margin-top: 0.5em; display: none; }
+
+		/* ── Layout ── */
+		#dashboard { display: none; }
+		.admin-header {
+			background: var(--surface);
+			border-bottom: 1px solid var(--border);
+			padding: 0.75em 1.5em;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			position: sticky;
+			top: 0;
+			z-index: 10;
+		}
+		.admin-header .brand {
+			font-size: 0.85em;
+			font-weight: 700;
+			color: var(--accent);
+			letter-spacing: 0.06em;
+			text-transform: uppercase;
+			text-decoration: none;
+		}
+		.admin-header .meta {
+			font-size: 0.75em;
+			color: var(--muted);
+			display: flex;
+			gap: 1.5em;
+			align-items: center;
+		}
+		.admin-header .meta a { color: var(--muted); text-decoration: none; }
+		.admin-header .meta a:hover { color: var(--text); }
+		#signout-btn {
+			font-size: 0.75em;
+			color: var(--red);
+			cursor: pointer;
+			background: none;
+			border: none;
+			font-family: inherit;
+			padding: 0;
+		}
+		#signout-btn:hover { text-decoration: underline; }
+
+		.content { max-width: 1300px; margin: 0 auto; padding: 2em 1.5em 4em; }
+
+		/* ── Stat cards ── */
+		.stats-grid {
+			display: grid;
+			grid-template-columns: repeat(5, 1fr);
+			gap: 1rem;
+			margin-bottom: 2rem;
+		}
+		.stat-card {
+			background: var(--surface);
+			border: 1px solid var(--border);
+			padding: 1.25rem 1rem;
+			text-align: center;
+		}
+		.stat-card .num {
+			font-size: 2.4em;
+			font-weight: 800;
+			color: var(--accent);
+			line-height: 1;
+			margin-bottom: 0.2em;
+		}
+		.stat-card .label {
+			font-size: 0.72em;
+			color: var(--muted);
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+		}
+
+		/* ── Alerts ── */
+		.alerts {
+			background: var(--surface);
+			border: 1px solid var(--border);
+			border-left: 3px solid var(--yellow);
+			padding: 1rem 1.25rem;
+			margin-bottom: 2rem;
+		}
+		.alerts.clean { border-left-color: var(--green); }
+		.alerts-title {
+			font-size: 0.72em;
+			font-weight: 700;
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+			color: var(--muted);
+			margin-bottom: 0.6em;
+		}
+		.alert-item {
+			font-size: 0.82em;
+			color: var(--yellow);
+			margin: 0.25em 0;
+		}
+		.alert-item a { color: inherit; }
+		.no-alerts { font-size: 0.82em; color: var(--green); }
+
+		/* ── Section headers ── */
+		.section-title {
+			font-size: 0.68em;
+			font-weight: 700;
+			letter-spacing: 0.12em;
+			text-transform: uppercase;
+			color: var(--muted);
+			border-bottom: 1px solid var(--border);
+			padding-bottom: 0.5em;
+			margin: 2rem 0 1rem;
+		}
+
+		/* ── Content table ── */
+		.table-wrap { overflow-x: auto; }
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			font-size: 0.82em;
+		}
+		th {
+			text-align: left;
+			padding: 0.5em 0.75em;
+			background: var(--surface);
+			color: var(--muted);
+			font-weight: 600;
+			font-size: 0.72em;
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+			border-bottom: 1px solid var(--border);
+			white-space: nowrap;
+		}
+		td {
+			padding: 0.6em 0.75em;
+			border-bottom: 1px solid var(--border);
+			vertical-align: middle;
+			color: var(--text);
+		}
+		tr:hover td { background: var(--surface2); }
+		.post-title-link { color: var(--text); text-decoration: none; font-weight: 600; }
+		.post-title-link:hover { color: var(--accent); }
+		.view-link { color: var(--muted); text-decoration: none; font-size: 0.9em; }
+		.view-link:hover { color: var(--accent); }
+
+		/* badges */
+		.badge {
+			display: inline-block;
+			font-size: 0.72em;
+			font-weight: 600;
+			padding: 0.15em 0.55em;
+			border-radius: 3px;
+			white-space: nowrap;
+		}
+		.badge-ok     { background: rgba(34,197,94,0.15); color: var(--green); }
+		.badge-warn   { background: rgba(245,158,11,0.15); color: var(--yellow); }
+		.badge-pillar { background: rgba(99,102,241,0.15); color: var(--accent); }
+
+		/* ── Two-col breakdown ── */
+		.breakdown-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 1.5rem;
+		}
+		.breakdown-card {
+			background: var(--surface);
+			border: 1px solid var(--border);
+			padding: 1rem 1.25rem;
+		}
+		.breakdown-row {
+			display: grid;
+			grid-template-columns: 1fr auto;
+			align-items: center;
+			gap: 0.75rem;
+			padding: 0.4em 0;
+			border-bottom: 1px solid var(--border);
+			font-size: 0.82em;
+		}
+		.breakdown-row:last-child { border-bottom: none; }
+		.bar-wrap { height: 5px; background: var(--surface2); border-radius: 2px; margin-top: 0.2em; overflow: hidden; }
+		.bar-fill { height: 100%; background: var(--accent); border-radius: 2px; }
+		.breakdown-count { color: var(--muted); font-size: 0.85em; white-space: nowrap; }
+
+		/* ── Tag cloud ── */
+		.tag-cloud { display: flex; flex-wrap: wrap; gap: 0.4em; }
+		.tag-pill {
+			font-size: 0.75em;
+			padding: 0.2em 0.65em;
+			border: 1px solid var(--border);
+			color: var(--muted);
+			border-radius: 3px;
+			text-decoration: none;
+		}
+		.tag-pill:hover { color: var(--accent); border-color: var(--accent); }
+		.tag-count { color: var(--accent); margin-left: 0.25em; font-weight: 700; }
+
+		/* ── Series list ── */
+		.series-list { list-style: none; padding: 0; margin: 0; }
+		.series-item {
+			display: grid;
+			grid-template-columns: 1fr auto;
+			align-items: center;
+			padding: 0.5em 0.75em;
+			border-bottom: 1px solid var(--border);
+			font-size: 0.82em;
+			background: var(--surface);
+		}
+		.series-item:first-child { border-top: 1px solid var(--border); }
+		.series-item a { color: var(--text); text-decoration: none; font-weight: 600; }
+		.series-item a:hover { color: var(--accent); }
+		.series-parts { color: var(--muted); font-size: 0.85em; }
+
+		@media (max-width: 900px) {
+			.stats-grid { grid-template-columns: repeat(3, 1fr); }
+			.breakdown-grid { grid-template-columns: 1fr; }
+		}
+		@media (max-width: 600px) {
+			.stats-grid { grid-template-columns: repeat(2, 1fr); }
+		}
+	</style>
+</head>
+<body>
+
+<!-- Password gate -->
+<div id="gate">
+	<div class="gate-box">
+		<h1>Admin Access</h1>
+		<p>{SITE_TITLE}</p>
+		<input type="password" id="pw-input" placeholder="Password" autocomplete="current-password" />
+		<button id="pw-submit">Enter dashboard →</button>
+		<p id="gate-error">Incorrect password.</p>
+	</div>
+</div>
+
+<!-- Dashboard -->
+<div id="dashboard">
+	<header class="admin-header">
+		<a class="brand" href="/admin">⬡ {SITE_TITLE} Admin</a>
+		<div class="meta">
+			<span>Built: {buildDate}</span>
+			<a href="/" target="_blank">← View site</a>
+			<button id="signout-btn">Sign out</button>
+		</div>
+	</header>
+
+	<div class="content">
+
+		<!-- Stat cards -->
+		<div class="stats-grid">
+			<div class="stat-card">
+				<div class="num">{totalPosts}</div>
+				<div class="label">Articles</div>
+			</div>
+			<div class="stat-card">
+				<div class="num">{totalAuthors}</div>
+				<div class="label">Authors</div>
+			</div>
+			<div class="stat-card">
+				<div class="num">{seriesMap.size}</div>
+				<div class="label">Series</div>
+			</div>
+			<div class="stat-card">
+				<div class="num">{tagMap.size}</div>
+				<div class="label">Unique Tags</div>
+			</div>
+			<div class="stat-card">
+				<div class="num">{pillarMap.size}</div>
+				<div class="label">Pillars Active</div>
+			</div>
+		</div>
+
+		<!-- Alerts -->
+		<div class={`alerts ${missingPillar.length === 0 && missingTags.length === 0 && missingHero.length === 0 ? 'clean' : ''}`}>
+			<div class="alerts-title">Content health</div>
+			{missingPillar.length === 0 && missingTags.length === 0 && missingHero.length === 0
+				? <p class="no-alerts">✓ All posts have pillar, tags, and hero image.</p>
+				: <>
+					{missingPillar.map(p => (
+						<p class="alert-item">⚠ <a href={`/articles/${p.id}/`} target="_blank">"{p.data.title}"</a> — missing pillar</p>
+					))}
+					{missingTags.map(p => (
+						<p class="alert-item">⚠ <a href={`/articles/${p.id}/`} target="_blank">"{p.data.title}"</a> — missing tags</p>
+					))}
+					{missingHero.map(p => (
+						<p class="alert-item">⚠ <a href={`/articles/${p.id}/`} target="_blank">"{p.data.title}"</a> — missing hero image</p>
+					))}
+				</>
+			}
+		</div>
+
+		<!-- Content table -->
+		<div class="section-title">All articles</div>
+		<div class="table-wrap">
+			<table>
+				<thead>
+					<tr>
+						<th>Title</th>
+						<th>Author</th>
+						<th>Pillar</th>
+						<th>Tags</th>
+						<th>Series</th>
+						<th>Date</th>
+						<th>Flags</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{posts.map(p => (
+						<tr>
+							<td><a class="post-title-link" href={`/articles/${p.id}/`} target="_blank">{p.data.title}</a></td>
+							<td>
+								<a href={`/author/${p.data.author.toLowerCase().replace(/\s+/g, '-')}/`} target="_blank" style="color:var(--muted);text-decoration:none">
+									{p.data.author}
+								</a>
+							</td>
+							<td>
+								{p.data.pillar
+									? <span class="badge badge-pillar" style={`background:${pillarColors[p.data.pillar]}22;color:${pillarColors[p.data.pillar]}`}>{p.data.pillar}</span>
+									: <span class="badge badge-warn">None</span>
+								}
+							</td>
+							<td>
+								{p.data.tags?.length
+									? <span class="badge badge-ok">{p.data.tags.length} tag{p.data.tags.length !== 1 ? 's' : ''}</span>
+									: <span class="badge badge-warn">None</span>
+								}
+							</td>
+							<td>
+								{p.data.series
+									? <a href={`/series/${p.data.series.toLowerCase().replace(/\s+/g, '-')}/`} target="_blank" style="color:var(--accent);text-decoration:none;font-size:0.9em">
+											{p.data.series} #{p.data.seriesOrder}
+										</a>
+									: <span style="color:var(--border)">—</span>
+								}
+							</td>
+							<td style="color:var(--muted);white-space:nowrap">
+								{p.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+							</td>
+							<td>
+								{p.data.featured && <span class="badge" style="background:rgba(245,158,11,0.15);color:#f59e0b;margin-right:0.25em">★ Featured</span>}
+								{p.data.heroImage && <span class="badge badge-ok">Hero</span>}
+							</td>
+							<td>
+								<a class="view-link" href={`/articles/${p.id}/`} target="_blank">View →</a>
+							</td>
+						</tr>
+					))}
+				</tbody>
+			</table>
+		</div>
+
+		<!-- Breakdowns -->
+		<div class="breakdown-grid">
+			<div>
+				<div class="section-title">Posts by pillar</div>
+				<div class="breakdown-card">
+					{[...pillarMap.entries()].sort((a, b) => b[1] - a[1]).map(([name, count]) => (
+						<div class="breakdown-row">
+							<div>
+								<a href={`/pillar/${name.toLowerCase().replace(/\s+/g, '-')}/`} target="_blank"
+									style={`color:${pillarColors[name] ?? 'var(--accent)'};text-decoration:none;font-weight:600`}>
+									{name}
+								</a>
+								<div class="bar-wrap">
+									<div class="bar-fill" style={`width:${(count / maxPillarCount) * 100}%;background:${pillarColors[name] ?? 'var(--accent)'}`}></div>
+								</div>
+							</div>
+							<span class="breakdown-count">{count}</span>
+						</div>
+					))}
+					{pillarMap.size === 0 && <p style="color:var(--muted);font-size:0.82em">No pillars assigned yet.</p>}
+				</div>
+			</div>
+
+			<div>
+				<div class="section-title">Posts by author</div>
+				<div class="breakdown-card">
+					{[...authorPostMap.entries()].sort((a, b) => b[1] - a[1]).map(([name, count]) => {
+						const profile = authors.find(a => a.id === name.toLowerCase().replace(/\s+/g, '-'));
+						return (
+							<div class="breakdown-row">
+								<div>
+									<a href={`/author/${name.toLowerCase().replace(/\s+/g, '-')}/`} target="_blank"
+										style="color:var(--text);text-decoration:none;font-weight:600">
+										{name}
+									</a>
+									{profile?.data.role && <div style="font-size:0.8em;color:var(--muted)">{profile.data.role}</div>}
+									<div class="bar-wrap">
+										<div class="bar-fill" style={`width:${(count / maxAuthorCount) * 100}%`}></div>
+									</div>
+								</div>
+								<span class="breakdown-count">{count}</span>
+							</div>
+						);
+					})}
+				</div>
+			</div>
+		</div>
+
+		<!-- Series -->
+		<div class="section-title">Series</div>
+		{seriesMap.size === 0
+			? <p style="color:var(--muted);font-size:0.82em">No series defined yet.</p>
+			: <ul class="series-list">
+				{[...seriesMap.entries()].sort((a, b) => b[1] - a[1]).map(([name, count]) => (
+					<li class="series-item">
+						<a href={`/series/${name.toLowerCase().replace(/\s+/g, '-')}/`} target="_blank">{name}</a>
+						<span class="series-parts">{count} part{count !== 1 ? 's' : ''}</span>
+					</li>
+				))}
+			</ul>
+		}
+
+		<!-- Tags -->
+		<div class="section-title">Tags ({tagMap.size} unique)</div>
+		<div class="tag-cloud">
+			{[...tagMap.entries()].sort((a, b) => b[1] - a[1]).map(([tag, count]) => (
+				<a class="tag-pill" href={`/tag/${tag.toLowerCase().replace(/\s+/g, '-')}/`} target="_blank">
+					#{tag}<span class="tag-count">{count}</span>
+				</a>
+			))}
+		</div>
+
+		<!-- Author profiles -->
+		<div class="section-title">Author profiles</div>
+		<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem">
+			{authors.map(a => (
+				<div style="background:var(--surface);border:1px solid var(--border);padding:1rem">
+					<div style="font-weight:700;margin-bottom:0.15em">{a.data.name}</div>
+					{a.data.role && <div style="font-size:0.78em;color:var(--muted);margin-bottom:0.5em">{a.data.role}</div>}
+					{a.data.bio && <p style="font-size:0.78em;color:var(--muted);margin:0 0 0.5em;line-height:1.5">{a.data.bio}</p>}
+					<div style="display:flex;gap:0.4em;flex-wrap:wrap">
+						{a.data.social?.twitter  && <a href={a.data.social.twitter}  target="_blank" style="font-size:0.72em;color:var(--muted);border:1px solid var(--border);padding:0.1em 0.5em;text-decoration:none">Twitter</a>}
+						{a.data.social?.github   && <a href={a.data.social.github}   target="_blank" style="font-size:0.72em;color:var(--muted);border:1px solid var(--border);padding:0.1em 0.5em;text-decoration:none">GitHub</a>}
+						{a.data.social?.linkedin && <a href={a.data.social.linkedin} target="_blank" style="font-size:0.72em;color:var(--muted);border:1px solid var(--border);padding:0.1em 0.5em;text-decoration:none">LinkedIn</a>}
+					</div>
+				</div>
+			))}
+		</div>
+
+	</div><!-- /content -->
+</div><!-- /dashboard -->
+
+<script define:vars={{ ADMIN_PASSWORD }}>
+	const SESSION_KEY = 'admin_auth';
+
+	function unlock() {
+		document.getElementById('gate').style.display = 'none';
+		document.getElementById('dashboard').style.display = 'block';
+	}
+	function lock() {
+		sessionStorage.removeItem(SESSION_KEY);
+		document.getElementById('gate').style.display = 'flex';
+		document.getElementById('dashboard').style.display = 'none';
+	}
+
+	// Check session
+	if (sessionStorage.getItem(SESSION_KEY) === '1') unlock();
+
+	document.getElementById('pw-submit').addEventListener('click', () => {
+		const val = document.getElementById('pw-input').value;
+		if (val === ADMIN_PASSWORD) {
+			sessionStorage.setItem(SESSION_KEY, '1');
+			unlock();
+		} else {
+			document.getElementById('gate-error').style.display = 'block';
+		}
+	});
+	document.getElementById('pw-input').addEventListener('keydown', (e) => {
+		if (e.key === 'Enter') document.getElementById('pw-submit').click();
+	});
+	document.getElementById('signout-btn').addEventListener('click', lock);
+</script>
+
+</body>
+</html>

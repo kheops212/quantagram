@@ -1,0 +1,127 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+import { Image } from 'astro:assets';
+import defaultHeroImage from '../../assets/blog-placeholder-1.jpg';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	const tagSet = new Set<string>();
+	posts.forEach((post) => post.data.tags?.forEach((t) => tagSet.add(t)));
+
+	return [...tagSet].map((tag) => ({
+		params: { tag: tag.toLowerCase().replace(/\s+/g, '-') },
+		props: { tagName: tag },
+	}));
+}
+
+const { tagName } = Astro.props;
+const posts = (await getCollection('blog'))
+	.filter((post) => post.data.tags?.includes(tagName))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const pillarColors: Record<string, string> = {
+	'Quantum Algorithms':   '#7c3aed',
+	'Quantum Hardware':     '#0284c7',
+	'Quantum Cryptography': '#059669',
+	'AI Integrations':      '#d97706',
+	'Future Tech':          '#dc2626',
+};
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`#${tagName} — ${SITE_TITLE}`} description={SITE_DESCRIPTION} ogImage={`/og/tag-${Astro.params.tag}.png`} />
+		<style>
+			.page-head {
+				padding: 2rem 0 1.25rem;
+				border-bottom: 3px solid var(--text);
+				margin-bottom: 0;
+			}
+			.page-head .label {
+				font-size: 0.7em;
+				font-weight: 700;
+				letter-spacing: 0.1em;
+				text-transform: uppercase;
+				color: var(--text-muted);
+				margin: 0 0 0.3em;
+			}
+			.page-head h1 { font-size: 2.4em; margin: 0; }
+			.count { font-size: 0.85em; color: var(--text-muted); margin: 0.35em 0 0; }
+
+			.article-list { list-style: none; margin: 0; padding: 0; }
+			.article-item {
+				display: grid;
+				grid-template-columns: 1fr 160px;
+				gap: 1.5rem;
+				align-items: start;
+				padding: 1.25rem 0;
+				border-bottom: 1px solid var(--border);
+			}
+			.article-headline {
+				font-size: 1.1em;
+				font-weight: 700;
+				line-height: 1.25;
+				color: var(--text);
+				text-decoration: none;
+				display: block;
+				margin: 0.25em 0 0.4em;
+				transition: color 0.15s;
+			}
+			.article-headline:hover { color: var(--accent); text-decoration: none; }
+			.article-img { width: 160px; height: 100px; object-fit: cover; border-radius: 2px; display: block; }
+			.byline { font-size: 0.78em; color: var(--text-muted); display: flex; gap: 0.4em; flex-wrap: wrap; }
+			.byline a { color: var(--text-muted); font-weight: 600; }
+			.byline a:hover { color: var(--accent); text-decoration: underline; }
+			.byline .sep { color: var(--border); }
+			.desc { font-size: 0.87em; color: var(--text-muted); line-height: 1.5; margin: 0.3em 0 0; }
+
+			@media (max-width: 600px) {
+				.article-item { grid-template-columns: 1fr; }
+				.article-img { width: 100%; height: auto; }
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<div class="page-head">
+				<p class="label">Tag</p>
+				<h1>#{tagName}</h1>
+				<p class="count">{posts.length} article{posts.length !== 1 ? 's' : ''}</p>
+			</div>
+			<ul class="article-list">
+				{posts.map((post) => (
+					<li class="article-item">
+						<div>
+							{post.data.pillar && (
+								<p class="pillar">
+									<a
+										href={`/pillar/${post.data.pillar.toLowerCase().replace(/\s+/g, '-')}/`}
+										style={`color:${pillarColors[post.data.pillar] ?? 'var(--accent)'}`}
+									>{post.data.pillar}</a>
+								</p>
+							)}
+							<a class="article-headline" href={`/articles/${post.id}/`}>{post.data.title}</a>
+							<p class="byline">
+								<a href={`/author/${post.data.author.toLowerCase().replace(/\s+/g, '-')}/`}>{post.data.author}</a>
+								<span class="sep">·</span>
+								<FormattedDate date={post.data.pubDate} />
+							</p>
+							<p class="desc">{post.data.description}</p>
+						</div>
+						<a href={`/articles/${post.id}/`}>
+							<Image class="article-img" width={200} height={125} src={post.data.heroImage || defaultHeroImage} alt={post.data.title} />
+						</a>
+					</li>
+				))}
+			</ul>
+		</main>
+		<Footer />
+	</body>
+</html>

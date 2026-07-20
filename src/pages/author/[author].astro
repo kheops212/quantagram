@@ -1,0 +1,191 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+import { Image } from 'astro:assets';
+import defaultHeroImage from '../../assets/blog-placeholder-1.jpg';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	const authors = [...new Set(posts.map((post) => post.data.author).filter(Boolean))];
+	return authors.map((author) => ({
+		params: { author: author.toLowerCase().replace(/\s+/g, '-') },
+		props: { authorName: author },
+	}));
+}
+
+const { authorName } = Astro.props;
+const slug = Astro.params.author;
+
+const posts = (await getCollection('blog'))
+	.filter((post) => post.data.author === authorName)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const allAuthors = await getCollection('authors');
+const profile = allAuthors.find((a) => a.id === slug);
+
+const pillarColors: Record<string, string> = {
+	'Quantum Algorithms':   '#7c3aed',
+	'Quantum Hardware':     '#0284c7',
+	'Quantum Cryptography': '#059669',
+	'AI Integrations':      '#d97706',
+	'Future Tech':          '#dc2626',
+};
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`${authorName} — ${SITE_TITLE}`} description={profile?.data.bio ?? SITE_DESCRIPTION} ogImage={`/og/author-${Astro.params.author}.png`} />
+		<style>
+			.author-head {
+				padding: 2rem 0 1.75rem;
+				border-bottom: 3px solid var(--text);
+				margin-bottom: 0;
+				display: grid;
+				grid-template-columns: auto 1fr;
+				gap: 1.75rem;
+				align-items: start;
+			}
+			.avatar {
+				width: 80px;
+				height: 80px;
+				border-radius: 50%;
+				background: var(--bg-alt);
+				border: 2px solid var(--border);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 2em;
+				font-weight: 800;
+				color: var(--text-muted);
+				flex-shrink: 0;
+				overflow: hidden;
+			}
+			.avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+			.author-meta .label {
+				font-size: 0.7em;
+				font-weight: 700;
+				letter-spacing: 0.1em;
+				text-transform: uppercase;
+				color: var(--text-muted);
+				margin: 0 0 0.2em;
+			}
+			.author-name { font-size: 2.2em; font-weight: 800; margin: 0 0 0.1em; letter-spacing: -0.02em; }
+			.author-role { font-size: 0.88em; color: var(--text-muted); margin: 0 0 0.75em; font-style: italic; }
+			.author-bio { font-size: 0.92em; color: var(--text-muted); line-height: 1.65; margin: 0 0 0.75em; max-width: 560px; }
+			.social-links { display: flex; gap: 0.5em; flex-wrap: wrap; }
+			.social-link {
+				font-size: 0.75em;
+				font-weight: 600;
+				letter-spacing: 0.04em;
+				color: var(--text-muted);
+				text-decoration: none;
+				border: 1px solid var(--border);
+				padding: 0.2em 0.65em;
+				border-radius: 2px;
+				transition: color 0.15s, border-color 0.15s;
+			}
+			.social-link:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
+			.count {
+				font-size: 0.8em;
+				color: var(--text-muted);
+				padding: 1rem 0 0.5rem;
+				border-bottom: 1px solid var(--border);
+			}
+
+			.article-list { list-style: none; margin: 0; padding: 0; }
+			.article-item {
+				display: grid;
+				grid-template-columns: 1fr 160px;
+				gap: 1.5rem;
+				align-items: start;
+				padding: 1.25rem 0;
+				border-bottom: 1px solid var(--border);
+			}
+			.article-headline {
+				font-size: 1.1em;
+				font-weight: 700;
+				line-height: 1.25;
+				color: var(--text);
+				text-decoration: none;
+				display: block;
+				margin: 0.25em 0 0.4em;
+				transition: color 0.15s;
+			}
+			.article-headline:hover { color: var(--accent); text-decoration: none; }
+			.article-img { width: 160px; height: 100px; object-fit: cover; border-radius: 2px; display: block; }
+			.byline { font-size: 0.78em; color: var(--text-muted); display: flex; gap: 0.4em; flex-wrap: wrap; }
+			.byline .sep { color: var(--border); }
+			.desc { font-size: 0.87em; color: var(--text-muted); line-height: 1.5; margin: 0.3em 0 0; }
+
+			@media (max-width: 600px) {
+				.author-head { grid-template-columns: 1fr; }
+				.article-item { grid-template-columns: 1fr; }
+				.article-img { width: 100%; height: auto; }
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<div class="author-head">
+				<div class="avatar">
+					{profile?.data.avatarUrl
+						? <img src={profile.data.avatarUrl} alt={authorName} />
+						: authorName.charAt(0).toUpperCase()
+					}
+				</div>
+				<div class="author-meta">
+					<p class="label">Author</p>
+					<h1 class="author-name">{authorName}</h1>
+					{profile?.data.role && <p class="author-role">{profile.data.role}</p>}
+					{profile?.data.bio && <p class="author-bio">{profile.data.bio}</p>}
+					{profile?.data.social && (
+						<div class="social-links">
+							{profile.data.social.twitter && <a class="social-link" href={profile.data.social.twitter} target="_blank" rel="noopener">Twitter</a>}
+							{profile.data.social.github && <a class="social-link" href={profile.data.social.github} target="_blank" rel="noopener">GitHub</a>}
+							{profile.data.social.linkedin && <a class="social-link" href={profile.data.social.linkedin} target="_blank" rel="noopener">LinkedIn</a>}
+							{profile.data.social.website && <a class="social-link" href={profile.data.social.website} target="_blank" rel="noopener">Website</a>}
+						</div>
+					)}
+				</div>
+			</div>
+
+			<p class="count">{posts.length} article{posts.length !== 1 ? 's' : ''}</p>
+
+			<ul class="article-list">
+				{posts.map((post) => (
+					<li class="article-item">
+						<div>
+							{post.data.pillar && (
+								<p class="pillar">
+									<a
+										href={`/pillar/${post.data.pillar.toLowerCase().replace(/\s+/g, '-')}/`}
+										style={`color:${pillarColors[post.data.pillar] ?? 'var(--accent)'}`}
+									>{post.data.pillar}</a>
+								</p>
+							)}
+							<a class="article-headline" href={`/articles/${post.id}/`}>{post.data.title}</a>
+							<p class="byline">
+								<FormattedDate date={post.data.pubDate} />
+								{post.data.series && (
+									<><span class="sep">·</span>
+									<a href={`/series/${post.data.series.toLowerCase().replace(/\s+/g, '-')}/`} style="color:var(--accent)">{post.data.series}</a></>
+								)}
+							</p>
+							<p class="desc">{post.data.description}</p>
+						</div>
+						<a href={`/articles/${post.id}/`}>
+							<Image class="article-img" width={200} height={125} src={post.data.heroImage || defaultHeroImage} alt={post.data.title} />
+						</a>
+					</li>
+				))}
+			</ul>
+		</main>
+		<Footer />
+	</body>
+</html>

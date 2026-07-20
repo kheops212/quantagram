@@ -1,0 +1,167 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+import { Image } from 'astro:assets';
+import defaultHeroImage from '../../assets/blog-placeholder-1.jpg';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	const pillars = [...new Set(posts.map((post) => post.data.pillar).filter(Boolean))];
+	return pillars.map((pillar) => ({
+		params: { pillar: pillar.toLowerCase().replace(/\s+/g, '-') },
+		props: { pillarName: pillar },
+	}));
+}
+
+const { pillarName } = Astro.props;
+const posts = (await getCollection('blog'))
+	.filter((post) => post.data.pillar === pillarName)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const pillarColors: Record<string, string> = {
+	'Quantum Algorithms':   '#7c3aed',
+	'Quantum Hardware':     '#0284c7',
+	'Quantum Cryptography': '#059669',
+	'AI Integrations':      '#d97706',
+	'Future Tech':          '#dc2626',
+};
+const accentColor = pillarColors[pillarName] ?? 'var(--accent)';
+
+const [lead, ...rest] = posts;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`${pillarName} — ${SITE_TITLE}`} description={SITE_DESCRIPTION} ogImage={`/og/pillar-${Astro.params.pillar}.png`} />
+		<style>
+			.section-head {
+				padding: 2rem 0 1.25rem;
+				border-bottom-width: 3px;
+				border-bottom-style: solid;
+				margin-bottom: 0;
+			}
+			.section-head .label {
+				font-size: 0.7em;
+				font-weight: 700;
+				letter-spacing: 0.1em;
+				text-transform: uppercase;
+				color: var(--text-muted);
+				margin: 0 0 0.3em;
+			}
+			.section-head h1 { font-size: 2.4em; margin: 0; }
+
+			/* Lead */
+			.lead-item {
+				display: grid;
+				grid-template-columns: 1fr 42%;
+				gap: 2.5rem;
+				align-items: center;
+				padding: 2rem 0;
+				border-bottom: 1px solid var(--border);
+			}
+			.lead-headline {
+				font-size: 1.8em;
+				line-height: 1.15;
+				color: var(--text);
+				text-decoration: none;
+				display: block;
+				margin: 0.2em 0 0.5em;
+				transition: color 0.15s;
+			}
+			.lead-headline:hover { color: var(--accent); text-decoration: none; }
+			.lead-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 2px; display: block; }
+			.lead-desc { color: var(--text-muted); font-size: 0.92em; line-height: 1.6; margin: 0 0 0.75em; }
+
+			/* Article list */
+			.article-list { list-style: none; margin: 0; padding: 0; }
+			.article-item {
+				display: grid;
+				grid-template-columns: 1fr 160px;
+				gap: 1.5rem;
+				align-items: start;
+				padding: 1.25rem 0;
+				border-bottom: 1px solid var(--border);
+			}
+			.article-headline {
+				font-size: 1.05em;
+				font-weight: 700;
+				line-height: 1.25;
+				color: var(--text);
+				text-decoration: none;
+				display: block;
+				margin: 0.15em 0 0.35em;
+				transition: color 0.15s;
+			}
+			.article-headline:hover { color: var(--accent); text-decoration: none; }
+			.article-img { width: 160px; height: 100px; object-fit: cover; border-radius: 2px; display: block; }
+			.byline { font-size: 0.78em; color: var(--text-muted); display: flex; gap: 0.4em; flex-wrap: wrap; }
+			.byline a { color: var(--text-muted); font-weight: 600; }
+			.byline a:hover { color: var(--accent); text-decoration: underline; }
+			.byline .sep { color: var(--border); }
+			.desc { font-size: 0.87em; color: var(--text-muted); line-height: 1.5; margin: 0.3em 0 0; }
+
+			.empty { padding: 3rem 0; color: var(--text-muted); text-align: center; }
+
+			@media (max-width: 768px) {
+				.lead-item { grid-template-columns: 1fr; }
+				.article-item { grid-template-columns: 1fr; }
+				.article-img { width: 100%; height: auto; }
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<div class="section-head" style={`border-color:${accentColor}`}>
+				<p class="label">Section</p>
+				<h1 style={`color:${accentColor}`}>{pillarName}</h1>
+			</div>
+
+			{posts.length === 0 && <p class="empty">No articles in this section yet.</p>}
+
+			{lead && (
+				<div class="lead-item">
+					<div>
+						<a class="lead-headline" href={`/articles/${lead.id}/`}>{lead.data.title}</a>
+						<p class="lead-desc">{lead.data.description}</p>
+						<p class="byline">
+							<a href={`/author/${lead.data.author.toLowerCase().replace(/\s+/g, '-')}/`}>{lead.data.author}</a>
+							<span class="sep">·</span>
+							<FormattedDate date={lead.data.pubDate} />
+						</p>
+					</div>
+					<a href={`/articles/${lead.id}/`}>
+						<Image class="lead-img" width={480} height={270} src={lead.data.heroImage || defaultHeroImage} alt={lead.data.title} />
+					</a>
+				</div>
+			)}
+
+			{rest.length > 0 && (
+				<ul class="article-list">
+					{rest.map((post) => (
+						<li class="article-item">
+							<div>
+								<a class="article-headline" href={`/articles/${post.id}/`}>{post.data.title}</a>
+								<p class="byline">
+									<a href={`/author/${post.data.author.toLowerCase().replace(/\s+/g, '-')}/`}>{post.data.author}</a>
+									<span class="sep">·</span>
+									<FormattedDate date={post.data.pubDate} />
+								</p>
+								<p class="desc">{post.data.description}</p>
+							</div>
+							<a href={`/articles/${post.id}/`}>
+								<Image class="article-img" width={200} height={125} src={post.data.heroImage || defaultHeroImage} alt={post.data.title} />
+							</a>
+						</li>
+					))}
+				</ul>
+			)}
+		</main>
+		<Footer />
+	</body>
+</html>

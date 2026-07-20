@@ -1,0 +1,57 @@
+---
+// This component is intentionally left empty.
+// The Pagefind UI will be injected into the <div id="search"></div> by the script.
+---
+
+<!-- The Pagefind UI will be injected into this div -->
+<div id="search"></div>
+
+<!-- Add the Pagefind UI styles and script -->
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
+<script src="/pagefind/pagefind-ui.js" is:inline></script>
+
+<script>
+	// Initialize the Pagefind UI
+	window.addEventListener('DOMContentLoaded', () => {
+		new PagefindUI({
+			element: '#search',
+			showSubResults: true,
+			translations: {
+				placeholder: 'Search the blog...',
+			},
+			sort: {
+				pubdate: 'Date',
+			},
+		});
+	});
+</script>
+
+<style>
+	/* Add some basic styling to integrate the search bar nicely */
+	:root {
+		--pagefind-ui-primary: var(--accent);
+		--pagefind-ui-text: var(--gray-dark);
+		--pagefind-ui-background: white;
+		--pagefind-ui-border: var(--gray-light);
+		--pagefind-ui-tag: var(--accent-dark);
+
+		/* Let's add more customizations */
+		--pagefind-ui-font: var(--font-atkinson);
+		--pagefind-ui-border-radius: 8px;
+		--pagefind-ui-result-title-font-size: 1.2em;
+		--pagefind-ui-result-excerpt-font-size: 0.9em;
+		--pagefind-ui-result-image-border-radius: 4px;
+	}
+
+	/* Style the "Featured" tag specifically */
+	:global([data-pagefind-meta-key='_tag'][data-pagefind-meta-value='Featured']) {
+		background-color: #ffc107; /* A nice gold color */
+		color: rgb(var(--black));
+		font-weight: bold;
+	}
+
+	#search {
+		/* This helps the search bar fit well in the header */
+		min-width: 200px;
+	}
+</style>

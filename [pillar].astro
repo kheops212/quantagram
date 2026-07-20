@@ -1,0 +1,111 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+import { Image } from 'astro:assets';
+import defaultHeroImage from '../../assets/blog-placeholder-1.jpg';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	const pillars = [...new Set(posts.map((post) => post.data.pillar))];
+
+	return pillars.map((pillar) => {
+		return {
+			params: { pillar: pillar.toLowerCase().replace(/\s+/g, '-') },
+			props: { pillarName: pillar },
+		};
+	});
+}
+
+const { pillarName } = Astro.props;
+const posts = (await getCollection('blog'))
+	.filter((post) => post.data.pillar === pillarName)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`${pillarName} Posts - ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+		<style>
+			main {
+				width: 960px;
+			}
+			ul {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 2rem;
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+			}
+			ul li {
+				width: calc(50% - 1rem);
+				position: relative;
+			}
+			ul li * {
+				text-decoration: none;
+				transition: 0.2s ease;
+			}
+			ul li img {
+				margin-bottom: 0.5rem;
+				border-radius: 12px;
+			}
+			ul li a {
+				display: block;
+			}
+			.title {
+				margin: 0;
+				color: rgb(var(--black));
+				line-height: 1;
+			}
+			.date {
+				margin: 0;
+				color: rgb(var(--gray));
+			}
+			ul li a:hover h4,
+			ul li a:hover .date {
+				color: var(--accent);
+			}
+			ul a:hover img {
+				box-shadow: var(--box-shadow);
+			}
+			.featured-banner {
+				position: absolute;
+				top: 0.75rem;
+				right: 0.75rem;
+				background-color: #ffc107; /* Gold color to match search */
+				color: rgb(var(--black));
+				padding: 0.25em 0.75em;
+				border-radius: 4px;
+				font-size: 0.8em;
+				font-weight: bold;
+				z-index: 1;
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>Pillar: <span class="text-gradient">{pillarName}</span></h1>
+			<section>
+				<ul>
+					{posts.map((post) => (
+						<li>
+							{post.data.featured && <div class="featured-banner">Featured</div>}
+							<a href={`/blog/${post.slug}/`}>
+								<Image width={720} height={360} src={post.data.heroImage || defaultHeroImage} alt="" />
+								<h4 class="title">{post.data.title}</h4>
+								<p class="date"><FormattedDate date={post.data.pubDate} /></p>
+							</a>
+						</li>
+					))}
+				</ul>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>

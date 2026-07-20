@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 394" width="900" height="394">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#050c1a"/><stop offset="100%" stop-color="#1a0808"/></linearGradient>
+    <radialGradient id="glow" cx="50%" cy="45%" r="55%"><stop offset="0%" stop-color="#dc2626" stop-opacity="0.22"/><stop offset="100%" stop-color="#dc2626" stop-opacity="0"/></radialGradient>
+    <filter id="gbl"><feGaussianBlur stdDeviation="14"/></filter>
+  </defs>
+  <rect width="900" height="394" fill="url(#bg)"/>
+  <ellipse cx="450" cy="197" rx="430" ry="180" fill="url(#glow)" filter="url(#gbl)"/>
+  <!-- Timeline spine -->
+  <line x1="70" y1="200" x2="830" y2="200" stroke="#475569" stroke-width="2.5"/>
+  <!-- NOW marker -->
+  <line x1="380" y1="150" x2="380" y2="250" stroke="#dc2626" stroke-width="3"/>
+  <circle cx="380" cy="200" r="8" fill="#dc2626"/>
+  <text x="380" y="140" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" fill="#f87171" font-weight="700">NOW</text>
+  <text x="380" y="128" text-anchor="middle" font-family="monospace" font-size="8.5" fill="#fca5a5">mid-2026</text>
+  <!-- Past milestones (green, confirmed) -->
+  <circle cx="140" cy="200" r="6" fill="#22c55e"/>
+  <text x="140" y="228" text-anchor="middle" font-family="monospace" font-size="8" fill="#4ade80">2019</text>
+  <text x="140" y="182" text-anchor="middle" font-family="monospace" font-size="7.5" fill="#86efac">Sycamore</text>
+  <circle cx="230" cy="200" r="6" fill="#22c55e"/>
+  <text x="230" y="228" text-anchor="middle" font-family="monospace" font-size="8" fill="#4ade80">2023</text>
+  <text x="230" y="182" text-anchor="middle" font-family="monospace" font-size="7.5" fill="#86efac">48 logical q</text>
+  <circle cx="310" cy="200" r="6" fill="#22c55e"/>
+  <text x="310" y="228" text-anchor="middle" font-family="monospace" font-size="8" fill="#4ade80">2024</text>
+  <text x="310" y="182" text-anchor="middle" font-family="monospace" font-size="7.5" fill="#86efac">Willow + PQC</text>
+  <!-- Future milestones (amber/red, projected) -->
+  <circle cx="500" cy="200" r="6" fill="#f59e0b" opacity="0.8"/>
+  <text x="500" y="228" text-anchor="middle" font-family="monospace" font-size="8" fill="#fbbf24">2027–28</text>
+  <text x="500" y="182" text-anchor="middle" font-family="monospace" font-size="7.5" fill="#fcd34d">early FT</text>
+  <circle cx="610" cy="200" r="6" fill="#f59e0b" opacity="0.7"/>
+  <text x="610" y="228" text-anchor="middle" font-family="monospace" font-size="8" fill="#fbbf24">2030</text>
+  <text x="610" y="182" text-anchor="middle" font-family="monospace" font-size="7.5" fill="#fcd34d">NSA deadline</text>
+  <circle cx="740" cy="200" r="6" fill="#dc2626" opacity="0.7"/>
+  <text x="740" y="228" text-anchor="middle" font-family="monospace" font-size="8" fill="#f87171">2035–?</text>
+  <text x="740" y="182" text-anchor="middle" font-family="monospace" font-size="7.5" fill="#fca5a5">CRQC</text>
+  <!-- Five platform mini-icons across top -->
+  <g opacity="0.85">
+    <rect x="150" y="60" width="90" height="26" rx="3" fill="#0f172a" stroke="#0284c7" stroke-width="1"/>
+    <text x="195" y="77" text-anchor="middle" font-family="monospace" font-size="8" fill="#38bdf8">superconducting</text>
+    <rect x="250" y="60" width="72" height="26" rx="3" fill="#0f172a" stroke="#7c3aed" stroke-width="1"/>
+    <text x="286" y="77" text-anchor="middle" font-family="monospace" font-size="8" fill="#a78bfa">trapped ion</text>
+    <rect x="332" y="60" width="80" height="26" rx="3" fill="#0f172a" stroke="#059669" stroke-width="1"/>
+    <text x="372" y="77" text-anchor="middle" font-family="monospace" font-size="8" fill="#34d399">neutral atom</text>
+    <rect x="422" y="60" width="64" height="26" rx="3" fill="#0f172a" stroke="#6366f1" stroke-width="1"/>
+    <text x="454" y="77" text-anchor="middle" font-family="monospace" font-size="8" fill="#a5b4fc">photonic</text>
+    <rect x="496" y="60" width="80" height="26" rx="3" fill="#0f172a" stroke="#d97706" stroke-width="1"/>
+    <text x="536" y="77" text-anchor="middle" font-family="monospace" font-size="8" fill="#fbbf24">topological</text>
+  </g>
+  <!-- Legend -->
+  <circle cx="120" cy="300" r="5" fill="#22c55e"/><text x="132" y="304" font-family="monospace" font-size="8.5" fill="#86efac">demonstrated</text>
+  <circle cx="260" cy="300" r="5" fill="#f59e0b"/><text x="272" y="304" font-family="monospace" font-size="8.5" fill="#fcd34d">projected</text>
+  <circle cx="380" cy="300" r="5" fill="#dc2626"/><text x="392" y="304" font-family="monospace" font-size="8.5" fill="#fca5a5">uncertain</text>
+  <text x="450" y="372" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" fill="#fca5a5" opacity="0.5" letter-spacing="0.15em">STATE OF QUANTUM COMPUTING · 2026</text>
+</svg>

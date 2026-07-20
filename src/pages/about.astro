@@ -1,0 +1,357 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+
+// ── Live data ────────────────────────────────────────────────────────────────
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+const totalPosts = posts.length;
+const tagCount = new Set(posts.flatMap((p) => p.data.tags ?? [])).size;
+const years = posts.map((p) => p.data.pubDate.getFullYear());
+const firstYear = Math.min(...years);
+const latestYear = Math.max(...years);
+
+const pillars = [
+	{
+		name: 'Quantum Algorithms',
+		slug: 'quantum-algorithms',
+		color: '#7c3aed',
+		description:
+			'From Shor’s factoring and Grover’s search to the variational methods (VQE, QAOA) that define the near-term era.',
+	},
+	{
+		name: 'Quantum Hardware',
+		slug: 'quantum-hardware',
+		color: '#0284c7',
+		description:
+			'Superconducting circuits, trapped ions, neutral atoms, photonics, topological qubits — and the error correction that ties them together.',
+	},
+	{
+		name: 'Quantum Cryptography',
+		slug: 'quantum-cryptography',
+		color: '#059669',
+		description:
+			'Quantum key distribution (BB84, E91) and the post-quantum cryptography now replacing RSA.',
+	},
+	{
+		name: 'AI Integrations',
+		slug: 'ai-integrations',
+		color: '#d97706',
+		description:
+			'Quantum kernels, barren plateaus, and an honest accounting of what the NISQ era can and cannot deliver.',
+	},
+	{
+		name: 'Future Tech',
+		slug: 'future-tech',
+		color: '#dc2626',
+		description:
+			'The quantum internet, neuromorphic hardware, and the trajectory of the field as a whole.',
+	},
+];
+
+const pillarCounts: Record<string, number> = {};
+posts.forEach((p) => {
+	if (p.data.pillar) pillarCounts[p.data.pillar] = (pillarCounts[p.data.pillar] ?? 0) + 1;
+});
+
+const stats = [
+	{ num: String(totalPosts), lbl: 'Articles' },
+	{ num: String(pillars.length), lbl: 'Sections' },
+	{ num: String(tagCount), lbl: 'Topics' },
+	{ num: `${firstYear}–${String(latestYear).slice(2)}`, lbl: 'Coverage' },
+];
+
+const principles = [
+	{ term: 'Physics before hype', body: 'We explain the mechanism, not just the milestone. If you finish an article without understanding why something works, we have failed.' },
+	{ term: 'Honest about limits', body: 'Quantum-advantage claims are examined critically. When classical methods still win, or a result is a proof-of-principle, we say so.' },
+	{ term: 'Precise, not vague', body: 'Real numbers — error rates, qubit counts, gate fidelities, key sizes — over adjectives. Diagrams convey the actual structure of a system.' },
+	{ term: 'Accessible depth', body: 'Technical, but written to be followed by any motivated reader. Jargon is defined in the glossary.' },
+];
+---
+
+<!doctype html>
+<html lang="en" data-pagefind-ignore>
+	<head>
+		<BaseHead
+			title={`About — ${SITE_TITLE}`}
+			description={`About ${SITE_TITLE} — an editorial publication covering quantum computing, cryptography, and their convergence with artificial intelligence.`}
+			ogImage="/og/about.png"
+		/>
+		<style>
+			/* Centered reading column within the wide main frame */
+			.about {
+				max-width: 720px;
+				margin: 0 auto;
+			}
+
+			/* Masthead */
+			.masthead {
+				text-align: center;
+				padding: 1rem 0 2rem;
+			}
+			.masthead .eyebrow {
+				font-size: 0.72em;
+				font-weight: 700;
+				letter-spacing: 0.14em;
+				text-transform: uppercase;
+				color: var(--accent);
+				margin: 0 0 0.75em;
+			}
+			.masthead h1 {
+				font-size: 2.8em;
+				margin: 0 0 0.5em;
+			}
+			.masthead .lede {
+				font-size: 1.15em;
+				color: var(--text-muted);
+				line-height: 1.65;
+				margin: 0 auto;
+				max-width: 560px;
+			}
+
+			/* Stats band — a single quiet row, divider-separated */
+			.stats {
+				display: flex;
+				justify-content: center;
+				gap: 0;
+				border-top: 1px solid var(--border);
+				border-bottom: 1px solid var(--border);
+				margin: 2.5rem 0 3rem;
+			}
+			.stat {
+				flex: 1;
+				text-align: center;
+				padding: 1.25rem 0.5rem;
+			}
+			.stat + .stat { border-left: 1px solid var(--border); }
+			.stat .num {
+				font-size: 1.75em;
+				font-weight: 800;
+				line-height: 1;
+				letter-spacing: -0.02em;
+				color: var(--text);
+			}
+			.stat .lbl {
+				font-size: 0.66em;
+				letter-spacing: 0.1em;
+				text-transform: uppercase;
+				color: var(--text-muted);
+				margin-top: 0.5em;
+			}
+
+			/* Prose */
+			.prose p {
+				font-size: 1.05em;
+				line-height: 1.8;
+				margin: 0 0 1.4em;
+			}
+			.prose a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+			.prose a:hover { color: var(--accent-dark); }
+
+			/* Section heading with a centered small-caps label */
+			.block { margin: 3.5rem 0 0; }
+			.block-label {
+				font-size: 0.72em;
+				font-weight: 700;
+				letter-spacing: 0.12em;
+				text-transform: uppercase;
+				color: var(--text-muted);
+				padding-bottom: 0.75rem;
+				margin-bottom: 1.5rem;
+				border-bottom: 1px solid var(--border);
+			}
+
+			/* Sections — one clean treatment: colored left rule, airy rows */
+			.sections { display: grid; gap: 0.5rem; }
+			.section-card {
+				display: block;
+				padding: 1rem 1.1rem;
+				border-left: 3px solid var(--_c);
+				border-radius: 0 4px 4px 0;
+				text-decoration: none !important;
+				transition: background 0.15s;
+			}
+			.section-card:hover { background: var(--bg-alt); }
+			.section-card .row {
+				display: flex;
+				align-items: center;
+				flex-wrap: wrap;
+				gap: 0.5rem 0.75rem;
+			}
+			.section-card .name { font-size: 1.1em; font-weight: 700; color: var(--_c); }
+			.section-card .count {
+				/* fixed margin guarantees a gap even if flex is not applied */
+				margin-left: 0.75rem;
+				font-size: 0.68em;
+				font-weight: 600;
+				letter-spacing: 0.03em;
+				color: var(--text-muted);
+				white-space: nowrap;
+				padding: 0.2em 0.6em;
+				border: 1px solid var(--border);
+				border-radius: 999px;
+				background: var(--bg-alt);
+			}
+			.section-card .desc {
+				font-size: 0.9em;
+				color: var(--text-muted);
+				line-height: 1.55;
+				margin: 0.35em 0 0;
+			}
+
+			/* Principles — two-column definition grid, no boxes */
+			.principles { display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem 2.5rem; }
+			.principle .term {
+				font-size: 0.98em;
+				font-weight: 700;
+				color: var(--text);
+				margin: 0 0 0.35em;
+				display: flex;
+				align-items: center;
+				gap: 0.5em;
+			}
+			.principle .term::before {
+				content: '';
+				width: 8px; height: 8px;
+				border-radius: 50%;
+				background: var(--accent);
+				flex-shrink: 0;
+			}
+			.principle .body { font-size: 0.9em; color: var(--text-muted); line-height: 1.6; margin: 0; }
+
+			/* CTA */
+			.cta {
+				text-align: center;
+				border: 1px solid var(--border);
+				background: var(--bg-alt);
+				border-radius: 6px;
+				padding: 2rem 1.5rem;
+				margin-top: 3.5rem;
+			}
+			.cta h3 { font-size: 1.3em; margin: 0 0 0.4em; }
+			.cta p { font-size: 0.95em; color: var(--text-muted); line-height: 1.6; margin: 0 auto 1.4em; max-width: 420px; }
+			.cta-links { display: flex; gap: 0.6em; flex-wrap: wrap; justify-content: center; }
+			.cta-btn {
+				font-size: 0.85em;
+				font-weight: 600;
+				padding: 0.6em 1.2em;
+				border: 1px solid var(--border);
+				border-radius: 4px;
+				text-decoration: none;
+				color: var(--text);
+				background: var(--bg);
+				transition: background 0.15s, color 0.15s, border-color 0.15s;
+			}
+			.cta-btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+			.cta-btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+			.cta-btn.primary:hover { opacity: 0.92; }
+
+			@media (max-width: 640px) {
+				.masthead h1 { font-size: 2.1em; }
+				.stat .num { font-size: 1.4em; }
+				.principles { grid-template-columns: 1fr; gap: 1.5rem; }
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<div class="about">
+				<!-- Masthead -->
+				<div class="masthead">
+					<p class="eyebrow">About the publication</p>
+					<h1>{SITE_TITLE}</h1>
+					<p class="lede">
+						Quantum computing, cryptography, and their convergence with artificial intelligence —
+						written for readers who want the physics and the engineering, not the hype.
+					</p>
+				</div>
+
+				<!-- Stats -->
+				<div class="stats">
+					{stats.map((s) => (
+						<div class="stat">
+							<div class="num">{s.num}</div>
+							<div class="lbl">{s.lbl}</div>
+						</div>
+					))}
+				</div>
+
+				<!-- Intro prose -->
+				<div class="prose">
+					<p>
+						<strong>{SITE_TITLE}</strong> covers the ideas, breakthroughs, and open questions shaping
+						the future of quantum technology. The field sits at an unusual moment: the underlying
+						physics is largely settled, the engineering is accelerating, and the gap between what has
+						been demonstrated and what is genuinely useful remains wide. Most coverage collapses that
+						nuance into headlines. Our goal is the opposite — to explain how these systems actually
+						work, what has really been proven, and what remains uncertain.
+					</p>
+					<p>
+						Every article is built around first principles and concrete detail: the physics of a
+						qubit platform, the mathematics of an algorithm, the exact guarantee a protocol provides.
+						Where a result is contested or a timeline is speculative, we say so plainly.
+					</p>
+				</div>
+
+				<!-- Sections -->
+				<div class="block">
+					<div class="block-label">What we cover</div>
+					<div class="sections">
+						{pillars.map((p) => (
+							<a class="section-card" href={`/pillar/${p.slug}/`} style={`--_c:${p.color}`}>
+								<span class="row">
+									<span class="name">{p.name}</span>
+									<span class="count">{pillarCounts[p.name] ?? 0} article{(pillarCounts[p.name] ?? 0) !== 1 ? 's' : ''}</span>
+								</span>
+								<p class="desc">{p.description}</p>
+							</a>
+						))}
+					</div>
+				</div>
+
+				<!-- Editorial approach -->
+				<div class="block">
+					<div class="block-label">Editorial approach</div>
+					<div class="principles">
+						{principles.map((pr) => (
+							<div class="principle">
+								<p class="term">{pr.term}</p>
+								<p class="body">{pr.body}</p>
+							</div>
+						))}
+					</div>
+				</div>
+
+				<!-- Who writes it -->
+				<div class="block">
+					<div class="block-label">Who writes it</div>
+					<div class="prose">
+						<p>
+							{SITE_TITLE} is written and edited by <a href="/author/khgh/">KhGh</a>, covering the
+							intersection of quantum computing and artificial intelligence. The publication is
+							independent — not affiliated with any hardware vendor, lab, or platform — which is what
+							lets it assess competing approaches on their merits.
+						</p>
+					</div>
+				</div>
+
+				<!-- CTA -->
+				<div class="cta">
+					<h3>Follow the field with us</h3>
+					<p>New articles land regularly across all five sections. Subscribe to get them in your inbox, or start exploring the archive.</p>
+					<div class="cta-links">
+						<a class="cta-btn primary" href="/newsletter/">Subscribe</a>
+						<a class="cta-btn" href="/articles/">Browse articles</a>
+						<a class="cta-btn" href="/glossary/">Glossary</a>
+					</div>
+				</div>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>

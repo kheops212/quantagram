@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 394" width="900" height="394">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#050c1a"/><stop offset="100%" stop-color="#1a0808"/></linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="55%"><stop offset="0%" stop-color="#dc2626" stop-opacity="0.2"/><stop offset="100%" stop-color="#dc2626" stop-opacity="0"/></radialGradient>
+    <radialGradient id="node" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fca5a5"/><stop offset="100%" stop-color="#dc2626"/></radialGradient>
+    <filter id="gbl"><feGaussianBlur stdDeviation="13"/></filter>
+    <filter id="spark"><feGaussianBlur stdDeviation="2"/></filter>
+  </defs>
+  <rect width="900" height="394" fill="url(#bg)"/>
+  <ellipse cx="450" cy="197" rx="420" ry="175" fill="url(#glow)" filter="url(#gbl)"/>
+  <!-- Spiking neural network — layered nodes with synapses -->
+  <!-- Synapse connections (drawn first, behind) -->
+  <g stroke="#dc2626" stroke-width="1" opacity="0.25">
+    <line x1="150" y1="110" x2="330" y2="90"/><line x1="150" y1="110" x2="330" y2="197"/><line x1="150" y1="110" x2="330" y2="300"/>
+    <line x1="150" y1="197" x2="330" y2="90"/><line x1="150" y1="197" x2="330" y2="197"/><line x1="150" y1="197" x2="330" y2="300"/>
+    <line x1="150" y1="284" x2="330" y2="90"/><line x1="150" y1="284" x2="330" y2="197"/><line x1="150" y1="284" x2="330" y2="300"/>
+    <line x1="330" y1="90"  x2="530" y2="140"/><line x1="330" y1="90"  x2="530" y2="255"/>
+    <line x1="330" y1="197" x2="530" y2="140"/><line x1="330" y1="197" x2="530" y2="255"/>
+    <line x1="330" y1="300" x2="530" y2="140"/><line x1="330" y1="300" x2="530" y2="255"/>
+    <line x1="530" y1="140" x2="710" y2="197"/><line x1="530" y1="255" x2="710" y2="197"/>
+  </g>
+  <!-- Active (firing) synapses highlighted -->
+  <g stroke="#f59e0b" stroke-width="2" opacity="0.8">
+    <line x1="150" y1="197" x2="330" y2="90"/>
+    <line x1="330" y1="90"  x2="530" y2="140"/>
+    <line x1="530" y1="140" x2="710" y2="197"/>
+  </g>
+  <!-- Spike pulses on active path -->
+  <circle cx="240" cy="143" r="4" fill="#fde68a" filter="url(#spark)"/>
+  <circle cx="430" cy="115" r="4" fill="#fde68a" filter="url(#spark)"/>
+  <circle cx="620" cy="168" r="4" fill="#fde68a" filter="url(#spark)"/>
+  <!-- Layer 1 (input) -->
+  <circle cx="150" cy="110" r="16" fill="#1a0808" stroke="#dc2626" stroke-width="2"/>
+  <circle cx="150" cy="197" r="16" fill="url(#node)"/>
+  <circle cx="150" cy="284" r="16" fill="#1a0808" stroke="#dc2626" stroke-width="2"/>
+  <!-- Layer 2 (hidden) -->
+  <circle cx="330" cy="90"  r="16" fill="url(#node)"/>
+  <circle cx="330" cy="197" r="16" fill="#1a0808" stroke="#dc2626" stroke-width="2"/>
+  <circle cx="330" cy="300" r="16" fill="#1a0808" stroke="#dc2626" stroke-width="2"/>
+  <!-- Layer 3 -->
+  <circle cx="530" cy="140" r="16" fill="url(#node)"/>
+  <circle cx="530" cy="255" r="16" fill="#1a0808" stroke="#dc2626" stroke-width="2"/>
+  <!-- Output -->
+  <circle cx="710" cy="197" r="18" fill="url(#node)"/>
+  <!-- Spike train inset (right) -->
+  <rect x="640" y="70" width="200" height="70" rx="4" fill="#0f172a" stroke="#7f1d1d" stroke-width="1.5"/>
+  <text x="740" y="88" text-anchor="middle" font-family="monospace" font-size="8.5" fill="#fca5a5">spike train</text>
+  <line x1="655" y1="120" x2="830" y2="120" stroke="#475569" stroke-width="1"/>
+  <!-- Spikes -->
+  <g stroke="#f59e0b" stroke-width="1.5">
+    <line x1="665" y1="120" x2="665" y2="100"/><line x1="690" y1="120" x2="690" y2="105"/>
+    <line x1="715" y1="120" x2="715" y2="98"/><line x1="755" y1="120" x2="755" y2="103"/>
+    <line x1="790" y1="120" x2="790" y2="99"/><line x1="815" y1="120" x2="815" y2="107"/>
+  </g>
+  <!-- Efficiency label -->
+  <rect x="150" y="330" width="240" height="34" rx="4" fill="#0f172a" stroke="#7f1d1d" stroke-width="1"/>
+  <text x="270" y="352" text-anchor="middle" font-family="monospace" font-size="9.5" fill="#fca5a5">brain: ~20 W · GPU: ~700 W</text>
+  <text x="450" y="372" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" fill="#fca5a5" opacity="0.5" letter-spacing="0.15em">NEUROMORPHIC COMPUTING</text>
+</svg>

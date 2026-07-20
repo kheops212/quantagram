@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 394" width="900" height="394">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#050c1a"/><stop offset="100%" stop-color="#0c1620"/></linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="55%"><stop offset="0%" stop-color="#0284c7" stop-opacity="0.3"/><stop offset="100%" stop-color="#0284c7" stop-opacity="0"/></radialGradient>
+    <radialGradient id="atom" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#93c5fd"/><stop offset="100%" stop-color="#1d4ed8"/></radialGradient>
+    <radialGradient id="ryd" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fde68a"/><stop offset="100%" stop-color="#d97706"/></radialGradient>
+    <filter id="gbl"><feGaussianBlur stdDeviation="12"/></filter>
+  </defs>
+  <rect width="900" height="394" fill="url(#bg)"/>
+  <ellipse cx="450" cy="197" rx="400" ry="180" fill="url(#glow)" filter="url(#gbl)"/>
+  <!-- 8x4 atom grid -->
+  <!-- Row 1 -->
+  <circle cx="170" cy="100" r="12" fill="url(#atom)" opacity="0.9"/>
+  <circle cx="250" cy="100" r="12" fill="url(#atom)" opacity="0.9"/>
+  <circle cx="330" cy="100" r="12" fill="none" stroke="#1d4ed8" stroke-width="1.5" opacity="0.4"/><!-- empty -->
+  <circle cx="410" cy="100" r="12" fill="url(#atom)" opacity="0.9"/>
+  <circle cx="490" cy="100" r="12" fill="url(#atom)" opacity="0.9"/>
+  <circle cx="570" cy="100" r="12" fill="none" stroke="#1d4ed8" stroke-width="1.5" opacity="0.4"/><!-- empty -->
+  <circle cx="650" cy="100" r="12" fill="url(#atom)" opacity="0.9"/>
+  <circle cx="730" cy="100" r="12" fill="url(#atom)" opacity="0.9"/>
+  <!-- Row 2 -->
+  <circle cx="170" cy="170" r="12" fill="url(#atom)" opacity="0.9"/>
+  <circle cx="250" cy="170" r="12" fill="url(#ryd)" opacity="0.95"/><!-- Rydberg -->
+  <circle cx="330" cy="170" r="12" fill="url(#atom)" opacity="0.9"/>
+  <circle cx="410" cy="170" r="12" fill="url(#atom)" opacity="0.9"/>
+  <circle cx="490" cy="170" r="12" fill="url(#atom)" opacity="0.9"/>
+  <circle cx="570" cy="170" r="12" fill="url(#ryd)" opacity="0.95"/><!-- Rydberg -->
+  <circle cx="650" cy="170" r="12" fill="url(#atom)" opacity="0.9"/>
+  <circle cx="730" cy="170" r="12" fill="none" stroke="#1d4ed8" stroke-width="1.5" opacity="0.4"/>
+  <!-- Row 3 -->
+  <circle cx="170" cy="240" r="12" fill="url(#atom)" opacity="0.9"/>
+  <circle cx="250" cy="240" r="12" fill="url(#atom)" opacity="0.9"/>
+  <circle cx="330" cy="240" r="12" fill="url(#ryd)" opacity="0.95"/><!-- Rydberg -->
+  <circle cx="410" cy="240" r="12" fill="url(#atom)" opacity="0.9"/>
+  <circle cx="490" cy="240" r="12" fill="url(#atom)" opacity="0.9"/>
+  <circle cx="570" cy="240" r="12" fill="url(#atom)" opacity="0.9"/>
+  <circle cx="650" cy="240" r="12" fill="none" stroke="#1d4ed8" stroke-width="1.5" opacity="0.4"/>
+  <circle cx="730" cy="240" r="12" fill="url(#atom)" opacity="0.9"/>
+  <!-- Row 4 -->
+  <circle cx="170" cy="310" r="12" fill="url(#atom)" opacity="0.9"/>
+  <circle cx="250" cy="310" r="12" fill="url(#atom)" opacity="0.9"/>
+  <circle cx="330" cy="310" r="12" fill="url(#atom)" opacity="0.9"/>
+  <circle cx="410" cy="310" r="12" fill="url(#atom)" opacity="0.9"/>
+  <circle cx="490" cy="310" r="12" fill="url(#ryd)" opacity="0.95"/>
+  <circle cx="570" cy="310" r="12" fill="url(#atom)" opacity="0.9"/>
+  <circle cx="650" cy="310" r="12" fill="url(#atom)" opacity="0.9"/>
+  <circle cx="730" cy="310" r="12" fill="url(#atom)" opacity="0.9"/>
+  <!-- Rydberg blockade circles -->
+  <circle cx="250" cy="170" r="55" fill="none" stroke="#fde68a" stroke-width="1" opacity="0.35" stroke-dasharray="4,3"/>
+  <circle cx="570" cy="170" r="55" fill="none" stroke="#fde68a" stroke-width="1" opacity="0.35" stroke-dasharray="4,3"/>
+  <text x="450" y="370" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" fill="#93c5fd" opacity="0.45" letter-spacing="0.15em">NEUTRAL ATOM QUBITS</text>
+</svg>

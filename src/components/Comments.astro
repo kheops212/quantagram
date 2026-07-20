@@ -1,0 +1,74 @@
+---
+/**
+ * giscus comments (GitHub Discussions). Renders nothing until the repo is
+ * configured in consts.ts. Theme follows the site's light/dark toggle.
+ */
+import { GISCUS_REPO, GISCUS_REPO_ID, GISCUS_CATEGORY, GISCUS_CATEGORY_ID } from '../consts';
+const enabled = Boolean(GISCUS_REPO && GISCUS_REPO_ID && GISCUS_CATEGORY_ID);
+---
+
+{enabled && (
+	<section class="comments" data-pagefind-ignore>
+		<h2 class="comments-title">Discussion</h2>
+		<div id="giscus-container"></div>
+		<script
+			is:inline
+			define:vars={{ GISCUS_REPO, GISCUS_REPO_ID, GISCUS_CATEGORY, GISCUS_CATEGORY_ID }}
+		>
+			(function () {
+				const themeOf = () =>
+					document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+
+				const s = document.createElement('script');
+				s.src = 'https://giscus.app/client.js';
+				s.setAttribute('data-repo', GISCUS_REPO);
+				s.setAttribute('data-repo-id', GISCUS_REPO_ID);
+				s.setAttribute('data-category', GISCUS_CATEGORY);
+				s.setAttribute('data-category-id', GISCUS_CATEGORY_ID);
+				s.setAttribute('data-mapping', 'pathname');
+				s.setAttribute('data-strict', '1');
+				s.setAttribute('data-reactions-enabled', '1');
+				s.setAttribute('data-emit-metadata', '0');
+				s.setAttribute('data-input-position', 'top');
+				s.setAttribute('data-theme', themeOf());
+				s.setAttribute('data-lang', 'en');
+				s.setAttribute('data-loading', 'lazy');
+				s.crossOrigin = 'anonymous';
+				s.async = true;
+				document.getElementById('giscus-container').appendChild(s);
+
+				// Keep giscus theme in sync with the site's dark-mode toggle
+				const observer = new MutationObserver(() => {
+					const frame = document.querySelector('iframe.giscus-frame');
+					if (frame && frame.contentWindow) {
+						frame.contentWindow.postMessage(
+							{ giscus: { setConfig: { theme: themeOf() } } },
+							'https://giscus.app',
+						);
+					}
+				});
+				observer.observe(document.documentElement, {
+					attributes: true,
+					attributeFilter: ['data-theme'],
+				});
+			})();
+		</script>
+	</section>
+)}
+
+<style>
+	.comments {
+		max-width: 680px;
+		margin: 3.5rem auto 0;
+		padding-top: 2rem;
+		border-top: 3px solid var(--text);
+	}
+	.comments-title {
+		font-size: 0.7em;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--text);
+		margin: 0 0 1.5rem;
+	}
+</style>
