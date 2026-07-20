@@ -25,7 +25,7 @@ export const NEWSLETTER_ACTION = '';
 // ── Comments (giscus — https://giscus.app) ───────────────────────────────────
 // Enable GitHub Discussions on your repo, install the giscus app, then paste the
 // values giscus.app generates. Leave GISCUS_REPO empty to disable comments.
-export const GISCUS_REPO = '';           // e.g. 'kheops212/quantagram'
-export const GISCUS_REPO_ID = '';
+export const GISCUS_REPO = 'kheops212/quantagram';
+export const GISCUS_REPO_ID = 'R_kgDOTefcNg';
 export const GISCUS_CATEGORY = 'Announcements';
-export const GISCUS_CATEGORY_ID = '';
+export const GISCUS_CATEGORY_ID = 'DIC_kwDOTefcNs4DBm9y';
