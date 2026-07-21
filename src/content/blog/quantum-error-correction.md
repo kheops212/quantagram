@@ -6,6 +6,26 @@ heroImage: '../../assets/hero-qec.svg'
 pillar: 'Quantum Hardware'
 author: 'KhGh'
 tags: ['quantum error correction', 'surface code', 'fault tolerance', 'logical qubits', 'stabilizers', 'quantum hardware', 'threshold theorem']
+sources:
+  - title: 'Scheme for Reducing Decoherence in Quantum Computer Memory'
+    authors: 'Peter W. Shor'
+    venue: 'Physical Review A 52, R2493'
+    year: 1995
+  - title: 'Surface Codes: Towards Practical Large-Scale Quantum Computation'
+    authors: 'Austin G. Fowler, Matteo Mariantoni, John M. Martinis, Andrew N. Cleland'
+    venue: 'Physical Review A 86, 032324; arXiv:1208.0928'
+    year: 2012
+    url: 'https://arxiv.org/abs/1208.0928'
+  - title: 'Quantum Error Correction Below the Surface Code Threshold'
+    authors: 'Google Quantum AI'
+    venue: 'Nature 638, 920; arXiv:2408.13687'
+    year: 2024
+    url: 'https://arxiv.org/abs/2408.13687'
+  - title: 'High-Threshold and Low-Overhead Fault-Tolerant Quantum Memory (bivariate bicycle / “gross” codes)'
+    authors: 'Sergey Bravyi, Andrew W. Cross, et al. (IBM)'
+    venue: 'Nature 627, 778; arXiv:2308.07915'
+    year: 2024
+    url: 'https://arxiv.org/abs/2308.07915'
 ---
 
 The most counterintuitive result in quantum computing theory is not about algorithms. It is about errors. The threshold theorem, proved in the late 1990s, established that a quantum computer with physical error rates below a certain threshold can perform arbitrarily long computations with arbitrarily low error — by adding more imperfect qubits. Not better qubits. More of them. Redundancy, implemented in a specific way, can suppress errors exponentially even when every component in the system is noisy.

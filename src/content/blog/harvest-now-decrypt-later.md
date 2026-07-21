@@ -6,6 +6,22 @@ heroImage: '../../assets/hero-hndl.svg'
 pillar: 'Future Tech'
 author: 'KhGh'
 tags: ['post-quantum cryptography', 'security', 'NIST', 'future tech', 'encryption']
+sources:
+  - title: 'Post-Quantum Cryptography Standards (FIPS 203, 204, 205)'
+    authors: 'NIST'
+    venue: 'NIST Post-Quantum Cryptography Project'
+    year: 2024
+    url: 'https://csrc.nist.gov/projects/post-quantum-cryptography'
+  - title: 'Cybersecurity in an Era with Quantum Computers: Will We Be Ready?'
+    authors: 'Michele Mosca'
+    venue: 'IEEE Security & Privacy 16(5); IACR ePrint 2015/1075'
+    year: 2018
+    url: 'https://eprint.iacr.org/2015/1075'
+  - title: 'Announcing the Commercial National Security Algorithm Suite 2.0 (CNSA 2.0)'
+    authors: 'National Security Agency (NSA)'
+    venue: 'NSA Cybersecurity Advisory'
+    year: 2022
+    url: 'https://media.defense.gov/2022/Sep/07/2003071834/-1/-1/0/CSA_CNSA_2.0_ALGORITHMS_.PDF'
 ---
 
 The encryption protecting your bank account, medical records, and private messages rests on a mathematical problem that classical computers cannot solve in any practical timeframe: factoring the product of two large prime numbers. RSA-2048, the standard underpinning much of the internet's security infrastructure, would take a classical computer longer than the age of the universe to crack.

@@ -6,6 +6,26 @@ heroImage: '../../assets/hero-qaoa-vqe.svg'
 pillar: 'Quantum Algorithms'
 author: 'KhGh'
 tags: ['QAOA', 'VQE', 'variational quantum algorithms', 'quantum chemistry', 'combinatorial optimization', 'NISQ', 'quantum algorithms', 'Max-Cut']
+sources:
+  - title: 'A Quantum Approximate Optimization Algorithm'
+    authors: 'Edward Farhi, Jeffrey Goldstone, Sam Gutmann'
+    venue: 'arXiv:1411.4028'
+    year: 2014
+    url: 'https://arxiv.org/abs/1411.4028'
+  - title: 'A Variational Eigenvalue Solver on a Photonic Quantum Processor'
+    authors: 'Alberto Peruzzo, Jarrod McClean, et al.'
+    venue: 'Nature Communications 5, 4213'
+    year: 2014
+    url: 'https://www.nature.com/articles/ncomms5213'
+  - title: 'Variational Quantum Algorithms'
+    authors: 'M. Cerezo, Andrew Arrasmith, et al.'
+    venue: 'Nature Reviews Physics 3, 625; arXiv:2012.09265'
+    year: 2021
+    url: 'https://arxiv.org/abs/2012.09265'
+  - title: 'Improved Approximation Algorithms for Maximum Cut and Satisfiability Problems Using Semidefinite Programming'
+    authors: 'Michel X. Goemans, David P. Williamson'
+    venue: 'Journal of the ACM 42(6)'
+    year: 1995
 ---
 
 The quantum algorithms most likely to produce practical results on today's hardware are not Shor's algorithm or Grover's algorithm — both require error correction that does not yet exist at useful scale. The near-term candidates are **variational quantum algorithms**: hybrid quantum-classical procedures where a shallow parametrised quantum circuit runs on noisy hardware, a classical computer estimates an objective function from measurement outcomes, and a classical optimiser adjusts the circuit parameters to improve it.

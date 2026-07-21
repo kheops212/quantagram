@@ -6,6 +6,27 @@ heroImage: '../../assets/hero-nisq.svg'
 pillar: 'AI Integrations'
 author: 'KhGh'
 tags: ['NISQ', 'quantum advantage', 'quantum error mitigation', 'noisy quantum computing', 'circuit fidelity', 'AI integrations', 'near-term quantum computing']
+sources:
+  - title: 'Quantum Computing in the NISQ Era and Beyond'
+    authors: 'John Preskill'
+    venue: 'Quantum 2, 79; arXiv:1801.00862'
+    year: 2018
+    url: 'https://arxiv.org/abs/1801.00862'
+  - title: 'Quantum Supremacy Using a Programmable Superconducting Processor'
+    authors: 'Frank Arute, Kunal Arya, et al. (Google AI Quantum)'
+    venue: 'Nature 574, 505'
+    year: 2019
+    url: 'https://www.nature.com/articles/s41586-019-1666-5'
+  - title: 'Evidence for the Utility of Quantum Computing Before Fault Tolerance'
+    authors: 'Youngseok Kim, Andrew Eddins, et al. (IBM Quantum)'
+    venue: 'Nature 618, 500'
+    year: 2023
+    url: 'https://www.nature.com/articles/s41586-023-06096-3'
+  - title: 'Quantum Error Correction Below the Surface Code Threshold'
+    authors: 'Google Quantum AI'
+    venue: 'Nature 638, 920; arXiv:2408.13687'
+    year: 2024
+    url: 'https://arxiv.org/abs/2408.13687'
 ---
 
 In 2018, John Preskill gave a lecture coining a term that would define the next decade of quantum computing research: **NISQ** — Noisy Intermediate-Scale Quantum. The phrase captured something precise: the quantum processors coming online had more qubits than any classical computer could fully simulate, but far too much noise to implement the error-corrected algorithms that quantum computing theory promised. The intermediate scale was not an engineering accident; it was a physics constraint. And the noise was not a temporary imperfection; it was the defining challenge.

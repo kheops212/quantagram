@@ -9,6 +9,7 @@ import AdSlot from '../components/AdSlot.astro';
 import NewsletterCTA from '../components/NewsletterCTA.astro';
 import KeepReading from '../components/KeepReading.astro';
 import Comments from '../components/Comments.astro';
+import References from '../components/References.astro';
 import defaultHeroImage from '../assets/blog-placeholder-1.jpg';
 import { terms as glossaryTerms } from '../data/glossary';
 
@@ -19,7 +20,7 @@ type Props = CollectionEntry<'blog'>['data'] & {
 	readingTime?: number;
 };
 
-const { title, description, pubDate, updatedDate, heroImage, pillar, author, id, featured, tags, series, seriesOrder, headings = [], readingTime } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, pillar, author, id, featured, tags, series, seriesOrder, sources, headings = [], readingTime } = Astro.props;
 
 // Table of contents — top-level (h2) and sub-section (h3) headings
 const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
@@ -501,6 +502,8 @@ if (!nextPost) {
 			)}
 
 			<slot />
+
+			<References sources={sources} />
 
 			{/* End-of-article ad. Dormant until ADSENSE_CLIENT + ADSENSE_ENABLED are set
 			    in consts.ts and a real ad-unit `slot` id is supplied below. */}

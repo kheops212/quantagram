@@ -6,6 +6,22 @@ heroImage: '../../assets/hero-superconducting.svg'
 pillar: 'Quantum Hardware'
 author: 'KhGh'
 tags: ['superconducting qubits', 'Josephson junction', 'dilution refrigerator', 'transmon', 'quantum hardware']
+sources:
+  - title: 'Charge-Insensitive Qubit Design Derived from the Cooper Pair Box (the transmon)'
+    authors: 'Jens Koch, Terri M. Yu, Jay Gambetta, et al.'
+    venue: 'Physical Review A 76, 042319; arXiv:cond-mat/0703002'
+    year: 2007
+    url: 'https://arxiv.org/abs/cond-mat/0703002'
+  - title: 'Superconducting Circuits for Quantum Information: An Outlook'
+    authors: 'M. H. Devoret, R. J. Schoelkopf'
+    venue: 'Science 339, 1169'
+    year: 2013
+    url: 'https://www.science.org/doi/10.1126/science.1231930'
+  - title: "A Quantum Engineer's Guide to Superconducting Qubits"
+    authors: 'Philip Krantz, Morten Kjaergaard, et al.'
+    venue: 'Applied Physics Reviews 6, 021318; arXiv:1904.06560'
+    year: 2019
+    url: 'https://arxiv.org/abs/1904.06560'
 ---
 
 Every time IBM or Google announces a new quantum processor, the headline focuses on qubit count. What the press release does not convey is the engineering required to make those qubits work: a machine the size of a chandelier, operating at fifteen millikelvin — a temperature 150 times colder than deep space and 20,000 times colder than your living room — threaded with hundreds of hand-soldered coaxial cables, shielded from every stray electromagnetic field and ambient vibration, all to preserve a quantum state in a circuit smaller than a human fingernail for a few hundred microseconds.

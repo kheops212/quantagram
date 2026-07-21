@@ -6,6 +6,22 @@ heroImage: '../../assets/hero-quantum-internet.svg'
 pillar: 'Future Tech'
 author: 'KhGh'
 tags: ['quantum internet', 'QKD', 'quantum networking', 'entanglement', 'future tech']
+sources:
+  - title: 'The Quantum Internet'
+    authors: 'H. J. Kimble'
+    venue: 'Nature 453, 1023; arXiv:0806.4195'
+    year: 2008
+    url: 'https://arxiv.org/abs/0806.4195'
+  - title: 'Quantum Internet: A Vision for the Road Ahead'
+    authors: 'Stephanie Wehner, David Elkouss, Ronald Hanson'
+    venue: 'Science 362, eaam9288'
+    year: 2018
+    url: 'https://www.science.org/doi/10.1126/science.aam9288'
+  - title: 'Satellite-Based Entanglement Distribution Over 1200 Kilometers'
+    authors: 'Juan Yin, Yuan Cao, et al.'
+    venue: 'Science 356, 1140'
+    year: 2017
+    url: 'https://www.science.org/doi/10.1126/science.aan3211'
 ---
 
 When people hear "quantum internet," they typically assume it means a faster internet. It does not. Quantum networks will not stream video more smoothly or reduce the latency of your video calls. What they will do is something far stranger and more consequential: distribute entanglement across physical distances, enabling communication tasks that are provably impossible with any classical technology.

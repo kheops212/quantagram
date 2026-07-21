@@ -6,6 +6,22 @@ heroImage: '../../assets/hero-topological.svg'
 pillar: 'Quantum Hardware'
 author: 'KhGh'
 tags: ['topological qubits', 'Majorana zero modes', 'Microsoft', 'topological superconductor', 'anyons', 'braiding', 'quantum hardware']
+sources:
+  - title: 'Unpaired Majorana Fermions in Quantum Wires'
+    authors: 'A. Yu. Kitaev'
+    venue: 'Physics-Uspekhi 44, 131; arXiv:cond-mat/0010440'
+    year: 2001
+    url: 'https://arxiv.org/abs/cond-mat/0010440'
+  - title: 'Non-Abelian Anyons and Topological Quantum Computation'
+    authors: 'Chetan Nayak, Steven H. Simon, Ady Stern, Michael Freedman, Sankar Das Sarma'
+    venue: 'Reviews of Modern Physics 80, 1083; arXiv:0707.1889'
+    year: 2008
+    url: 'https://arxiv.org/abs/0707.1889'
+  - title: 'Interferometric Single-Shot Parity Measurement in InAs–Al Hybrid Devices'
+    authors: 'Microsoft Azure Quantum'
+    venue: 'Nature 638, 651; arXiv:2401.09549'
+    year: 2025
+    url: 'https://arxiv.org/abs/2401.09549'
 ---
 
 Every qubit platform discussed in this series carries the same hidden cost: hundreds or thousands of imperfect physical qubits are required to produce one reliable logical qubit, because quantum error correction corrects in software what the hardware cannot prevent in physics. A superconducting processor needs roughly 500–1,000 physical qubits per logical qubit. A million-qubit fault-tolerant machine therefore requires a billion physical components. The engineering overhead is staggering, and the power, cooling, and wiring infrastructure it implies may ultimately be the binding constraint on what fault-tolerant quantum computers can practically do.

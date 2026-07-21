@@ -6,6 +6,22 @@ heroImage: '../../assets/hero-barren-plateaus.svg'
 pillar: 'AI Integrations'
 author: 'KhGh'
 tags: ['barren plateau', 'parametrised quantum circuits', 'quantum machine learning', 'variational algorithms', 'AI integrations']
+sources:
+  - title: 'Barren Plateaus in Quantum Neural Network Training Landscapes'
+    authors: 'Jarrod R. McClean, Sergio Boixo, et al.'
+    venue: 'Nature Communications 9, 4812; arXiv:1803.11173'
+    year: 2018
+    url: 'https://arxiv.org/abs/1803.11173'
+  - title: 'Cost Function Dependent Barren Plateaus in Shallow Parametrized Quantum Circuits'
+    authors: 'M. Cerezo, Akira Sone, et al.'
+    venue: 'Nature Communications 12, 1791; arXiv:2001.00550'
+    year: 2021
+    url: 'https://arxiv.org/abs/2001.00550'
+  - title: 'Connecting Ansatz Expressibility to Gradient Magnitudes and Barren Plateaus'
+    authors: 'Zoë Holmes, Kunal Sharma, M. Cerezo, Patrick J. Coles'
+    venue: 'PRX Quantum 3, 010313; arXiv:2101.02138'
+    year: 2022
+    url: 'https://arxiv.org/abs/2101.02138'
 ---
 
 When researchers talk about quantum machine learning in concrete terms, they almost always mean **parametrised quantum circuits** (PQCs): shallow quantum circuits with tunable gate angles, optimised by a classical computer in a feedback loop. The structure is intuitive — encode data into quantum states, process it through trainable quantum operations, measure the output, compute a loss, update the parameters. The circuit is the model. The classical optimiser does the gradient descent.

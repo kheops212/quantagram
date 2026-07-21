@@ -7,6 +7,32 @@ pillar: 'Future Tech'
 author: 'KhGh'
 featured: true
 tags: ['quantum computing', 'state of the field', 'quantum hardware', 'quantum algorithms', 'post-quantum cryptography', 'fault tolerance', 'NISQ', 'quantum advantage', 'future tech']
+sources:
+  - title: 'Quantum Error Correction Below the Surface Code Threshold (Willow)'
+    authors: 'Google Quantum AI'
+    venue: 'Nature 638, 920; arXiv:2408.13687'
+    year: 2024
+    url: 'https://arxiv.org/abs/2408.13687'
+  - title: 'Logical Quantum Processor Based on Reconfigurable Atom Arrays'
+    authors: 'Dolev Bluvstein, Simon J. Evered, et al.'
+    venue: 'Nature 626, 58; arXiv:2312.03982'
+    year: 2024
+    url: 'https://arxiv.org/abs/2312.03982'
+  - title: 'Interferometric Single-Shot Parity Measurement in InAs–Al Hybrid Devices'
+    authors: 'Microsoft Azure Quantum'
+    venue: 'Nature 638, 651; arXiv:2401.09549'
+    year: 2025
+    url: 'https://arxiv.org/abs/2401.09549'
+  - title: 'Post-Quantum Cryptography Standards (FIPS 203, 204, 205)'
+    authors: 'NIST'
+    venue: 'NIST Post-Quantum Cryptography Project'
+    year: 2024
+    url: 'https://csrc.nist.gov/projects/post-quantum-cryptography'
+  - title: 'Quantum Computing in the NISQ Era and Beyond'
+    authors: 'John Preskill'
+    venue: 'Quantum 2, 79; arXiv:1801.00862'
+    year: 2018
+    url: 'https://arxiv.org/abs/1801.00862'
 ---
 
 Quantum computing in mid-2026 is a field defined by a specific tension: the underlying physics is mature, the engineering is accelerating, and the gap between what has been demonstrated and what is commercially useful remains stubbornly wide. The field is not stagnating — the rate of hardware improvement over the past three years has exceeded most roadmaps — but neither is it delivering on the applications that drove the investment wave of 2020–2023. Understanding the current state requires separating three distinct questions that are often conflated: what has been achieved, what is achievable in principle, and when the engineering will close the gap.

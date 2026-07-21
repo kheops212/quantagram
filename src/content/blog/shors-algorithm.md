@@ -6,6 +6,32 @@ heroImage: '../../assets/hero-shors.svg'
 pillar: 'Quantum Algorithms'
 author: 'KhGh'
 tags: ["Shor's algorithm", 'RSA', 'quantum Fourier transform', 'integer factoring', 'quantum cryptography', 'quantum algorithms', 'post-quantum cryptography']
+sources:
+  - title: 'Algorithms for Quantum Computation: Discrete Logarithms and Factoring'
+    authors: 'Peter W. Shor'
+    venue: 'Proc. 35th Annual Symposium on Foundations of Computer Science (FOCS)'
+    year: 1994
+    url: 'https://ieeexplore.ieee.org/document/365700'
+  - title: 'Polynomial-Time Algorithms for Prime Factorization and Discrete Logarithms on a Quantum Computer'
+    authors: 'Peter W. Shor'
+    venue: 'SIAM Journal on Computing, 26(5); arXiv:quant-ph/9508027'
+    year: 1997
+    url: 'https://arxiv.org/abs/quant-ph/9508027'
+  - title: 'Circuit for Shor’s algorithm using 2n+3 qubits'
+    authors: 'Stéphane Beauregard'
+    venue: 'Quantum Information and Computation; arXiv:quant-ph/0205095'
+    year: 2003
+    url: 'https://arxiv.org/abs/quant-ph/0205095'
+  - title: 'How to Factor 2048-bit RSA Integers in 8 Hours Using 20 Million Noisy Qubits'
+    authors: 'Craig Gidney, Martin Ekerå'
+    venue: 'Quantum 5, 433; arXiv:1905.09749'
+    year: 2021
+    url: 'https://arxiv.org/abs/1905.09749'
+  - title: 'Module-Lattice-Based Key-Encapsulation Mechanism Standard (FIPS 203)'
+    authors: 'NIST'
+    venue: 'Federal Information Processing Standards Publication 203'
+    year: 2024
+    url: 'https://csrc.nist.gov/pubs/fips/203/final'
 ---
 
 In 1994, Peter Shor published an algorithm that solved, on a quantum computer, a problem that no classical computer can solve efficiently: factoring the product of two large prime numbers. The practical consequence, understood immediately by every cryptographer who read the paper, was that RSA — the encryption scheme protecting bank transactions, government communications, and essentially all authenticated traffic on the internet — was conditionally broken. Conditionally, because Shor's algorithm requires a fault-tolerant quantum computer with millions of low-error qubits, and no such machine exists today. But the algorithm does not care about engineering constraints. It is correct, and the world has spent the last thirty years preparing for the day the hardware catches up.

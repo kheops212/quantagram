@@ -6,6 +6,21 @@ heroImage: '../../assets/hero-bb84.svg'
 pillar: 'Quantum Cryptography'
 author: 'KhGh'
 tags: ['BB84', 'QKD', 'quantum key distribution', 'quantum cryptography', 'eavesdropping']
+sources:
+  - title: 'Quantum Cryptography: Public Key Distribution and Coin Tossing'
+    authors: 'Charles H. Bennett, Gilles Brassard'
+    venue: 'Proc. IEEE Int. Conf. on Computers, Systems and Signal Processing, Bangalore'
+    year: 1984
+  - title: 'Simple Proof of Security of the BB84 Quantum Key Distribution Protocol'
+    authors: 'Peter W. Shor, John Preskill'
+    venue: 'Physical Review Letters 85, 441; arXiv:quant-ph/0003004'
+    year: 2000
+    url: 'https://arxiv.org/abs/quant-ph/0003004'
+  - title: 'Quantum Cryptography'
+    authors: 'Nicolas Gisin, Grégoire Ribordy, Wolfgang Tittel, Hugo Zbinden'
+    venue: 'Reviews of Modern Physics 74, 145; arXiv:quant-ph/0101098'
+    year: 2002
+    url: 'https://arxiv.org/abs/quant-ph/0101098'
 ---
 
 In the summer of 1984, Charles Bennett and Gilles Brassard published a four-page paper proposing a method for distributing cryptographic keys whose security was guaranteed not by the difficulty of a mathematical problem, but by the laws of physics. The paper described what became known as BB84 — the first quantum key distribution protocol — and it rested on a single, profound observation: **any attempt to intercept a quantum communication must disturb it**, and that disturbance is detectable.

@@ -8,6 +8,21 @@ author: 'KhGh'
 tags: ['quantum gates', 'entanglement', 'quantum circuits', 'beginners']
 series: 'Quantum 101'
 seriesOrder: 2
+sources:
+  - title: 'Quantum Computation and Quantum Information (10th Anniversary Edition)'
+    authors: 'Michael A. Nielsen, Isaac L. Chuang'
+    venue: 'Cambridge University Press'
+    year: 2010
+  - title: 'Elementary Gates for Quantum Computation'
+    authors: 'Adriano Barenco, Charles H. Bennett, et al.'
+    venue: 'Physical Review A 52, 3457; arXiv:quant-ph/9503016'
+    year: 1995
+    url: 'https://arxiv.org/abs/quant-ph/9503016'
+  - title: 'The Physical Implementation of Quantum Computation'
+    authors: 'David P. DiVincenzo'
+    venue: 'Fortschritte der Physik 48; arXiv:quant-ph/0002077'
+    year: 2000
+    url: 'https://arxiv.org/abs/quant-ph/0002077'
 ---
 
 In Part 1 of this series we established that quantum computers use qubits — particles that can exist in superposition, encoding 0 and 1 simultaneously. We saw a variational quantum circuit containing Hadamard gates, rotation gates, and CNOT gates, and noted that these are the trainable operations at the heart of quantum machine learning. But what do those gates *actually do*? How does a Hadamard gate create superposition, and why does a CNOT gate produce entanglement?

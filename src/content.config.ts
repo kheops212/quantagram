@@ -23,6 +23,17 @@ const blog = defineCollection({
 			tags: z.array(z.string()).optional(),
 			series: z.string().optional(),
 			seriesOrder: z.number().int().optional(),
+			sources: z
+				.array(
+					z.object({
+						title: z.string(),
+						authors: z.string().optional(),
+						venue: z.string().optional(),
+						year: z.union([z.number(), z.string()]).optional(),
+						url: z.string().optional(),
+					}),
+				)
+				.optional(),
 		}),
 });
 

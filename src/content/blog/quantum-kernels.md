@@ -6,6 +6,27 @@ heroImage: '../../assets/hero-quantum-kernels.svg'
 pillar: 'AI Integrations'
 author: 'KhGh'
 tags: ['quantum kernels', 'QSVM', 'quantum machine learning', 'support vector machines', 'quantum feature maps', 'AI integrations', 'quantum advantage']
+sources:
+  - title: 'Supervised Learning with Quantum-Enhanced Feature Spaces'
+    authors: 'Vojtěch Havlíček, Antonio D. Córcoles, et al.'
+    venue: 'Nature 567, 209; arXiv:1804.11326'
+    year: 2019
+    url: 'https://arxiv.org/abs/1804.11326'
+  - title: 'Quantum Machine Learning in Feature Hilbert Spaces'
+    authors: 'Maria Schuld, Nathan Killoran'
+    venue: 'Physical Review Letters 122, 040504; arXiv:1803.07128'
+    year: 2019
+    url: 'https://arxiv.org/abs/1803.07128'
+  - title: 'A Rigorous and Robust Quantum Speed-Up in Supervised Machine Learning'
+    authors: 'Yunchao Liu, Srinivasan Arunachalam, Kristan Temme'
+    venue: 'Nature Physics 17, 1013; arXiv:2010.02174'
+    year: 2021
+    url: 'https://arxiv.org/abs/2010.02174'
+  - title: 'Power of Data in Quantum Machine Learning'
+    authors: 'Hsin-Yuan Huang, Michael Broughton, et al.'
+    venue: 'Nature Communications 12, 2631; arXiv:2011.01938'
+    year: 2021
+    url: 'https://arxiv.org/abs/2011.01938'
 ---
 
 The kernel trick is one of the most elegant ideas in machine learning. Support vector machines find a separating hyperplane between two classes — but the hyperplane lives not in the original data space, where classes are often tangled together, but in a high-dimensional **feature space** reached by an explicit mapping $\varphi(x)$. The kernel trick bypasses the need to compute $\varphi(x)$ at all: it only requires the inner product $\langle \varphi(x), \varphi(x') \rangle$, which for many useful feature maps can be computed directly as a simple function of $x$ and $x'$. The feature space can be infinite-dimensional; the computation stays tractable.

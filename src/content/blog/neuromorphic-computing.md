@@ -6,6 +6,21 @@ heroImage: '../../assets/hero-neuromorphic.svg'
 pillar: 'Future Tech'
 author: 'KhGh'
 tags: ['neuromorphic computing', 'AI hardware', 'spiking neural networks', 'Intel Loihi', 'future tech']
+sources:
+  - title: 'Loihi: A Neuromorphic Manycore Processor with On-Chip Learning'
+    authors: 'Mike Davies, Narayan Srinivasa, et al. (Intel)'
+    venue: 'IEEE Micro 38(1)'
+    year: 2018
+    url: 'https://ieeexplore.ieee.org/document/8259423'
+  - title: 'Neuromorphic Electronic Systems'
+    authors: 'Carver Mead'
+    venue: 'Proceedings of the IEEE 78(10)'
+    year: 1990
+  - title: 'Towards Spike-Based Machine Intelligence with Neuromorphic Computing'
+    authors: 'Kaushik Roy, Akhilesh Jaiswal, Priyadarshini Panda'
+    venue: 'Nature 575, 607'
+    year: 2019
+    url: 'https://www.nature.com/articles/s41586-019-1677-2'
 ---
 
 The modern AI boom runs on graphics processing units. GPUs were designed in the 1990s to render video game pixels; today they train large language models consuming megawatts of power in purpose-built data centres. The hardware is extraordinary. It is also, in a fundamental sense, deeply wrong for the job.

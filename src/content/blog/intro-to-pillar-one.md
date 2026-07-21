@@ -9,6 +9,22 @@ featured: true
 tags: ['quantum machine learning', 'AI', 'beginners']
 series: 'Quantum 101'
 seriesOrder: 1
+sources:
+  - title: 'Quantum Machine Learning'
+    authors: 'Jacob Biamonte, Peter Wittek, et al.'
+    venue: 'Nature 549, 195; arXiv:1611.09347'
+    year: 2017
+    url: 'https://arxiv.org/abs/1611.09347'
+  - title: 'An Introduction to Quantum Machine Learning'
+    authors: 'Maria Schuld, Ilya Sinayskiy, Francesco Petruccione'
+    venue: 'Contemporary Physics 56(2); arXiv:1409.3097'
+    year: 2015
+    url: 'https://arxiv.org/abs/1409.3097'
+  - title: 'Variational Quantum Algorithms'
+    authors: 'M. Cerezo, Andrew Arrasmith, et al.'
+    venue: 'Nature Reviews Physics 3, 625; arXiv:2012.09265'
+    year: 2021
+    url: 'https://arxiv.org/abs/2012.09265'
 ---
 
 Machine learning has transformed how we process language, recognise images, and predict outcomes across medicine, finance, and science. But the classical hardware running these models — GPUs, TPUs, massive data centres — is approaching physical limits. Transistors can only shrink so far. The question the field is now seriously asking: *what comes next?*

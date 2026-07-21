@@ -6,6 +6,22 @@ heroImage: '../../assets/hero-neutral-atom.svg'
 pillar: 'Quantum Hardware'
 author: 'KhGh'
 tags: ['neutral atoms', 'optical tweezers', 'Rydberg blockade', 'QuEra', 'quantum hardware', 'Rydberg atoms', 'atom computing']
+sources:
+  - title: 'Quantum Information with Rydberg Atoms'
+    authors: 'M. Saffman, T. G. Walker, K. Mølmer'
+    venue: 'Reviews of Modern Physics 82, 2313; arXiv:0909.4777'
+    year: 2010
+    url: 'https://arxiv.org/abs/0909.4777'
+  - title: 'Probing Many-Body Dynamics on a 51-Atom Quantum Simulator'
+    authors: 'Hannes Bernien, Sylvain Schwartz, et al.'
+    venue: 'Nature 551, 579; arXiv:1707.04344'
+    year: 2017
+    url: 'https://arxiv.org/abs/1707.04344'
+  - title: 'Logical Quantum Processor Based on Reconfigurable Atom Arrays'
+    authors: 'Dolev Bluvstein, Simon J. Evered, et al.'
+    venue: 'Nature 626, 58; arXiv:2312.03982'
+    year: 2024
+    url: 'https://arxiv.org/abs/2312.03982'
 ---
 
 In a laboratory at Harvard, researchers load rubidium atoms from a hot vapour, cool them to a microkelvin, and arrange them into a precise two-dimensional grid using nothing but focused laser light. There is no dilution refrigerator. The apparatus runs at room temperature. Each atom is individually addressable, its quantum state controllable with single-photon precision, and the array can be reconfigured between computational shots into any geometry the algorithm demands. In 2023, the same group demonstrated 48 error-corrected logical qubits — the most ever achieved on any quantum hardware platform — by exploiting this reconfigurability to implement quantum error correction in a way no other platform could match.

@@ -6,6 +6,27 @@ heroImage: '../../assets/hero-grovers.svg'
 pillar: 'Quantum Algorithms'
 author: 'KhGh'
 tags: ["Grover's algorithm", 'quantum search', 'amplitude amplification', 'unstructured search', 'AES', 'quantum algorithms', 'post-quantum cryptography']
+sources:
+  - title: 'A Fast Quantum Mechanical Algorithm for Database Search'
+    authors: 'Lov K. Grover'
+    venue: 'Proc. 28th Annual ACM Symposium on Theory of Computing (STOC); arXiv:quant-ph/9605043'
+    year: 1996
+    url: 'https://arxiv.org/abs/quant-ph/9605043'
+  - title: 'Strengths and Weaknesses of Quantum Computing'
+    authors: 'Charles H. Bennett, Ethan Bernstein, Gilles Brassard, Umesh Vazirani'
+    venue: 'SIAM Journal on Computing 26(5); arXiv:quant-ph/9701001'
+    year: 1997
+    url: 'https://arxiv.org/abs/quant-ph/9701001'
+  - title: 'Tight Bounds on Quantum Searching'
+    authors: 'Michel Boyer, Gilles Brassard, Peter Høyer, Alain Tapp'
+    venue: 'Fortschritte der Physik; arXiv:quant-ph/9605034'
+    year: 1998
+    url: 'https://arxiv.org/abs/quant-ph/9605034'
+  - title: 'Advanced Encryption Standard (AES) — FIPS 197'
+    authors: 'NIST'
+    venue: 'Federal Information Processing Standards Publication 197'
+    year: 2001
+    url: 'https://csrc.nist.gov/pubs/fips/197/final'
 ---
 
 The most important thing to understand about Grover's algorithm is the thing most popular accounts get wrong: it does not break symmetric cryptography. It weakens it — precisely, predictably, and in a way that can be completely neutralised by doubling key lengths. This is fundamentally different from what Shor's algorithm does to RSA, which it renders unconditionally broken at any key size.

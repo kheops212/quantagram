@@ -6,6 +6,22 @@ heroImage: '../../assets/hero-ai-scientist.svg'
 pillar: 'Future Tech'
 author: 'KhGh'
 tags: ['scientific discovery', 'AlphaFold', 'AI', 'machine learning', 'future tech']
+sources:
+  - title: 'Highly Accurate Protein Structure Prediction with AlphaFold'
+    authors: 'John Jumper, Richard Evans, et al. (DeepMind)'
+    venue: 'Nature 596, 583'
+    year: 2021
+    url: 'https://www.nature.com/articles/s41586-021-03819-2'
+  - title: 'Scaling Deep Learning for Materials Discovery (GNoME)'
+    authors: 'Amil Merchant, Simon Batzner, et al. (Google DeepMind)'
+    venue: 'Nature 624, 80'
+    year: 2023
+    url: 'https://www.nature.com/articles/s41586-023-06735-9'
+  - title: 'Mathematical Discoveries from Program Search with Large Language Models (FunSearch)'
+    authors: 'Bernardino Romera-Paredes, Mohammadamin Barekatain, et al.'
+    venue: 'Nature 625, 468'
+    year: 2024
+    url: 'https://www.nature.com/articles/s41586-023-06924-6'
 ---
 
 In 2020, a protein has an amino acid sequence — a string of chemical letters, sometimes hundreds long — and the question of what three-dimensional shape that string folds into has been one of biology's hardest problems for fifty years. The shape determines the protein's function; the function determines whether a drug binds to it, whether a disease can be treated. Biochemists spent careers crystallising proteins and firing X-rays at them to resolve single structures. It was slow, expensive, and heroically painstaking work.

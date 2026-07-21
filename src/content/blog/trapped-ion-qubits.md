@@ -6,6 +6,26 @@ heroImage: '../../assets/hero-trapped-ion.svg'
 pillar: 'Quantum Hardware'
 author: 'KhGh'
 tags: ['trapped ions', 'ion trap', 'IonQ', 'laser cooling', 'quantum hardware', 'Molmer-Sorensen gate']
+sources:
+  - title: 'Quantum Computations with Cold Trapped Ions'
+    authors: 'J. I. Cirac, P. Zoller'
+    venue: 'Physical Review Letters 74, 4091'
+    year: 1995
+  - title: 'Quantum Computation with Ions in Thermal Motion'
+    authors: 'Anders Sørensen, Klaus Mølmer'
+    venue: 'Physical Review Letters 82, 1971; arXiv:quant-ph/9810039'
+    year: 1999
+    url: 'https://arxiv.org/abs/quant-ph/9810039'
+  - title: 'Trapped-Ion Quantum Computing: Progress and Challenges'
+    authors: 'Colin D. Bruzewicz, John Chiaverini, Robert McConnell, Jeremy M. Sage'
+    venue: 'Applied Physics Reviews 6, 021314; arXiv:1904.04178'
+    year: 2019
+    url: 'https://arxiv.org/abs/1904.04178'
+  - title: 'Demonstration of the Trapped-Ion Quantum CCD Computer Architecture'
+    authors: 'J. M. Pino, J. M. Dreiling, et al. (Honeywell/Quantinuum)'
+    venue: 'Nature 592, 209; arXiv:2003.01293'
+    year: 2021
+    url: 'https://arxiv.org/abs/2003.01293'
 ---
 
 Every element on the periodic table has electrons bound to a nucleus. Remove one of those electrons and you have an ion — a charged atom that responds predictably to electric and magnetic fields. Confine that ion in a vacuum, cool it with laser light until its motion reaches the quantum ground state, and you have a qubit with coherence times measured not in microseconds but in minutes.

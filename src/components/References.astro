@@ -1,0 +1,72 @@
+---
+/**
+ * "Sources & Further Reading" — renders the article's `sources` frontmatter
+ * as a numbered reference list. Renders nothing if no sources are provided.
+ */
+type Source = {
+	title: string;
+	authors?: string;
+	venue?: string;
+	year?: number | string;
+	url?: string;
+};
+
+interface Props {
+	sources?: Source[];
+}
+
+const { sources = [] } = Astro.props;
+---
+
+{sources.length > 0 && (
+	<section class="references" aria-label="Sources and further reading" data-pagefind-ignore>
+		<h2 class="references-title">Sources &amp; Further Reading</h2>
+		<ol class="references-list">
+			{sources.map((s) => (
+				<li class="reference">
+					{s.authors && <span class="ref-authors">{s.authors}. </span>}
+					{s.url ? (
+						<a class="ref-title" href={s.url} target="_blank" rel="noopener noreferrer">{s.title}</a>
+					) : (
+						<span class="ref-title">{s.title}</span>
+					)}
+					{s.venue && <span class="ref-venue">. {s.venue}</span>}
+					{s.year && <span class="ref-year"> ({s.year})</span>}
+				</li>
+			))}
+		</ol>
+	</section>
+)}
+
+<style>
+	.references {
+		max-width: 680px;
+		margin: 3rem auto 0;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--border);
+	}
+	.references-title {
+		font-size: 0.7em;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--text);
+		margin: 0 0 1rem;
+	}
+	.references-list {
+		margin: 0;
+		padding-left: 1.5rem;
+		display: grid;
+		gap: 0.6rem;
+	}
+	.reference {
+		font-size: 0.85em;
+		line-height: 1.5;
+		color: var(--text-muted);
+	}
+	.reference::marker { color: var(--text-muted); }
+	.ref-authors { color: var(--text); font-weight: 600; }
+	.ref-title { color: var(--accent); text-decoration: none; }
+	a.ref-title:hover { text-decoration: underline; }
+	.ref-venue { font-style: italic; }
+</style>

@@ -6,6 +6,27 @@ heroImage: '../../assets/hero-photonic.svg'
 pillar: 'Quantum Hardware'
 author: 'KhGh'
 tags: ['photonic qubits', 'silicon photonics', 'linear optics', 'PsiQuantum', 'Xanadu', 'quantum hardware', 'KLM', 'boson sampling']
+sources:
+  - title: 'A Scheme for Efficient Quantum Computation with Linear Optics'
+    authors: 'E. Knill, R. Laflamme, G. J. Milburn'
+    venue: 'Nature 409, 46'
+    year: 2001
+    url: 'https://www.nature.com/articles/35051009'
+  - title: 'Linear Optical Quantum Computing with Photonic Qubits'
+    authors: 'Pieter Kok, W. J. Munro, et al.'
+    venue: 'Reviews of Modern Physics 79, 135; arXiv:quant-ph/0512071'
+    year: 2007
+    url: 'https://arxiv.org/abs/quant-ph/0512071'
+  - title: 'Quantum Computational Advantage with a Programmable Photonic Processor (Borealis)'
+    authors: 'Lars S. Madsen, Fabian Laudenbach, et al. (Xanadu)'
+    venue: 'Nature 606, 75'
+    year: 2022
+    url: 'https://www.nature.com/articles/s41586-022-04725-x'
+  - title: 'Fusion-Based Quantum Computation'
+    authors: 'Sara Bartolucci, Patrick Birchall, et al. (PsiQuantum)'
+    venue: 'Nature Communications 14, 912; arXiv:2101.09310'
+    year: 2023
+    url: 'https://arxiv.org/abs/2101.09310'
 ---
 
 PsiQuantum's pitch to investors is straightforward: the only path to a million-qubit fault-tolerant quantum computer runs through a silicon wafer fab. Their quantum processor is not a chandelier-sized dilution refrigerator or a rack of laser optics — it is a silicon chip, manufactured by GlobalFoundries using the same processes that make CMOS image sensors, with waveguides etched at the nanometre scale and single-photon detectors integrated on-chip. If it works, it sidesteps the two most painful scaling problems in quantum hardware: the wiring bottleneck of superconducting systems at millikelvin temperatures, and the laser complexity of trapped ion and neutral atom arrays. The qubits are photons — particles of light, immune to thermal noise at room temperature, naturally compatible with optical fibre, and already manufactured at scale in photonic integrated circuits.

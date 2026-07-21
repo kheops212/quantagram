@@ -6,6 +6,32 @@ heroImage: '../../assets/hero-pqc.svg'
 pillar: 'Quantum Cryptography'
 author: 'KhGh'
 tags: ['post-quantum cryptography', 'PQC', 'NIST', 'lattice cryptography', 'LWE', 'ML-KEM', 'ML-DSA', 'SLH-DSA', 'quantum cryptography']
+sources:
+  - title: 'FIPS 203: Module-Lattice-Based Key-Encapsulation Mechanism Standard'
+    authors: 'NIST'
+    venue: 'Federal Information Processing Standards Publication 203'
+    year: 2024
+    url: 'https://csrc.nist.gov/pubs/fips/203/final'
+  - title: 'FIPS 204: Module-Lattice-Based Digital Signature Standard'
+    authors: 'NIST'
+    venue: 'Federal Information Processing Standards Publication 204'
+    year: 2024
+    url: 'https://csrc.nist.gov/pubs/fips/204/final'
+  - title: 'FIPS 205: Stateless Hash-Based Digital Signature Standard'
+    authors: 'NIST'
+    venue: 'Federal Information Processing Standards Publication 205'
+    year: 2024
+    url: 'https://csrc.nist.gov/pubs/fips/205/final'
+  - title: 'On Lattices, Learning with Errors, Random Linear Codes, and Cryptography'
+    authors: 'Oded Regev'
+    venue: 'Proc. 37th ACM Symposium on Theory of Computing (STOC); Journal of the ACM 56(6)'
+    year: 2005
+    url: 'https://cims.nyu.edu/~regev/papers/qcrypto.pdf'
+  - title: 'An Efficient Key Recovery Attack on SIDH'
+    authors: 'Wouter Castryck, Thomas Decru'
+    venue: 'EUROCRYPT 2023; IACR ePrint 2022/975'
+    year: 2023
+    url: 'https://eprint.iacr.org/2022/975'
 ---
 
 The internet's security infrastructure runs on two mathematical problems: integer factoring and the elliptic curve discrete logarithm. RSA encrypts by multiplying large primes; ECDH exchanges keys using elliptic curve arithmetic; ECDSA signs certificates using the same. Every TLS handshake that makes a browser show a padlock, every SSH session, every signed software update — all of these depend on the assumption that no efficient algorithm exists for these problems.

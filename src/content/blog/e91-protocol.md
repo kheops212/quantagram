@@ -6,6 +6,24 @@ heroImage: '../../assets/hero-e91.svg'
 pillar: 'Quantum Cryptography'
 author: 'KhGh'
 tags: ['E91', 'quantum entanglement', 'Bell inequality', 'CHSH', 'QKD', 'quantum cryptography', 'device-independent', 'EPR pairs']
+sources:
+  - title: "Quantum Cryptography Based on Bell's Theorem"
+    authors: 'Artur K. Ekert'
+    venue: 'Physical Review Letters 67, 661'
+    year: 1991
+  - title: 'On the Einstein Podolsky Rosen Paradox'
+    authors: 'John S. Bell'
+    venue: 'Physics Physique Физика 1, 195'
+    year: 1964
+  - title: 'Proposed Experiment to Test Local Hidden-Variable Theories'
+    authors: 'John F. Clauser, Michael A. Horne, Abner Shimony, Richard A. Holt'
+    venue: 'Physical Review Letters 23, 880'
+    year: 1969
+  - title: 'Loophole-Free Bell Inequality Violation Using Electron Spins Separated by 1.3 Kilometres'
+    authors: 'B. Hensen, H. Bernien, et al.'
+    venue: 'Nature 526, 682; arXiv:1508.05949'
+    year: 2015
+    url: 'https://arxiv.org/abs/1508.05949'
 ---
 
 The security of BB84 rests on a specific physical claim: any attempt to measure a quantum state disturbs it, and that disturbance is detectable. The argument is tight, but it requires you to trust your photon source, trust your detectors, and trust that the photons travelling through your optical fibre are genuinely in the polarisation states you prepared them in.
