@@ -1,0 +1,238 @@
+---
+/**
+ * Click-to-zoom lightbox for article figures and images.
+ * Zero dependencies. Makes every `.prose figure`, in-body image, and the hero
+ * image clickable → opens a full-screen viewer with scroll/pinch zoom + drag pan.
+ * SVG diagrams stay crisp at any zoom.
+ */
+---
+
+<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" aria-hidden="true" data-pagefind-ignore>
+	<button class="lb-close" type="button" aria-label="Close viewer">&times;</button>
+	<div class="lb-stage" id="lb-stage">
+		<div class="lb-content" id="lb-content"></div>
+	</div>
+	<p class="lb-caption" id="lb-caption"></p>
+	<p class="lb-hint">Scroll or pinch to zoom · drag to pan · Esc to close</p>
+</div>
+
+<style>
+	.lightbox {
+		position: fixed;
+		inset: 0;
+		z-index: 2000;
+		background: rgba(8, 12, 20, 0.94);
+		display: none;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 1.5rem 1rem;
+		backdrop-filter: blur(2px);
+	}
+	.lightbox.open { display: flex; }
+	.lb-stage {
+		flex: 1;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+		touch-action: none;
+	}
+	.lb-content {
+		transform-origin: center center;
+		cursor: grab;
+		background: #ffffff;
+		border-radius: 6px;
+		padding: 1rem;
+		box-shadow: 0 12px 48px rgba(0, 0, 0, 0.55);
+		will-change: transform;
+		transition: transform 0.05s linear;
+	}
+	.lb-content:active { cursor: grabbing; }
+	.lb-content :global(svg),
+	.lb-content :global(img) {
+		display: block;
+		max-width: min(90vw, 1100px);
+		max-height: 80vh;
+		width: auto;
+		height: auto;
+	}
+	.lb-close {
+		position: absolute;
+		top: 0.75rem;
+		right: 1.25rem;
+		font-size: 2.2rem;
+		line-height: 1;
+		color: #fff;
+		background: none;
+		border: none;
+		cursor: pointer;
+		opacity: 0.75;
+		transition: opacity 0.15s;
+		z-index: 2;
+	}
+	.lb-close:hover { opacity: 1; }
+	.lb-caption {
+		color: #cbd5e1;
+		font-size: 0.85rem;
+		line-height: 1.5;
+		max-width: 760px;
+		text-align: center;
+		margin: 1rem auto 0;
+	}
+	.lb-hint {
+		color: #64748b;
+		font-size: 0.7rem;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		margin: 0.6rem 0 0;
+	}
+
+	/* Affordance on the triggers themselves */
+	:global(.prose figure.zoomable),
+	:global(.prose img.zoomable),
+	:global(.hero-image img.zoomable) {
+		cursor: zoom-in;
+	}
+	:global(.prose figure.zoomable) { transition: box-shadow 0.15s; border-radius: 4px; }
+	:global(.prose figure.zoomable:hover) { box-shadow: 0 0 0 1px var(--border), 0 6px 20px rgba(0,0,0,0.08); }
+
+	@media (max-width: 600px) { .lb-hint { display: none; } }
+	@media (prefers-reduced-motion: reduce) { .lb-content { transition: none; } }
+</style>
+
+<script>
+	const lb = document.getElementById('lightbox');
+	const stage = document.getElementById('lb-stage');
+	const content = document.getElementById('lb-content');
+	const captionEl = document.getElementById('lb-caption');
+	const closeBtn = lb?.querySelector('.lb-close');
+	if (lb && stage && content && captionEl) {
+		let scale = 1, tx = 0, ty = 0;
+		let lastFocus: HTMLElement | null = null;
+
+		const apply = () => { content.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`; };
+		const reset = () => { scale = 1; tx = 0; ty = 0; apply(); };
+
+		function openWith(node: Element, caption: string) {
+			content.innerHTML = '';
+			content.appendChild(node.cloneNode(true));
+			// Neutralise the source figure's inline size caps so it fills the viewer
+			const el = content.firstElementChild as HTMLElement | null;
+			if (el) {
+				el.style.maxWidth = 'none';
+				el.style.maxHeight = '80vh';
+				el.style.width = 'min(90vw, 1100px)';
+				el.style.height = 'auto';
+			}
+			captionEl.textContent = caption;
+			captionEl.style.display = caption ? 'block' : 'none';
+			reset();
+			lastFocus = document.activeElement as HTMLElement;
+			lb.classList.add('open');
+			lb.setAttribute('aria-hidden', 'false');
+			document.body.style.overflow = 'hidden';
+			(closeBtn as HTMLElement)?.focus();
+		}
+		function close() {
+			lb.classList.remove('open');
+			lb.setAttribute('aria-hidden', 'true');
+			document.body.style.overflow = '';
+			content.innerHTML = '';
+			lastFocus?.focus();
+		}
+
+		// ── Wire up triggers ──────────────────────────────────────────────────
+		const figures = Array.from(document.querySelectorAll('.prose figure'));
+		const looseImgs = Array.from(
+			document.querySelectorAll('.prose img, .hero-image img'),
+		).filter((img) => !img.closest('figure') && !img.closest('a'));
+
+		function activate(el: Element) {
+			if (el.tagName === 'FIGURE') {
+				const media = el.querySelector('svg, img');
+				const cap = el.querySelector('figcaption');
+				if (media) openWith(media, cap ? (cap.textContent || '').trim() : '');
+			} else {
+				openWith(el, (el as HTMLImageElement).alt || '');
+			}
+		}
+		[...figures, ...looseImgs].forEach((el) => {
+			el.classList.add('zoomable');
+			el.setAttribute('tabindex', '0');
+			el.setAttribute('role', 'button');
+			el.setAttribute('aria-label', 'Enlarge figure');
+			el.addEventListener('click', () => activate(el));
+			el.addEventListener('keydown', (e) => {
+				const ev = e as KeyboardEvent;
+				if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); activate(el); }
+			});
+		});
+
+		// ── Close interactions ────────────────────────────────────────────────
+		closeBtn?.addEventListener('click', close);
+		lb.addEventListener('click', (e) => { if (e.target === lb || e.target === stage) close(); });
+		document.addEventListener('keydown', (e) => {
+			if (lb.classList.contains('open') && (e as KeyboardEvent).key === 'Escape') close();
+		});
+
+		// ── Wheel zoom (toward pointer) ───────────────────────────────────────
+		stage.addEventListener('wheel', (e) => {
+			e.preventDefault();
+			const prev = scale;
+			scale = Math.min(6, Math.max(1, scale * (e.deltaY < 0 ? 1.12 : 0.89)));
+			if (scale === 1) { tx = 0; ty = 0; }
+			else {
+				// keep the point under the cursor roughly fixed
+				const rect = content.getBoundingClientRect();
+				const cx = e.clientX - (rect.left + rect.width / 2);
+				const cy = e.clientY - (rect.top + rect.height / 2);
+				const f = scale / prev;
+				tx = tx - cx * (f - 1);
+				ty = ty - cy * (f - 1);
+			}
+			apply();
+		}, { passive: false });
+
+		// ── Click / double-tap to toggle zoom ─────────────────────────────────
+		content.addEventListener('dblclick', (e) => {
+			e.preventDefault();
+			scale = scale > 1 ? 1 : 2.5;
+			tx = 0; ty = 0; apply();
+		});
+
+		// ── Drag to pan (pointer + touch) ─────────────────────────────────────
+		let dragging = false, px = 0, py = 0, moved = false;
+		content.addEventListener('pointerdown', (e) => {
+			dragging = true; moved = false; px = e.clientX; py = e.clientY;
+			content.setPointerCapture(e.pointerId);
+		});
+		content.addEventListener('pointermove', (e) => {
+			if (!dragging || scale === 1) return;
+			const dx = e.clientX - px, dy = e.clientY - py;
+			if (Math.abs(dx) + Math.abs(dy) > 3) moved = true;
+			tx += dx; ty += dy; px = e.clientX; py = e.clientY; apply();
+		});
+		const endDrag = () => { dragging = false; };
+		content.addEventListener('pointerup', endDrag);
+		content.addEventListener('pointercancel', endDrag);
+
+		// ── Pinch zoom (two-finger) ───────────────────────────────────────────
+		let pinchDist = 0;
+		stage.addEventListener('touchmove', (e) => {
+			if (e.touches.length !== 2) return;
+			e.preventDefault();
+			const dx = e.touches[0].clientX - e.touches[1].clientX;
+			const dy = e.touches[0].clientY - e.touches[1].clientY;
+			const dist = Math.hypot(dx, dy);
+			if (pinchDist) {
+				scale = Math.min(6, Math.max(1, scale * (dist / pinchDist)));
+				if (scale === 1) { tx = 0; ty = 0; }
+				apply();
+			}
+			pinchDist = dist;
+		}, { passive: false });
+		stage.addEventListener('touchend', () => { pinchDist = 0; });
+	}
+</script>

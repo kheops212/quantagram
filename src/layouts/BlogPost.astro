@@ -10,6 +10,7 @@ import NewsletterCTA from '../components/NewsletterCTA.astro';
 import KeepReading from '../components/KeepReading.astro';
 import Comments from '../components/Comments.astro';
 import References from '../components/References.astro';
+import Lightbox from '../components/Lightbox.astro';
 import defaultHeroImage from '../assets/blog-placeholder-1.jpg';
 import { terms as glossaryTerms } from '../data/glossary';
 
@@ -673,5 +674,6 @@ if (!nextPost) {
 		</div>
 
 		<Footer />
+		<Lightbox />
 	</body>
 </html>
