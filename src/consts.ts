@@ -7,6 +7,10 @@ export const SITE_DESCRIPTION = 'Exploring the intersection of Quantum Computing
 // Contact address shown on the privacy/contact page.
 export const CONTACT_EMAIL = 'hello@example.com';
 
+// Show the dismissible cookie notice bar. Set to false to hide it (e.g. if you
+// later rely solely on Google's Privacy & messaging CMP for EEA consent).
+export const COOKIE_NOTICE = true;
+
 // ── Google AdSense ───────────────────────────────────────────────────────────
 // Leave empty to keep ads and the AdSense loader completely disabled.
 // When ready, set this to your publisher ID, e.g. 'ca-pub-1234567890123456'.
