@@ -5,7 +5,7 @@ export const SITE_TITLE = 'Quantagram';
 export const SITE_DESCRIPTION = 'Exploring the intersection of Quantum Computing and Artificial Intelligence.';
 
 // Contact address shown on the privacy/contact page.
-export const CONTACT_EMAIL = 'hello@example.com';
+export const CONTACT_EMAIL = 'hello@quantagram.org';
 
 // Show the dismissible cookie notice bar. Set to false to hide it (e.g. if you
 // later rely solely on Google's Privacy & messaging CMP for EEA consent).

@@ -8,4 +8,4 @@ Allow: /
 User-agent: AdsBot-Google
 Allow: /
 
-Sitemap: https://example.com/sitemap-index.xml
+Sitemap: https://quantagram.org/sitemap-index.xml
