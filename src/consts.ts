@@ -14,7 +14,7 @@ export const COOKIE_NOTICE = true;
 // ── Google AdSense ───────────────────────────────────────────────────────────
 // Leave empty to keep ads and the AdSense loader completely disabled.
 // When ready, set this to your publisher ID, e.g. 'ca-pub-1234567890123456'.
-export const ADSENSE_CLIENT = '';
+export const ADSENSE_CLIENT = 'ca-pub-3899211853644288';
 // Whether ad units render. Ads only appear when BOTH ADSENSE_CLIENT is set
 // AND this is true — lets you load the script (for verification) before
 // turning on live ad slots.
