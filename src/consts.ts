@@ -9,7 +9,7 @@ export const CONTACT_EMAIL = 'hello@quantagram.org';
 
 // Show the dismissible cookie notice bar. Set to false to hide it (e.g. if you
 // later rely solely on Google's Privacy & messaging CMP for EEA consent).
-export const COOKIE_NOTICE = true;
+export const COOKIE_NOTICE = false;
 
 // ── Google AdSense ───────────────────────────────────────────────────────────
 // Leave empty to keep ads and the AdSense loader completely disabled.
